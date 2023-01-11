@@ -24,7 +24,7 @@ const FileUploader = (props) => {
       }
     };
 
-    fetch('http://localhost:5000/upload-profile-picture', options)
+    fetch('/upload-profile-picture', options)
       .then(fetchResponse => fetchResponse.json())
       .then(jsonResponse => {
         getProfilePicture()
@@ -40,7 +40,7 @@ const FileUploader = (props) => {
       }
     };
 
-    fetch('http://localhost:5000/delete-profile-picture', options)
+    fetch('/delete-profile-picture', options)
       .then(fetchResponse => {
         getProfilePicture()
       })

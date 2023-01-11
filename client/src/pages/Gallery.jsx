@@ -8,7 +8,7 @@ const Gallery = (props) => {
 
   const populateGallery = () => {
     setIsLoading(true)
-    fetch(`http://localhost:5000/gallery`, {
+    fetch(`/gallery`, {
       method: 'GET',
       headers: {
         'X-Access-Token': window.localStorage.getItem('react-context-jwt')

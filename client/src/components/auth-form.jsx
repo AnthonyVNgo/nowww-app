@@ -38,7 +38,7 @@ function AuthForm(props) {
       },
       body: JSON.stringify({username, password})
     };
-    fetch(`http://localhost:5000${action}`, options)
+    fetch(`${action}`, options)
       .then(response => response.json())
       .then(result => {
         if (action === '/sign-up' && result.error) {
