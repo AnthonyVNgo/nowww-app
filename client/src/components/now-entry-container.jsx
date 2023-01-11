@@ -61,7 +61,7 @@ const NowEntryContainer = () => {
       ))}
 
       {(location !== '/edit-profile' && isLoading) && 
-        <h5 className="mb-3 placeholder col-4"></h5>
+        <h5 className="mb-3 placeholder col-4" /> 
       }
 
       {(location !== '/edit-profile' && !isLoading) && 

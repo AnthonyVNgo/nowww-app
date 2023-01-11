@@ -1,4 +1,4 @@
-import { useState, useContext, useEffect } from "react"
+import { useState, useContext } from "react"
 
 // Components 
 import ModalDialog from "./modal-dialog"
@@ -84,7 +84,7 @@ const EditProfileLayout = (props) => {
 
         <div className="d-flex justify-content-center">
           <div className="ratio ratio-1x1 w-25">
-            <img src={imgSrc} alt="profile picture" className="img-thumbnail rounded-circle border border-5 mb-3" style={{'objectFit':'cover'}}/>
+            <img src={imgSrc} alt="profile" className="img-thumbnail rounded-circle border border-5 mb-3" style={{'objectFit':'cover'}}/>
           </div>
         </div>
 
