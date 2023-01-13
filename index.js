@@ -1,10 +1,12 @@
 const express = require('express') 
 const cors = require('cors'); 
+const path = require("path")
 require('dotenv').config({ path: '../.env' })
 
 const argon2 = require('argon2')
 const jwt = require('jsonwebtoken')
 const pool = require('./db'); 
+const PORT = process.env.PORT || 5000;
 
 const crypto = require('crypto')
 const generateFileName = (bytes = 32) => crypto.randomBytes(bytes).toString('hex')
@@ -15,7 +17,7 @@ const authorizationMiddleware = require('./authorization-middleware')
 const uploadsMiddleware = require('./upload-middleware')
 const { S3Client, PutObjectCommand, GetObjectCommand, DeleteObjectCommand } = require("@aws-sdk/client-s3");
 const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
-const { query } = require('express');
+// const { query } = require('express');
 
 const bucketName = process.env.BUCKET_NAME
 const bucketRegion = process.env.BUCKET_REGION
@@ -33,7 +35,11 @@ const s3 = new S3Client({
 const app = express();
 app.use(cors()); 
 app.use(express.json()) 
-app.use(express.static(path.join(__dirname, '../client/build')))
+// app.use(express.static(path.join(__dirname, '../client/build')))
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, 'client/build')))
+
+}
 
 // Sign-up 
 app.post('/sign-up', (req, res, next) => {
@@ -534,6 +540,6 @@ app.get('/user/:userId/entries', (req, res, next) => {
 
 app.use(errorMiddleware);
 
-app.listen(process.env.PORT, () => {
-  console.log('server has started on port', process.env.PORT)
+app.listen(PORT, () => {
+  console.log('server has started on port', PORT)
 })
