@@ -2,6 +2,7 @@
 node_modules/
 data.sql
 db.js
+API_TEST.rest
 
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
