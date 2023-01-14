@@ -17,8 +17,8 @@ const Profile = () => {
     : false
 
   let path = isMyProfile 
-    ? 'http://localhost:5000/my-profile'
-    : `http://localhost:5000${location}`
+    ? '/my-profile'
+    : `${location}`
 
   const getProfileDetails = () => {
     setIsLoading(true)
@@ -39,8 +39,8 @@ const Profile = () => {
   }
 
   let getProfilePicturePath = isMyProfile
-    ? 'http://localhost:5000/profile-picture'
-    : `http://localhost:5000/profile-picture${location}`
+    ? '/profile-picture'
+    : `/profile-picture${location}`
 
   const [profilePictureUrl, setProfilePictureUrl] = useState(null)
   

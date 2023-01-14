@@ -17,8 +17,8 @@ const NowEntryContainer = () => {
     : false
 
   let path = isMyProfile
-    ? 'http://localhost:5000/my-entries'
-    : `http://localhost:5000${location}/entries`
+    ? '/my-entries'
+    : `${location}/entries`
       
   useEffect(() => {
     getEntries()
@@ -67,7 +67,6 @@ const NowEntryContainer = () => {
       {(location !== '/edit-profile' && !isLoading) && 
         <h5 className="mb-3">Nowww Entries</h5>
       }
-      
 
       {(entries.length === 0 && location !== '/edit-profile' && !isLoading) && 
         <p className="text-muted">There currently are no entries</p>

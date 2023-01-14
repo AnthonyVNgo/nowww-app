@@ -39,7 +39,7 @@ const EditProfileLayout = (props) => {
         'Content-Type': 'application/json'
       }
     };
-    fetch('http://localhost:5000/delete-profile', options)
+    fetch('/delete-profile', options)
     handleLogOut()
   }
 
@@ -51,7 +51,7 @@ const EditProfileLayout = (props) => {
         'Content-Type': 'application/json'
       }
     };
-    fetch('http://localhost:5000/delete-all-entries', options)
+    fetch('/delete-all-entries', options)
       .then(deleteUser())
   }
 
@@ -70,7 +70,7 @@ const EditProfileLayout = (props) => {
       },
       body: JSON.stringify(inputValue)
     };
-    fetch('http://localhost:5000/edit-profile', options)
+    fetch('/edit-profile', options)
       .then(res => {})
       .then(finalResponse => {
         getProfileDetails()
