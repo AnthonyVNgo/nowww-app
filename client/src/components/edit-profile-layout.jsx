@@ -92,7 +92,7 @@ const EditProfileLayout = (props) => {
 
         <form id='now-details-form' onSubmit={handleSubmit}>
           <div className="mb-3 row">
-            <label for="tagline" className="col-3 col-form-label">Tagline</label>
+            <label htmlFor="tagline" className="col-3 col-form-label">Tagline</label>
             <div className="col-9">
               <input 
                 type="text" 
@@ -107,7 +107,7 @@ const EditProfileLayout = (props) => {
             </div>
           </div>
           <div className="row align-items-start mb-3">
-            <label for="bio" className="col-3 form-label">Bio</label>
+            <label htmlFor="bio" className="col-3 form-label">Bio</label>
             <div className="col-9">
               <textarea 
                 className="form-control-plaintext border-bottom" 
@@ -124,7 +124,7 @@ const EditProfileLayout = (props) => {
             </div>
           </div>
           <div className="mb-3 row">
-            <label for="github" className="col-3 col-form-label">GitHub</label>
+            <label htmlFor="github" className="col-3 col-form-label">GitHub</label>
             <div className="col-9">
               <input 
                 type="text" 
@@ -139,7 +139,7 @@ const EditProfileLayout = (props) => {
             </div>
           </div>
           <div className="mb-3 row">
-            <label for="linkedin" className="col-3 col-form-label">LinkedIn</label>
+            <label htmlFor="linkedin" className="col-3 col-form-label">LinkedIn</label>
             <div className="col-9">
               <input 
                 type="text" 
@@ -154,7 +154,7 @@ const EditProfileLayout = (props) => {
             </div>
           </div>
           <div className="mb-3 row">
-            <label for="dribbbl" className="col-3 col-form-label">Dribbble</label>
+            <label htmlFor="dribbbl" className="col-3 col-form-label">Dribbble</label>
             <div className="col-9">
               <input 
                 type="text" 
@@ -169,7 +169,7 @@ const EditProfileLayout = (props) => {
             </div>
           </div>
           <div className="mb-3 row">
-            <label for="medium" className="col-3 col-form-label">Medium</label>
+            <label htmlFor="medium" className="col-3 col-form-label">Medium</label>
             <div className="col-9">
               <input 
                 className="form-control-plaintext border-bottom" 
@@ -184,7 +184,7 @@ const EditProfileLayout = (props) => {
             </div>
           </div>
           <div className="mb-3 row">
-            <label for="twitter" className="col-3 col-form-label">Twitter</label>
+            <label htmlFor="twitter" className="col-3 col-form-label">Twitter</label>
             <div className="col-9">
               <input 
                 type="text" 
@@ -199,7 +199,7 @@ const EditProfileLayout = (props) => {
             </div>
           </div>
           <div className="mb-3 row">
-            <label for="youtube" className="col-3 col-form-label">YouTube</label>
+            <label htmlFor="youtube" className="col-3 col-form-label">YouTube</label>
             <div className="col-9">
               <input 
                 type="text" 
@@ -214,7 +214,7 @@ const EditProfileLayout = (props) => {
             </div>
           </div>
           <div className="mb-3 row">
-            <label for="instagram" className="col-3 col-form-label">Instagram</label>
+            <label htmlFor="instagram" className="col-3 col-form-label">Instagram</label>
             <div className="col-9">
               <input 
                 type="text" 

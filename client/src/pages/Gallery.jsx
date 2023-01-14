@@ -17,7 +17,6 @@ const Gallery = (props) => {
     .then(res => res.json())
     .then(galleryDetails => {
       setGalleryElement(galleryDetails)
-      console.log(galleryDetails)
       setIsLoading(false)
     });
   }
