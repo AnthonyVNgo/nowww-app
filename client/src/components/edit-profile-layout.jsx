@@ -107,10 +107,10 @@ const EditProfileLayout = (props) => {
             </div>
           </div>
           <div className="row align-items-start mb-3">
-            <label for="bio" class="col-3 form-label">Bio</label>
+            <label for="bio" className="col-3 form-label">Bio</label>
             <div className="col-9">
               <textarea 
-                class="form-control-plaintext border-bottom" 
+                className="form-control-plaintext border-bottom" 
                 id="bio" 
                 rows="3"
                 placeholder="bio"
@@ -138,12 +138,12 @@ const EditProfileLayout = (props) => {
                 />
             </div>
           </div>
-          <div class="mb-3 row">
-            <label for="linkedin" class="col-3 col-form-label">LinkedIn</label>
-            <div class="col-9">
+          <div className="mb-3 row">
+            <label for="linkedin" className="col-3 col-form-label">LinkedIn</label>
+            <div className="col-9">
               <input 
                 type="text" 
-                class="form-control-plaintext border-bottom" 
+                className="form-control-plaintext border-bottom" 
                 id="linkedin" 
                 name="linkedin"
                 placeholder="Linkedin"
@@ -155,7 +155,7 @@ const EditProfileLayout = (props) => {
           </div>
           <div className="mb-3 row">
             <label for="dribbbl" className="col-3 col-form-label">Dribbble</label>
-            <div class="col-9">
+            <div className="col-9">
               <input 
                 type="text" 
                 className="form-control-plaintext border-bottom" 
@@ -170,7 +170,7 @@ const EditProfileLayout = (props) => {
           </div>
           <div className="mb-3 row">
             <label for="medium" className="col-3 col-form-label">Medium</label>
-            <div class="col-9">
+            <div className="col-9">
               <input 
                 className="form-control-plaintext border-bottom" 
                 id="medium" 
@@ -185,7 +185,7 @@ const EditProfileLayout = (props) => {
           </div>
           <div className="mb-3 row">
             <label for="twitter" className="col-3 col-form-label">Twitter</label>
-            <div class="col-9">
+            <div className="col-9">
               <input 
                 type="text" 
                 className="form-control-plaintext border-bottom" 
@@ -218,7 +218,7 @@ const EditProfileLayout = (props) => {
             <div className="col-9">
               <input 
                 type="text" 
-                class="form-control-plaintext border-bottom" 
+                className="form-control-plaintext border-bottom" 
                 id="instagram" 
                 name="instagram"
                 placeholder="Instagram"

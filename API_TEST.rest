@@ -42,11 +42,11 @@ Content-Type: application/json
 
 ### GET USER GALLERY
 GET http://localhost:5000/gallery
-x-access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJ1c2VyMSIsImlhdCI6MTY3MTMxODExN30.yue2HIsDkE_LHb8fYRDAte9PZhl-lk5QM2bCXKHiYcQ
+x-access-token: 
 
 ### GET ALL USER DATA INCLUDING PW
 GET http://localhost:5000/all-data
-x-access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJ1c2VyMSIsImlhdCI6MTY3MTMxODExN30.yue2HIsDkE_LHb8fYRDAte9PZhl-lk5QM2bCXKHiYcQ
+x-access-token: 
 
 ### GET MY PROFILE
 GET http://localhost:5000/my-profile
