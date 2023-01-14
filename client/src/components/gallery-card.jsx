@@ -48,7 +48,7 @@ const getProfilePicture = () => {
         <div className="ratio ratio-1x1 w-100">
           <img src={imgSrc} alt="profile" className="card-img-top" style={{'objectFit' : 'cover'}} />
         </div>
-        <div class="card-body">
+        <div className="card-body">
           <h6 className="card-title">{element.username}</h6>
           <p className="card-text">{element.tagline}</p>
         </div>

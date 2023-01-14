@@ -100,7 +100,7 @@ function AuthForm(props) {
             minLength={8}
             maxLength={32}
             className={`form-control bg-light ${isValidLogin}`} />
-          <div id="username" class="invalid-feedback">
+          <div id="username" className="invalid-feedback">
             {invalidMessage}
           </div>
         </div>  

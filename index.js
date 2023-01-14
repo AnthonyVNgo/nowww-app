@@ -34,6 +34,7 @@ const s3 = new S3Client({
 const app = express();
 app.use(cors()); 
 app.use(express.json()) 
+
 // app.use(express.static(path.join(__dirname, '../client/build')))
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, 'client/build')))
@@ -41,6 +42,7 @@ if (process.env.NODE_ENV === "production") {
 
 // Sign-up 
 app.post('/sign-up', (req, res, next) => {
+  
   const { username, password } = req.body;
   if ( !username || !password) {
     throw new ClientError(400, 'username and password are required fields');
@@ -403,7 +405,6 @@ app.get('/profile-picture', (req, res, next) => {
       const command = new GetObjectCommand(getObjectParams)
       getSignedUrl(s3, command, {expiresIn: 3600})
         .then(imageUrl => {
-          console.log(imageUrl)
           res.json(imageUrl)
         })
     })
