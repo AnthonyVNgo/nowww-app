@@ -17,7 +17,6 @@ const authorizationMiddleware = require('./authorization-middleware')
 const uploadsMiddleware = require('./upload-middleware')
 const { S3Client, PutObjectCommand, GetObjectCommand, DeleteObjectCommand } = require("@aws-sdk/client-s3");
 const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
-// const { query } = require('express');
 
 const bucketName = process.env.BUCKET_NAME
 const bucketRegion = process.env.BUCKET_REGION
@@ -38,7 +37,6 @@ app.use(express.json())
 // app.use(express.static(path.join(__dirname, '../client/build')))
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, 'client/build')))
-
 }
 
 // Sign-up 
@@ -537,6 +535,10 @@ app.get('/user/:userId/entries', (req, res, next) => {
     })
     .catch(err => next(err));
 })
+
+// app.get("*", (req, res) => {
+  // res.sendFile(path.join(__dirname, ) 404 page 
+// })
 
 app.use(errorMiddleware);
 

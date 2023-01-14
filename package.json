@@ -3,11 +3,16 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "engine": {
+    "node": "16.17.0",
+    "npm": "8.15.0"
+  },
   "scripts": {
     "start": "node index.js",
+    "dev": "nodemon index.js --ignore './client'",
     "heroku-postbuild": "cd client && npm install && npm run build"
   },
-  "author": "",
+  "author": "Anthony Ngo",
   "license": "ISC",
   "dependencies": {
     "@aws-sdk/client-s3": "^3.241.0",
