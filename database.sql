@@ -4,8 +4,6 @@ CREATE TABLE "user"(
   "id" SERIAL PRIMARY KEY,
   "username" TEXT NOT NULL,
   "hashedPassword" TEXT,
-  "createdAt" timestamp with time zone, -- not working: fails to add time by default when inserted into table
-  "lastLogin" timestamp with time zone,
   "profilePicture" TEXT,
   "currentLocation" TEXT,
   "tagline" TEXT,
@@ -25,7 +23,6 @@ CREATE TABLE "nowwww-entry"(
   "content" TEXT,
   "user_id" INT,
   "category_id" INT,
-  "createdAt" TIMESTAMPTZ DEFAULT Now(),
   CONSTRAINT "fk_user"
   FOREIGN KEY("user_id")
   REFERENCES "user"("id"),
