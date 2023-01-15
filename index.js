@@ -5,9 +5,6 @@ const pool = require("./db");
 const path = require("path");
 const PORT = process.env.PORT || 5000;
 
-// require('dotenv').config({ path: '../.env' })
-require('dotenv').config({ path: './.env' })
-
 const argon2 = require('argon2')
 const jwt = require('jsonwebtoken')
 
@@ -21,6 +18,8 @@ const uploadsMiddleware = require('./upload-middleware')
 const { S3Client, PutObjectCommand, GetObjectCommand, DeleteObjectCommand } = require("@aws-sdk/client-s3");
 const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
 
+// require('dotenv').config({ path: '../.env' })
+require('dotenv').config({ path: './.env' })
 const bucketName = process.env.BUCKET_NAME
 const bucketRegion = process.env.BUCKET_REGION
 const bucketAccessKey = process.env.BUCKET_ACCESS_KEY
@@ -63,23 +62,24 @@ app.post('/sign-up', (req, res, next) => {
         throw new ClientError(400, 'username already exists');
       }
       
-      argon2
-      .hash(password)
-      .then(hashedPassword => {
-        const sql2 = `
-          INSERT INTO "user" ("username", "hashedPassword")
-          VALUES ($1, $2)
-          RETURNING *;
-        `;
-        const queryParams2 = [username, hashedPassword];
+      res.send('asdaosihdosaihdaiohd')
+      // argon2
+      // .hash(password)
+      // .then(hashedPassword => {
+      //   const sql2 = `
+      //     INSERT INTO "user" ("username", "hashedPassword")
+      //     VALUES ($1, $2)
+      //     RETURNING *;
+      //   `;
+      //   const queryParams2 = [username, hashedPassword];
         
-        pool.query(sql2, queryParams2)
-          .then(queryResult => {
-            const [newUser] = queryResult.rows;
-            res.status(201).json(newUser);
-          })
-          .catch(err => {next(err)})
-      })
+      //   pool.query(sql2, queryParams2)
+      //     .then(queryResult => {
+      //       const [newUser] = queryResult.rows;
+      //       res.status(201).json(newUser);
+      //     })
+      //     .catch(err => {next(err)})
+      // })
     })
     .catch(err => {next(err)})
   }
