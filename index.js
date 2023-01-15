@@ -1,13 +1,15 @@
-const express = require('express') 
-const cors = require('cors'); 
-const path = require("path")
+const express = require("express");
+const app = express();
+const cors = require("cors");
+const pool = require("./db");
+const path = require("path");
+const PORT = process.env.PORT || 5000;
+
 // require('dotenv').config({ path: '../.env' })
 require('dotenv').config({ path: './.env' })
 
 const argon2 = require('argon2')
 const jwt = require('jsonwebtoken')
-const pool = require('./db'); 
-const PORT = process.env.PORT || 5000;
 
 const crypto = require('crypto')
 const generateFileName = (bytes = 32) => crypto.randomBytes(bytes).toString('hex')
@@ -32,13 +34,11 @@ const s3 = new S3Client({
   region: bucketRegion
 })
 
-const app = express();
 app.use(cors()); 
 app.use(express.json()) 
 
-// app.use(express.static(path.join(__dirname, '../client/build')))
 if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname, 'client/build')))
+  app.use(express.static(path.join(__dirname, "client/build")));
 }
 
 // Sign-up 
@@ -582,9 +582,9 @@ app.get('/api/user/:userId/entries', (req, res, next) => {
     .catch(err => next(err));
 })
 
-// app.get("*", (req, res) => {
-  // res.sendFile(path.join(__dirname, ) 404 page 
-// })
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "client/build/index.html"));
+});
 
 app.use(errorMiddleware);
 
