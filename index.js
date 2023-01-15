@@ -42,6 +42,7 @@ if (process.env.NODE_ENV === "production") {
 }
 
 // Sign-up 
+// asdasd
 app.post('/sign-up', (req, res, next) => {
   const { username, password } = req.body;
   if ( !username || !password) {
