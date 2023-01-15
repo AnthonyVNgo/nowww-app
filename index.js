@@ -55,7 +55,7 @@ app.post('/sign-up', (req, res, next) => {
   const node_env = process.env.NODE_ENV
   const heroku = process.env.DATABASE_URL
   const queryParams1 = [username]
-  res.send({username, password, node_env, heroku})
+  res.send({username, password, node_env, heroku, pool})
 
   // pool.query(sql1, queryParams1)
   //   .then(queryResult => {
