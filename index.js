@@ -52,35 +52,37 @@ app.post('/sign-up', (req, res, next) => {
     WHERE "username" = $1
   `;
 
+  const node_env = process.env.NODE_ENV
+  const heroku = process.env.DATABASE_URL
   const queryParams1 = [username]
+  res.send({username, password, node_env, heroku})
 
-  pool.query(sql1, queryParams1)
-    .then(queryResult => {
-      const [userDetails] = queryResult.rows
+  // pool.query(sql1, queryParams1)
+  //   .then(queryResult => {
+  //     const [userDetails] = queryResult.rows
 
-      if (userDetails) {
-        throw new ClientError(400, 'username already exists');
-      }
+  //     if (userDetails) {
+  //       throw new ClientError(400, 'username already exists');
+  //     }
       
-      res.send('asdaosihdosaihdaiohd')
-      // argon2
-      // .hash(password)
-      // .then(hashedPassword => {
-      //   const sql2 = `
-      //     INSERT INTO "user" ("username", "hashedPassword")
-      //     VALUES ($1, $2)
-      //     RETURNING *;
-      //   `;
-      //   const queryParams2 = [username, hashedPassword];
+  //     argon2
+  //     .hash(password)
+  //     .then(hashedPassword => {
+  //       const sql2 = `
+  //         INSERT INTO "user" ("username", "hashedPassword")
+  //         VALUES ($1, $2)
+  //         RETURNING *;
+  //       `;
+  //       const queryParams2 = [username, hashedPassword];
         
-      //   pool.query(sql2, queryParams2)
-      //     .then(queryResult => {
-      //       const [newUser] = queryResult.rows;
-      //       res.status(201).json(newUser);
-      //     })
-      //     .catch(err => {next(err)})
-      // })
-    })
+  //       pool.query(sql2, queryParams2)
+  //         .then(queryResult => {
+  //           const [newUser] = queryResult.rows;
+  //           res.status(201).json(newUser);
+  //         })
+  //         .catch(err => {next(err)})
+  //     })
+  //   })
     .catch(err => {next(err)})
   }
 })
