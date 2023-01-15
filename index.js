@@ -42,48 +42,92 @@ if (process.env.NODE_ENV === "production") {
 }
 
 // Sign-up 
-app.post('/api/sign-up', (req, res, next) => {
-  
-  const { username, password } = req.body;
-  if ( !username || !password) {
-    throw new ClientError(400, 'username and password are required fields');
-  } else {
-  const sql1 = `
-    SELECT "username"
-    FROM "user"
-    WHERE "username" = $1
-  `;
-  const queryParams1 = [username]
+app.post('/sign-up', (req, res, next) => {
+  res.send('ahsidaoishdioahdioa')
+  // const { username, password } = req.body;
+  // if ( !username || !password) {
+  //   throw new ClientError(400, 'username and password are required fields');
+  // } else {
+  // const sql1 = `
+  //   SELECT "username"
+  //   FROM "user"
+  //   WHERE "username" = $1
+  // `;
+  // const queryParams1 = [username]
 
-  pool.query(sql1, queryParams1)
-    .then(queryResult => {
-      const [userDetails] = queryResult.rows
+  // pool.query(sql1, queryParams1)
+  //   .then(queryResult => {
+  //     const [userDetails] = queryResult.rows
 
-      if (userDetails) {
-        throw new ClientError(400, 'username already exists');
-      }
+  //     if (userDetails) {
+  //       throw new ClientError(400, 'username already exists');
+  //     }
       
-      argon2
-      .hash(password)
-      .then(hashedPassword => {
-        const sql2 = `
-          INSERT INTO "user" ("username", "hashedPassword")
-          VALUES ($1, $2)
-          RETURNING *;
-        `;
-        const queryParams2 = [username, hashedPassword];
+  //     argon2
+  //     .hash(password)
+  //     .then(hashedPassword => {
+  //       const sql2 = `
+  //         INSERT INTO "user" ("username", "hashedPassword")
+  //         VALUES ($1, $2)
+  //         RETURNING *;
+  //       `;
+  //       const queryParams2 = [username, hashedPassword];
         
-        pool.query(sql2, queryParams2)
-          .then(queryResult => {
-            const [newUser] = queryResult.rows;
-            res.status(201).json(newUser);
-          })
-          .catch(err => {next(err)})
-      })
-    })
-    .catch(err => {next(err)})
-  }
+  //       pool.query(sql2, queryParams2)
+  //         .then(queryResult => {
+  //           const [newUser] = queryResult.rows;
+  //           res.status(201).json(newUser);
+  //         })
+  //         .catch(err => {next(err)})
+  //     })
+  //   })
+  //   .catch(err => {next(err)})
+  // }
 })
+
+// // Sign-up 
+// app.post('/api/sign-up', (req, res, next) => {
+  
+//   const { username, password } = req.body;
+//   if ( !username || !password) {
+//     throw new ClientError(400, 'username and password are required fields');
+//   } else {
+//   const sql1 = `
+//     SELECT "username"
+//     FROM "user"
+//     WHERE "username" = $1
+//   `;
+//   const queryParams1 = [username]
+
+//   pool.query(sql1, queryParams1)
+//     .then(queryResult => {
+//       const [userDetails] = queryResult.rows
+
+//       if (userDetails) {
+//         throw new ClientError(400, 'username already exists');
+//       }
+      
+//       argon2
+//       .hash(password)
+//       .then(hashedPassword => {
+//         const sql2 = `
+//           INSERT INTO "user" ("username", "hashedPassword")
+//           VALUES ($1, $2)
+//           RETURNING *;
+//         `;
+//         const queryParams2 = [username, hashedPassword];
+        
+//         pool.query(sql2, queryParams2)
+//           .then(queryResult => {
+//             const [newUser] = queryResult.rows;
+//             res.status(201).json(newUser);
+//           })
+//           .catch(err => {next(err)})
+//       })
+//     })
+//     .catch(err => {next(err)})
+//   }
+// })
 
 // Login 
 app.post('/api/login', (req, res, next) => {
