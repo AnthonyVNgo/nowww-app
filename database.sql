@@ -1,5 +1,3 @@
--- CREATE DATABASE nowww-app;
-
 CREATE TABLE "user"(
   "id" SERIAL PRIMARY KEY,
   "username" TEXT NOT NULL,
