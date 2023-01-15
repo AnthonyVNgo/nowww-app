@@ -1,7 +1,8 @@
 const express = require('express') 
 const cors = require('cors'); 
 const path = require("path")
-require('dotenv').config({ path: '../.env' })
+// require('dotenv').config({ path: '../.env' })
+require('dotenv').config({ path: './.env' })
 
 const argon2 = require('argon2')
 const jwt = require('jsonwebtoken')
@@ -41,7 +42,7 @@ if (process.env.NODE_ENV === "production") {
 }
 
 // Sign-up 
-app.post('/sign-up', (req, res, next) => {
+app.post('/api/sign-up', (req, res, next) => {
   
   const { username, password } = req.body;
   if ( !username || !password) {
@@ -85,7 +86,7 @@ app.post('/sign-up', (req, res, next) => {
 })
 
 // Login 
-app.post('/login', (req, res, next) => {
+app.post('/api/login', (req, res, next) => {
   const { username, password } = req.body;
   if ( !username || !password) {
     throw console.error('username and password are required fields', 400);
@@ -127,7 +128,7 @@ app.use(authorizationMiddleware);
 // AUTHORIZATON MIDDLEWARE 
 
 // Gallery 
-app.get('/gallery', (req, res, next) => {
+app.get('/api/gallery', (req, res, next) => {
   const sql = ` 
     SELECT "id", "username", "tagline"
     FROM "user"
@@ -140,7 +141,7 @@ app.get('/gallery', (req, res, next) => {
 })
 
 // My Profile
-app.get('/my-profile', (req, res, next) => {
+app.get('/api/my-profile', (req, res, next) => {
   const { id } = req.user;
   if (!id) {
     throw new ClientError(400, 'id must be a positive integer');
@@ -164,7 +165,7 @@ app.get('/my-profile', (req, res, next) => {
 });
 
 // Edit Profile
-app.put('/edit-profile', (req, res, next) => {
+app.put('/api/edit-profile', (req, res, next) => {
   const { id } = req.user;
   const { tagline, bio, linkedin, github, dribbble, medium, twitter, youtube, instagram } = req.body;
   if (!id) {
@@ -198,7 +199,7 @@ app.put('/edit-profile', (req, res, next) => {
 })
 
 // Delete All Entries 
-app.delete('/delete-all-entries', (req, res, next) => {
+app.delete('/api/delete-all-entries', (req, res, next) => {
   const { id } = req.user;
   if (!id) {
     throw new ClientError(400, 'userId must be a positive integer');
@@ -214,7 +215,7 @@ app.delete('/delete-all-entries', (req, res, next) => {
 })
 
 // Delete Profile  
-app.delete('/delete-profile', (req, res, next) => {
+app.delete('/api/delete-profile', (req, res, next) => {
   const { id } = req.user;
   if (!id) {
     throw new ClientError(400, 'userId must be a positive integer');
@@ -229,7 +230,7 @@ app.delete('/delete-profile', (req, res, next) => {
 })
 
 // Add Nowww Entry
-app.post('/add-entry', (req, res, next) => {
+app.post('/api/add-entry', (req, res, next) => {
   const { id } = req.user;
   const {input, category} = req.body
 
@@ -255,7 +256,7 @@ app.post('/add-entry', (req, res, next) => {
 });
 
 // Edit Nowww Entry 
-app.put('/edit-entry/:entryId', (req, res, next) => {
+app.put('/api/edit-entry/:entryId', (req, res, next) => {
   const { id } = req.user;
   const entryId = Number(req.params.entryId)
   const { input, category } = req.body 
@@ -284,7 +285,7 @@ pool.query(sql, queryParams)
 })
 
 // Delete Nowww Entry 
-app.delete('/delete-entry/:entryId', (req, res, next) => {
+app.delete('/api/delete-entry/:entryId', (req, res, next) => {
   const { id } = req.user;
   const entryId = Number(req.params.entryId);
 
@@ -303,7 +304,7 @@ app.delete('/delete-entry/:entryId', (req, res, next) => {
 });
 
 // Get My Nowww Entries 
-app.get('/my-entries', (req, res, next) => {
+app.get('/api/my-entries', (req, res, next) => {
   const { id } = req.user
   if (!id) {
     throw new ClientError(400, 'id must be a positive integer');
@@ -328,7 +329,7 @@ app.get('/my-entries', (req, res, next) => {
 })
 
 // Post Profile Picture 
-app.post('/upload-profile-picture', uploadsMiddleware, (req, res, next) => {
+app.post('/api/upload-profile-picture', uploadsMiddleware, (req, res, next) => {
   const { id } = req.user
 
   const sqlGuard = `
@@ -378,7 +379,7 @@ app.post('/upload-profile-picture', uploadsMiddleware, (req, res, next) => {
     .catch(err => next(err));
 })
 
-app.get('/profile-picture', (req, res, next) => {
+app.get('/api/profile-picture', (req, res, next) => {
   const {id} = req.user
   
   const sql = `
@@ -411,7 +412,7 @@ app.get('/profile-picture', (req, res, next) => {
     .catch(err => next(err));
 })
 
-app.get('/profile-picture/user/:userId', (req, res, next) => {
+app.get('/api/profile-picture/user/:userId', (req, res, next) => {
   const {id} = req.user
   if (!id) {
     throw new ClientError(400, 'userId must be a positive integer');
@@ -450,7 +451,7 @@ app.get('/profile-picture/user/:userId', (req, res, next) => {
     .catch(err => next(err));
 })
 
-app.delete('/delete-profile-picture', async (req, res, next) => {
+app.delete('/api/delete-profile-picture', async (req, res, next) => {
   const {id} = req.user
 
   const sql = `
@@ -488,7 +489,7 @@ app.delete('/delete-profile-picture', async (req, res, next) => {
 })
 
 // Other User Profile
-app.get('/user/:userId', (req, res, next) => {
+app.get('/api/user/:userId', (req, res, next) => {
   const userId = Number(req.params.userId)
   if (!userId) {
     throw new ClientError(400, 'userId must be a positive integer');
@@ -512,7 +513,7 @@ app.get('/user/:userId', (req, res, next) => {
 });
 
 // Get Other User's Nowww Entries 
-app.get('/user/:userId/entries', (req, res, next) => {
+app.get('/api/user/:userId/entries', (req, res, next) => {
   const { id } = req.user
   if (!id) {
     throw new ClientError(400, 'id must be a positive integer');
