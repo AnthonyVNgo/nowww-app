@@ -64,28 +64,28 @@ app.post('/api/sign-up', (req, res, next) => {
         throw new ClientError(400, 'username already exists');
       }
       
-      res.status(200).send('sql query for signup successful')
+      // res.status(200).send('sql query for signup successful')
     
-      // argon2
-      //   .hash(password)
-      //   .then(hashedPassword => {
-      //     const sql2 = `
-      //       INSERT INTO "user" ("username", "hashedPassword")
-      //       VALUES ($1, $2)
-      //       RETURNING *;
-      //     `;
+      argon2
+        .hash(password)
+        .then(hashedPassword => {
+          const sql2 = `
+            INSERT INTO "user" ("username", "hashedPassword")
+            VALUES ($1, $2)
+            RETURNING *;
+          `;
         
-      //     const queryParams2 = [username, hashedPassword];
+          const queryParams2 = [username, hashedPassword];
         
-      //     pool.query(sql2, queryParams2)
-      //       .then(queryResult => {
-      //         const [newUser] = queryResult.rows;
-      //         res.status(201).json(newUser);
-      //       })
-      //       .catch(err => {next(err)})
-      //   })
+          pool.query(sql2, queryParams2)
+            .then(queryResult => {
+              const [newUser] = queryResult.rows;
+              res.status(201).json(newUser);
+            })
+            .catch(err => {next(err)})
+        })
     })
-    // .catch(err => {next(err)})
+    .catch(err => {next(err)})
 
 })
 
