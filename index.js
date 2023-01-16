@@ -55,7 +55,8 @@ app.post('/sign-up', (req, res, next) => {
   pool.query(sql)
     .then(queryResult => {
       // res.json(queryResult.rows)
-      res.send(username, password)
+      // res.send(username, password)
+      res.status(200).send(username)
     })
     // .catch(err => {next(err)})
   // else {
