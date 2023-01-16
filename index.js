@@ -57,7 +57,7 @@ app.post('/sign-up', (req, res, next) => {
       // res.json(queryResult.rows)
       res.send(username, password)
     })
-    .catch(err => {next(err)})
+    // .catch(err => {next(err)})
   // else {
   // const sql1 = `
   //   SELECT "username"
