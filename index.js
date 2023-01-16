@@ -41,7 +41,8 @@ if (process.env.NODE_ENV === "production") {
 }
 
 // Sign-up  // not sure if this will work with /api in front
-app.post('/api/sign-up', (req, res, next) => {
+// app.post('/api/sign-up', (req, res, next) => {
+app.post('/sign-up', (req, res, next) => {
   const { username, password } = req.body;
 
   if ( !username || !password) {
