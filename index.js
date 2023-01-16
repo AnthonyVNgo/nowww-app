@@ -40,66 +40,56 @@ if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "client/build")));
 }
 
-// Sign-up 
-app.post('/sign-up', (req, res, next) => {
+// Sign-up  // not sure if this will work with /api in front
+app.post('/api/sign-up', (req, res, next) => {
   const { username, password } = req.body;
+
   if ( !username || !password) {
     throw new ClientError(400, 'username and password are required fields');
   } 
-
-  const sql = ` 
-    SELECT "id", "username", "tagline"
+  
+  const sql1 = `
+    SELECT "username"
     FROM "user"
+    WHERE "username" = $1
   `;
 
-  pool.query(sql)
+  const queryParams1 = [username]
+
+  pool.query(sql1, queryParams1)
     .then(queryResult => {
-      res.status(200).json(queryResult.rows)
-    })
-    .catch(err => {next(err)})
-  // else {
-  // const sql1 = `
-  //   SELECT "username"
-  //   FROM "user"
-  //   WHERE "username" = $1
-  // `;
+      const [userDetails] = queryResult.rows
 
-  // const node_env = process.env.NODE_ENV
-  // const heroku = process.env.DATABASE_URL
-  // const queryParams1 = [username]
-  // res.send({username, password, node_env, heroku, pool})
-
-  // pool.query(sql1, queryParams1)
-  //   .then(queryResult => {
-  //     const [userDetails] = queryResult.rows
-
-  //     if (userDetails) {
-  //       throw new ClientError(400, 'username already exists');
-  //     }
+      if (userDetails) {
+        throw new ClientError(400, 'username already exists');
+      }
       
-  //     argon2
-  //     .hash(password)
-  //     .then(hashedPassword => {
-  //       const sql2 = `
-  //         INSERT INTO "user" ("username", "hashedPassword")
-  //         VALUES ($1, $2)
-  //         RETURNING *;
-  //       `;
-  //       const queryParams2 = [username, hashedPassword];
+      res.status(200).send('sql query for signup successful')
+    
+      // argon2
+      //   .hash(password)
+      //   .then(hashedPassword => {
+      //     const sql2 = `
+      //       INSERT INTO "user" ("username", "hashedPassword")
+      //       VALUES ($1, $2)
+      //       RETURNING *;
+      //     `;
         
-  //       pool.query(sql2, queryParams2)
-  //         .then(queryResult => {
-  //           const [newUser] = queryResult.rows;
-  //           res.status(201).json(newUser);
-  //         })
-  //         .catch(err => {next(err)})
-  //     })
-  //   })
+      //     const queryParams2 = [username, hashedPassword];
+        
+      //     pool.query(sql2, queryParams2)
+      //       .then(queryResult => {
+      //         const [newUser] = queryResult.rows;
+      //         res.status(201).json(newUser);
+      //       })
+      //       .catch(err => {next(err)})
+      //   })
+    })
     // .catch(err => {next(err)})
-  // }
+
 })
 
-// // Sign-up 
+// Sign-up 
 // app.post('/api/sign-up', (req, res, next) => {
   
 //   const { username, password } = req.body;
