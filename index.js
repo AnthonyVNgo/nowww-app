@@ -45,17 +45,30 @@ app.post('/sign-up', (req, res, next) => {
   const { username, password } = req.body;
   if ( !username || !password) {
     throw new ClientError(400, 'username and password are required fields');
-  } else {
-  const sql1 = `
-    SELECT "username"
+  } 
+
+  const sql = ` 
+    SELECT "id", "username", "tagline"
     FROM "user"
-    WHERE "username" = $1
   `;
 
-  const node_env = process.env.NODE_ENV
-  const heroku = process.env.DATABASE_URL
-  const queryParams1 = [username]
-  res.send({username, password, node_env, heroku, pool})
+  pool.query(sql)
+    .then(queryResult => {
+      // res.json(queryResult.rows)
+      res.send(username, password)
+    })
+    .catch(err => {next(err)})
+  // else {
+  // const sql1 = `
+  //   SELECT "username"
+  //   FROM "user"
+  //   WHERE "username" = $1
+  // `;
+
+  // const node_env = process.env.NODE_ENV
+  // const heroku = process.env.DATABASE_URL
+  // const queryParams1 = [username]
+  // res.send({username, password, node_env, heroku, pool})
 
   // pool.query(sql1, queryParams1)
   //   .then(queryResult => {
@@ -83,8 +96,8 @@ app.post('/sign-up', (req, res, next) => {
   //         .catch(err => {next(err)})
   //     })
   //   })
-    .catch(err => {next(err)})
-  }
+    // .catch(err => {next(err)})
+  // }
 })
 
 // // Sign-up 
