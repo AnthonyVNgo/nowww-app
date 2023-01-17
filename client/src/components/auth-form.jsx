@@ -1,4 +1,3 @@
-import { response } from "express";
 import { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -92,7 +91,7 @@ function AuthForm(props) {
 
   return (
     <div className="card">
-      <button className="btn btn-primary" onClick={getter}>get button</button>
+      <button className="btn btn-primary" onClick={getter}>get button</button> 
       <button className="btn btn-primary" onClick={poster}>post button</button>
       <form className="w-100 p-5" onSubmit={handleSubmit}>
         <div className="text-center">
