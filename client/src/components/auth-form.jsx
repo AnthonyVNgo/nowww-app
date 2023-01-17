@@ -64,7 +64,7 @@ function AuthForm(props) {
       method: 'POST',
     };
     
-    fetch('/poster')
+    fetch('/poster', options)
       .then(response => console.log(response))
   }
 
