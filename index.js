@@ -40,37 +40,7 @@ if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "client/build")));
 }
 
-app.get('/getter', (req, res, next) => {
-  const sql = `
-    SELECT *
-    FROM "user"
-  `;
-
-  pool.query(sql)
-    .then(queryResult => {
-      res.status(200).send(queryResult.rows, queryResult.rowCount, queryResult.command, queryResult.fields)
-    })
-    .catch(err => {next(err)})
-})
-
-app.post('/poster', (req, res, next) => {
-  const sql = `
-    INSERT INTO "user" ("username", "hashedPassword")
-    VALUES ($1, $2)
-    RETURNING *;
-  `
-
-  const sqlParams = ['firstuser', 'hashedPW']
-
-  pool.query(sql, sqlParams)
-    .then(queryResult => {
-      res.status(200).send(queryResult.rows, queryResult.rowCount, queryResult.command, queryResult.fields)
-    })
-    .catch(err => {next(err)})
-})
-
-// Sign-up  // not sure if this will work with /api in front
-// app.post('/api/sign-up', (req, res, next) => {
+// Sign-up 
 app.post('/sign-up', (req, res, next) => {
   const { username, password } = req.body;
 
@@ -116,50 +86,6 @@ app.post('/sign-up', (req, res, next) => {
     .catch(err => {next(err)})
 
 })
-
-// Sign-up 
-// app.post('/api/sign-up', (req, res, next) => {
-  
-//   const { username, password } = req.body;
-//   if ( !username || !password) {
-//     throw new ClientError(400, 'username and password are required fields');
-//   } else {
-//   const sql1 = `
-//     SELECT "username"
-//     FROM "user"
-//     WHERE "username" = $1
-//   `;
-//   const queryParams1 = [username]
-
-//   pool.query(sql1, queryParams1)
-//     .then(queryResult => {
-//       const [userDetails] = queryResult.rows
-
-//       if (userDetails) {
-//         throw new ClientError(400, 'username already exists');
-//       }
-      
-//       argon2
-//       .hash(password)
-//       .then(hashedPassword => {
-//         const sql2 = `
-//           INSERT INTO "user" ("username", "hashedPassword")
-//           VALUES ($1, $2)
-//           RETURNING *;
-//         `;
-//         const queryParams2 = [username, hashedPassword];
-        
-//         pool.query(sql2, queryParams2)
-//           .then(queryResult => {
-//             const [newUser] = queryResult.rows;
-//             res.status(201).json(newUser);
-//           })
-//           .catch(err => {next(err)})
-//       })
-//     })
-//     .catch(err => {next(err)})
-//   }
-// })
 
 // Login 
 app.post('/login', (req, res, next) => {
