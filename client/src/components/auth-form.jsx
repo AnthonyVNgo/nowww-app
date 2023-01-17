@@ -54,20 +54,6 @@ function AuthForm(props) {
       });      
   }
 
-  const getter = () => {
-    fetch('/getter')
-      .then(response => console.log(response))
-  }
-
-  const poster = () => {
-    const options = {
-      method: 'POST',
-    };
-    
-    fetch('/poster', options)
-      .then(response => console.log(response))
-  }
-
   const handleSubmit = (event) => {
     event.preventDefault();
     authenticate()
@@ -91,8 +77,6 @@ function AuthForm(props) {
 
   return (
     <div className="card">
-      <button className="btn btn-primary" onClick={getter}>get button</button> 
-      <button className="btn btn-primary" onClick={poster}>post button</button>
       <form className="w-100 p-5" onSubmit={handleSubmit}>
         <div className="text-center">
           <h2 className="mb-2">
