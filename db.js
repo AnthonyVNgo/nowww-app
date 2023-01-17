@@ -10,7 +10,6 @@ const devConfig = {
 }
 
 const proConfig = process.env.DATABASE_URL; //heroku addons
-// const proConfig = process.env.DATABASE_URL  + "?sslmode=require"; //heroku addons
 
 const pool = new Pool({
   connectionString: process.env.NODE_ENV === "production" ? proConfig : devConfig,

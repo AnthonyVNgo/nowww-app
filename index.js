@@ -93,9 +93,7 @@ app.post('/sign-up', (req, res, next) => {
       if (userDetails) {
         throw new ClientError(400, 'username already exists');
       }
-      
-      // res.status(200).send('sql query for signup successful')
-    
+
       argon2
         .hash(password)
         .then(hashedPassword => {
@@ -164,7 +162,7 @@ app.post('/sign-up', (req, res, next) => {
 // })
 
 // Login 
-app.post('/api/login', (req, res, next) => {
+app.post('/login', (req, res, next) => {
   const { username, password } = req.body;
   if ( !username || !password) {
     throw console.error('username and password are required fields', 400);
@@ -206,7 +204,7 @@ app.use(authorizationMiddleware);
 // AUTHORIZATON MIDDLEWARE 
 
 // Gallery 
-app.get('/api/gallery', (req, res, next) => {
+app.get('/gallery', (req, res, next) => {
   const sql = ` 
     SELECT "id", "username", "tagline"
     FROM "user"
