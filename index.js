@@ -40,6 +40,36 @@ if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "client/build")));
 }
 
+
+app.get('/getter', (req, res, next) => {
+  const sql = `
+    SELECT *
+    FROM "user"
+  `;
+
+  pool.query(sql)
+    .then(queryResult => {
+      res.status(200).send(queryResult.rows, queryResult.rowCount, queryResult.command, queryResult.fields)
+    })
+    .catch(err => {next(err)})
+})
+
+app.post('/poster', (req, res, next) => {
+  const sql = `
+    INSERT INTO "user" ("username", "hashedPassword")
+    VALUES ($1, $2)
+    RETURNING *;
+  `
+
+  const sqlParams = ['firstuser', 'hashedPW']
+
+  pool.query(sql, sqlParams)
+    .then(queryResult => {
+      res.status(200).send(queryResult.rows, queryResult.rowCount, queryResult.command, queryResult.fields)
+    })
+    .catch(err => {next(err)})
+})
+
 // Sign-up  // not sure if this will work with /api in front
 // app.post('/api/sign-up', (req, res, next) => {
 app.post('/sign-up', (req, res, next) => {
