@@ -7,8 +7,8 @@ const NowInputForm = (props) => {
   const inputIsDisabled = props.entryCount >= 10 ? true : false
   const placeholderMessage = props.entryCount >= 10 ? 'Entry Limit Reached' : 'Add an entry'
   const isLoading = props.isLoading
-  let deletePath = `/delete-entry/${entryId}`
-  let updatePath = `/edit-entry/${entryId}`
+  let deletePath = `/api/delete-entry/${entryId}`
+  let updatePath = `/api/edit-entry/${entryId}`
   
   const [input, setInput] = useState(props.content)
   const [category, setCategory] = useState(props.categoryId)
@@ -37,7 +37,7 @@ const NowInputForm = (props) => {
       },
       body: JSON.stringify({input, category})
     };
-    fetch('/add-entry', options)
+    fetch('/api/add-entry', options)
       .then(fetchResponse => fetchResponse.json())
       .then(jsonResponse => {
         getEntries()

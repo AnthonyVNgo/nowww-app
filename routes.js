@@ -271,7 +271,8 @@ pool.query(sql, queryParams)
     if (!queryResult.rows[0]) {
       throw new ClientError(404, `cannot find user with userId ${userId}`);
     }
-    res.json(queryResult.rows[0]);
+    // res.json(queryResult.rows[0]);
+    res.status(200).send(`Entry ${entryId} updated`)
   })
   .catch(err => next(err));
 })
