@@ -159,7 +159,7 @@ router.put('/edit-profile', (req, res, next) => {
         throw new ClientError(404, `cannot find user with userId ${userId}`);
       }
       // res.json(queryResult.rows[0]);
-      res.status(200)
+      res.status(200).send(`Profile updated`)
     })
     .catch(err => next(err));
 })
@@ -187,9 +187,9 @@ router.post('/add-entry', (req, res, next) => {
     throw new ClientError(400, 'id must be a positive integer');
   }
   const sql = `
-  INSERT INTO "nowwww-entry" ("content", "user_id", "category_id")
-  VALUES ($1, $2, $3)
-  RETURNING *
+    INSERT INTO "nowwww-entry" ("content", "user_id", "category_id")
+    VALUES ($1, $2, $3)
+    RETURNING *
   `;
   const sqlParameters = [input, id, category];
   pool.query(sql, sqlParameters)
@@ -197,7 +197,7 @@ router.post('/add-entry', (req, res, next) => {
       if (!queryResult.rows[0]) {
         throw new ClientError(404, `cannot find user with userId ${userId}`);
       }
-      res.json(queryResult.rows[0]);
+      res.status(200).send(`User ${id} added: ${input}`)
     })
     .catch(err => next(err));
 });
@@ -269,9 +269,8 @@ const queryParams = [input, category, id, entryId];
 pool.query(sql, queryParams)
   .then(queryResult => {
     if (!queryResult.rows[0]) {
-      throw new ClientError(404, `cannot find user with userId ${userId}`);
+      throw new ClientError(404, `cannot edit entry with given parameters`);
     }
-    // res.json(queryResult.rows[0]);
     res.status(200).send(`Entry ${entryId} updated`)
   })
   .catch(err => next(err));
@@ -289,7 +288,10 @@ router.delete('/delete-entry/:entryId', (req, res, next) => {
   const queryParams = [entryId, id];
   pool.query(sql, queryParams)
     .then(queryResult => {
-      res.json(queryResult.rows); 
+      if (!queryResult.rows[0]) {
+        throw new ClientError(404, `cannot delete entry with given parameters`);
+      }
+      res.status(200).send(`Entry ${entryId} deleted`)
     })
     .catch(err => next(err));
 });

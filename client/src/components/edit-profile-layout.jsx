@@ -71,10 +71,6 @@ const EditProfileLayout = (props) => {
       body: JSON.stringify(inputValue)
     };
     fetch('/api/edit-profile', options)
-      // .then(res => res.json())
-      // .then(finalResponse => {
-      //   getProfileDetails()
-      // });
       .then(res => {
         getProfileDetails()
       })
