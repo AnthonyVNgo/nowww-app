@@ -1,5 +1,7 @@
 const express = require("express");
 const app = express();
+const routes = require('./routes')
+
 const cors = require("cors");
 const pool = require("./db");
 const path = require("path");
@@ -18,7 +20,6 @@ const uploadsMiddleware = require('./upload-middleware')
 const { S3Client, PutObjectCommand, GetObjectCommand, DeleteObjectCommand } = require("@aws-sdk/client-s3");
 const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
 
-// require('dotenv').config({ path: '../.env' })
 require('dotenv').config({ path: './.env' })
 const bucketName = process.env.BUCKET_NAME
 const bucketRegion = process.env.BUCKET_REGION
@@ -35,6 +36,7 @@ const s3 = new S3Client({
 
 app.use(cors()); 
 app.use(express.json()) 
+app.use('/api', routes)
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "client/build")));
