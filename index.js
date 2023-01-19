@@ -6,15 +6,14 @@ const cors = require("cors");
 const pool = require("./db");
 const path = require("path");
 const PORT = process.env.PORT || 5000;
-// require('dotenv').config({ path: './.env' })
 require("dotenv").config();
 
 // Authentication 
-const argon2 = require('argon2')
-const jwt = require('jsonwebtoken')
+// const argon2 = require('argon2')
+// const jwt = require('jsonwebtoken')
 
 // Middleware 
-const errorMiddleware = require('./error-middleware')
+// const errorMiddleware = require('./error-middleware')
 const ClientError = require('./client-error');
 const authorizationMiddleware = require('./authorization-middleware')
 const uploadsMiddleware = require('./upload-middleware')
@@ -442,7 +441,7 @@ app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "client/build/index.html"));
 });
 
-app.use(errorMiddleware);
+// app.use(errorMiddleware);
 
 app.listen(PORT, () => {
   console.log('server has started on port', PORT)

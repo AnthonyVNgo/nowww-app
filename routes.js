@@ -319,4 +319,6 @@ router.get('/gallery', (req, res, next) => {
     .catch(err => {next(err)})
 })
 
+app.use(errorMiddleware);
+
 module.exports = router
