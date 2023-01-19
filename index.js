@@ -6,21 +6,25 @@ const cors = require("cors");
 const pool = require("./db");
 const path = require("path");
 const PORT = process.env.PORT || 5000;
+// require('dotenv').config({ path: './.env' })
+require("dotenv").config();
 
+// Authentication 
 const argon2 = require('argon2')
 const jwt = require('jsonwebtoken')
 
-const crypto = require('crypto')
-const generateFileName = (bytes = 32) => crypto.randomBytes(bytes).toString('hex')
-
+// Middleware 
 const errorMiddleware = require('./error-middleware')
 const ClientError = require('./client-error');
 const authorizationMiddleware = require('./authorization-middleware')
 const uploadsMiddleware = require('./upload-middleware')
+
+// Amazon S3 
+const crypto = require('crypto')
+const generateFileName = (bytes = 32) => crypto.randomBytes(bytes).toString('hex')
 const { S3Client, PutObjectCommand, GetObjectCommand, DeleteObjectCommand } = require("@aws-sdk/client-s3");
 const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
 
-require('dotenv').config({ path: './.env' })
 const bucketName = process.env.BUCKET_NAME
 const bucketRegion = process.env.BUCKET_REGION
 const bucketAccessKey = process.env.BUCKET_ACCESS_KEY
@@ -42,90 +46,90 @@ if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "client/build")));
 }
 
-// Sign-up 
-app.post('/sign-up', (req, res, next) => {
-  const { username, password } = req.body;
+// // Sign-up 
+// app.post('/sign-up', (req, res, next) => {
+//   const { username, password } = req.body;
 
-  if ( !username || !password) {
-    throw new ClientError(400, 'username and password are required fields');
-  } 
+//   if ( !username || !password) {
+//     throw new ClientError(400, 'username and password are required fields');
+//   } 
   
-  const sql1 = `
-    SELECT "username"
-    FROM "user"
-    WHERE "username" = $1
-  `;
+//   const sql1 = `
+//     SELECT "username"
+//     FROM "user"
+//     WHERE "username" = $1
+//   `;
 
-  const queryParams1 = [username]
+//   const queryParams1 = [username]
 
-  pool.query(sql1, queryParams1)
-    .then(queryResult => {
-      const [userDetails] = queryResult.rows
+//   pool.query(sql1, queryParams1)
+//     .then(queryResult => {
+//       const [userDetails] = queryResult.rows
 
-      if (userDetails) {
-        throw new ClientError(400, 'username already exists');
-      }
+//       if (userDetails) {
+//         throw new ClientError(400, 'username already exists');
+//       }
 
-      argon2
-        .hash(password)
-        .then(hashedPassword => {
-          const sql2 = `
-            INSERT INTO "user" ("username", "hashedPassword")
-            VALUES ($1, $2)
-            RETURNING *;
-          `;
+//       argon2
+//         .hash(password)
+//         .then(hashedPassword => {
+//           const sql2 = `
+//             INSERT INTO "user" ("username", "hashedPassword")
+//             VALUES ($1, $2)
+//             RETURNING *;
+//           `;
         
-          const queryParams2 = [username, hashedPassword];
+//           const queryParams2 = [username, hashedPassword];
         
-          pool.query(sql2, queryParams2)
-            .then(queryResult => {
-              const [newUser] = queryResult.rows;
-              res.status(201).json(newUser);
-            })
-            .catch(err => {next(err)})
-        })
-    })
-    .catch(err => {next(err)})
+//           pool.query(sql2, queryParams2)
+//             .then(queryResult => {
+//               const [newUser] = queryResult.rows;
+//               res.status(201).json(newUser);
+//             })
+//             .catch(err => {next(err)})
+//         })
+//     })
+//     .catch(err => {next(err)})
 
-})
+// })
 
-// Login 
-app.post('/login', (req, res, next) => {
-  const { username, password } = req.body;
-  if ( !username || !password) {
-    throw console.error('username and password are required fields', 400);
-  }
+// // Login 
+// app.post('/login', (req, res, next) => {
+//   const { username, password } = req.body;
+//   if ( !username || !password) {
+//     throw console.error('username and password are required fields', 400);
+//   }
 
-  const sql = `
-    SELECT "id", "hashedPassword"
-    FROM "user"
-    WHERE "username" = $1
-  `;
-  const queryParams = [username];
+//   const sql = `
+//     SELECT "id", "hashedPassword"
+//     FROM "user"
+//     WHERE "username" = $1
+//   `;
+//   const queryParams = [username];
 
-  pool.query(sql, queryParams)
-    .then(queryResult => {
-      const [userDetails] = queryResult.rows
+//   pool.query(sql, queryParams)
+//     .then(queryResult => {
+//       const [userDetails] = queryResult.rows
       
-      if (!userDetails) {
-        throw console.err('invalid login')
-      }
+//       if (!userDetails) {
+//         throw console.err('invalid login')
+//       }
 
-      const { id, hashedPassword } = userDetails;
+//       const { id, hashedPassword } = userDetails;
       
-      return argon2
-        .verify(hashedPassword, password)
-        .then(isPwMatching => {
-          if (!isPwMatching) {
-            throw console.error('invalid login')
-          }
-          const payload = { id, username };
-          const token = jwt.sign(payload, process.env.TOKEN_SECRET) 
-          res.json({ token, user: payload})
-        })
-      })
-      .catch(err => {next(err)})
-})
+//       return argon2
+//         .verify(hashedPassword, password)
+//         .then(isPwMatching => {
+//           if (!isPwMatching) {
+//             throw console.error('invalid login')
+//           }
+//           const payload = { id, username };
+//           const token = jwt.sign(payload, process.env.TOKEN_SECRET) 
+//           res.json({ token, user: payload})
+//         })
+//       })
+//       .catch(err => {next(err)})
+// })
 
 // AUTHORIZATON MIDDLEWARE 
 app.use(authorizationMiddleware);
