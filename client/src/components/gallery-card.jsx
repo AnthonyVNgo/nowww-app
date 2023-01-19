@@ -24,7 +24,7 @@ const getProfilePicture = () => {
       'X-Access-Token': window.localStorage.getItem('react-context-jwt'),
     }
   };
-  fetch(`/profile-picture/user/${userId}`, options)
+  fetch(`/api/profile-picture/user/${userId}`, options)
     .then(fetchResponse => { 
       if (!fetchResponse.ok) {
         setProfilePictureUrl(null)

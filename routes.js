@@ -158,7 +158,8 @@ router.put('/edit-profile', (req, res, next) => {
       if (!queryResult.rows[0]) {
         throw new ClientError(404, `cannot find user with userId ${userId}`);
       }
-      res.json(queryResult.rows[0]);
+      // res.json(queryResult.rows[0]);
+      res.status(200)
     })
     .catch(err => next(err));
 })
@@ -318,5 +319,7 @@ router.get('/gallery', (req, res, next) => {
     })
     .catch(err => {next(err)})
 })
+
+app.use(errorMiddleware);
 
 module.exports = router

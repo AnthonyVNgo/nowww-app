@@ -17,12 +17,8 @@ const NowEntryContainer = () => {
     : false
 
   let path = isMyProfile
-    ? '/my-entries'
-    : `${location}/entries`
-      
-  useEffect(() => {
-    getEntries()
-  }, [location])
+    ? '/api/my-entries'
+    : `/api${location}/entries`
 
   const getEntries = () => {
     setIsLoading(true)
@@ -32,7 +28,6 @@ const NowEntryContainer = () => {
         'X-Access-Token': window.localStorage.getItem('react-context-jwt')
       }
     }
-
     fetch(path, options)
       .then(res => res.json())
       .then(entries => {
@@ -43,6 +38,10 @@ const NowEntryContainer = () => {
         console.log('error:', err)
       })
   }
+
+  useEffect(() => {
+    getEntries()
+  }, [location])
 
   return (
     <div className="pt-4 placeholder-glow">
