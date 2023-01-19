@@ -84,11 +84,11 @@ router.post('/login', (req, res, next) => {
 })
 
 // AUTHORIZATON MIDDLEWARE 
-app.use(authorizationMiddleware);
+router.use(authorizationMiddleware);
 // AUTHORIZATON MIDDLEWARE 
 
 // GET My Profile
-app.get('/my-profile', (req, res, next) => {
+router.get('/my-profile', (req, res, next) => {
   const { id } = req.user;
   if (!id) {
     throw new ClientError(400, 'id must be a positive integer');
@@ -110,7 +110,7 @@ app.get('/my-profile', (req, res, next) => {
 });
 
 // GET !My Profile
-app.get('/user/:userId', (req, res, next) => {
+router.get('/user/:userId', (req, res, next) => {
   const userId = Number(req.params.userId)
   if (!userId) {
     throw new ClientError(400, 'userId must be a positive integer');
@@ -132,7 +132,7 @@ app.get('/user/:userId', (req, res, next) => {
 });
 
 // PUT Edit Profile
-app.put('/edit-profile', (req, res, next) => {
+router.put('/edit-profile', (req, res, next) => {
   const { id } = req.user;
   const { tagline, bio, linkedin, github, dribbble, medium, twitter, youtube, instagram } = req.body;
   if (!id) {
@@ -164,7 +164,7 @@ app.put('/edit-profile', (req, res, next) => {
 })
 
 // Delete Profile  
-app.delete('/delete-profile', (req, res, next) => {
+router.delete('/delete-profile', (req, res, next) => {
   const { id } = req.user;
   if (!id) {
     throw new ClientError(400, 'userId must be a positive integer');
@@ -179,7 +179,7 @@ app.delete('/delete-profile', (req, res, next) => {
 })
 
 // Add Nowww Entry
-app.post('/add-entry', (req, res, next) => {
+router.post('/add-entry', (req, res, next) => {
   const { id } = req.user;
   const {input, category} = req.body
   if (!id) {
@@ -202,7 +202,7 @@ app.post('/add-entry', (req, res, next) => {
 });
 
 // Get My Nowww Entries 
-app.get('/my-entries', (req, res, next) => {
+router.get('/my-entries', (req, res, next) => {
   const { id } = req.user
   if (!id) {
     throw new ClientError(400, 'id must be a positive integer');
@@ -225,7 +225,7 @@ app.get('/my-entries', (req, res, next) => {
 })
 
 // Get !My Nowww Entries 
-app.get('/user/:userId/entries', (req, res, next) => {
+router.get('/user/:userId/entries', (req, res, next) => {
   const { id } = req.user
   if (!id) {
     throw new ClientError(400, 'id must be a positive integer');
@@ -249,7 +249,7 @@ app.get('/user/:userId/entries', (req, res, next) => {
 })
 
 // Edit Nowww Entry 
-app.put('/edit-entry/:entryId', (req, res, next) => {
+router.put('/edit-entry/:entryId', (req, res, next) => {
   const { id } = req.user;
   const entryId = Number(req.params.entryId)
   const { input, category } = req.body 
@@ -276,7 +276,7 @@ pool.query(sql, queryParams)
 })
 
 // Delete Nowww Entry 
-app.delete('/delete-entry/:entryId', (req, res, next) => {
+router.delete('/delete-entry/:entryId', (req, res, next) => {
   const { id } = req.user;
   const entryId = Number(req.params.entryId);
   const sql = `
@@ -293,7 +293,7 @@ app.delete('/delete-entry/:entryId', (req, res, next) => {
 });
 
 // Delete All Nowww Entries 
-app.delete('/delete-all-entries', (req, res, next) => {
+router.delete('/delete-all-entries', (req, res, next) => {
   const { id } = req.user;
   if (!id) {
     throw new ClientError(400, 'userId must be a positive integer');
@@ -307,7 +307,7 @@ app.delete('/delete-all-entries', (req, res, next) => {
 })
 
 // Gallery 
-app.get('/gallery', (req, res, next) => {
+router.get('/gallery', (req, res, next) => {
   const sql = ` 
     SELECT "id", "username", "tagline"
     FROM "user"
