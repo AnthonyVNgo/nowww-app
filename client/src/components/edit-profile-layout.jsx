@@ -39,7 +39,7 @@ const EditProfileLayout = (props) => {
         'Content-Type': 'application/json'
       }
     };
-    fetch('/delete-profile', options)
+    fetch('/api/delete-profile', options)
     handleLogOut()
   }
 
@@ -51,7 +51,7 @@ const EditProfileLayout = (props) => {
         'Content-Type': 'application/json'
       }
     };
-    fetch('/delete-all-entries', options)
+    fetch('/api/delete-all-entries', options)
       .then(deleteUser())
   }
 
@@ -70,18 +70,20 @@ const EditProfileLayout = (props) => {
       },
       body: JSON.stringify(inputValue)
     };
-    fetch('/edit-profile', options)
-      .then(res => {})
-      .then(finalResponse => {
+    fetch('/api/edit-profile', options)
+      // .then(res => res.json())
+      // .then(finalResponse => {
+      //   getProfileDetails()
+      // });
+      .then(res => {
         getProfileDetails()
-      });
+      })
   }
 
   return (
     <div className="row justify-content-center my-5">
       <div className="col">
       
-
         <div className="d-flex justify-content-center">
           <div className="ratio ratio-1x1 w-25">
             <img src={imgSrc} alt="profile" className="img-thumbnail rounded-circle border border-5 mb-3" style={{'objectFit':'cover'}}/>
