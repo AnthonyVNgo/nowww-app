@@ -38,7 +38,7 @@ function AuthForm(props) {
       },
       body: JSON.stringify({username, password})
     };
-    fetch(`${action}`, options)
+    fetch(`/api${action}`, options)
       .then(response => response.json())
       .then(result => {
         if (action === '/sign-up' && result.error) {
