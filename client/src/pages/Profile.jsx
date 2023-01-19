@@ -16,21 +16,19 @@ const Profile = () => {
     ? true
     : false
 
-  let path = isMyProfile 
-    ? '/my-profile'
-    : `${location}`
+  let getProfilePath = isMyProfile 
+    ? '/api/my-profile'
+    : `/api${location}`
 
   const getProfileDetails = () => {
     setIsLoading(true)
-
     let options = {
       method: 'GET',
       headers: {
         'X-Access-Token': window.localStorage.getItem('react-context-jwt')
       }
     }
-
-    fetch(path, options)
+    fetch(getProfilePath, options)
       .then(res => res.json())
       .then(userDetailsResponse => {
         setUserDetails(userDetailsResponse)
@@ -38,14 +36,14 @@ const Profile = () => {
       });
   }
 
-  let getProfilePicturePath = isMyProfile
-    ? '/profile-picture'
-    : `/profile-picture${location}`
-
   const [profilePictureUrl, setProfilePictureUrl] = useState(null)
+
+  let getProfilePicturePath = isMyProfile
+    ? '/api/profile-picture'
+    : `/api/profile-picture${location}`
   
   const imgSrc = profilePictureUrl === null
-    ? 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Placeholder_view_vector.svg/681px-Placeholder_view_vector.svg.png'
+    ? 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Placeholder_view_vector.svg/681px-Placeholder_view_vector.svg.png' // add image to static folder
     : profilePictureUrl
 
   const getProfilePicture = () => {
