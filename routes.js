@@ -356,13 +356,14 @@ router.get('/gallery', (req, res, next) => {
 })
 
 // Post Profile Picture AMAZON S3
-router.post('/upload-profile-picture', uploadsMiddleware, (req, res, next) => {
+router.post('/upload-profile-picture', (req, res, next) => {
+// router.post('/upload-profile-picture', uploadsMiddleware, (req, res, next) => {
   const { id } = req.user
-  const sqlGuard = `
-    SELECT "image_name"
-    FROM "profile-picture"
-    WHERE "user_id" = $1
-  `;
+  // const sqlGuard = `
+  //   SELECT "image_name"
+  //   FROM "profile-picture"
+  //   WHERE "user_id" = $1
+  // `;
   res.status(200).send(id)
   // const guardQueryParams = [id]
   // pool.query(sqlGuard, guardQueryParams)
