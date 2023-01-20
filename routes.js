@@ -174,33 +174,31 @@ router.delete('/delete-profile', (req, res, next) => {
     DELETE FROM "user"
     WHERE "id" = $1
     `;
-
     const queryParams = [id];
     pool.query(sql, queryParams)
 })
 
 // Add Nowww Entry
 router.post('/add-entry', (req, res, next) => {
-  // const { id } = req.user;
+  const { id } = req.user;
   const {input, category} = req.body
-  res.status(200).send(`Category: ${category} Input: ${input}`)
-  // if (!id) {
-  //   throw new ClientError(400, 'id must be a positive integer');
-  // }
-  // const sql = `
-  //   INSERT INTO "nowwww-entry" ("content", "user_id", "category_id")
-  //   VALUES ($1, $2, $3)
-  //   RETURNING *
-  // `;
-  // const sqlParameters = [input, id, category];
-  // pool.query(sql, sqlParameters)
-  //   .then(queryResult => {
-  //     if (!queryResult.rows[0]) {
-  //       throw new ClientError(404, `cannot find user with userId ${userId}`);
-  //     }
-  //     res.status(200).send(`User ${id} added: ${input}`)
-  //   })
-  //   .catch(err => next(err));
+  if (!id) {
+    throw new ClientError(400, 'id must be a positive integer');
+  }
+  const sql = `
+    INSERT INTO "nowwww-entry" ("content", "user_id", "category_id")
+    VALUES ($1, $2, $3)
+    RETURNING *
+  `;
+  const sqlParameters = [input, id, category];
+  pool.query(sql, sqlParameters)
+    .then(queryResult => {
+      if (!queryResult.rows[0]) {
+        throw new ClientError(404, `cannot find user with userId ${userId}`);
+      }
+      res.status(200).send(`User ${id} added: ${input}`)
+    })
+    .catch(err => next(err));
 });
 
 // Get My Nowww Entries 
