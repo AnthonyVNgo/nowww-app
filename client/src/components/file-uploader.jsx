@@ -59,11 +59,15 @@ const FileUploader = (props) => {
   }
 
   const handleTester = (event) => {
+    //   event.preventDefault()
+    const formData = new FormData();
+    formData.append("image", file)
     const options = {
       method: 'POST',
       headers: {
         'X-Access-Token': window.localStorage.getItem('react-context-jwt'),
-      }
+      },
+      body: formData
     };
     fetch('/api/poster', options)
       .then(() => {
