@@ -85,7 +85,7 @@ const FileUploader = (props) => {
           <button type="button" onClick={handleDelete} className="btn btn-primary w-100" disabled={isDisabled}>Delete Picture</button>
         </div>
         <div className="col-6">
-          <button type="button" onClick={handleTester} className="btn btn-primary w-100" disabled={isDisabled}>tester</button>
+          <button type="button" onClick={handleTester} className="btn btn-primary w-100">tester</button>
         </div>
       </form>
     </>
