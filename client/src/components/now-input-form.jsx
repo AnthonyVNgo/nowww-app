@@ -36,7 +36,7 @@ const NowInputForm = (props) => {
       body: JSON.stringify({input, category})
     };
     fetch('/api/add-entry', options)
-      .then(fetchResponse => {
+      .then(() => {
         clearInput()
         clearSelect()
         getEntries()
@@ -92,6 +92,7 @@ const NowInputForm = (props) => {
     <div className="d-flex my-2 py-2 border-bottom">
       <form className="w-100" onSubmit={props.isLi ? handleUpdateButton : handleSubmit}>
         <div className="row flex-row-reverse">
+
           <div className="col-12 col-xl-9">
             <input 
               className="form-control" 
@@ -106,6 +107,7 @@ const NowInputForm = (props) => {
               aria-describedby="basic-addon1"
             ></input>
           </div>
+
           <div className="col-12 col-xl-3">
             <select 
               value={category} 
@@ -126,11 +128,13 @@ const NowInputForm = (props) => {
             </select>
           </div>
         </div>
+
             {!props.isLi && 
               <div className="pt-1">
                 <button disabled={inputIsDisabled} type="submit" className="btn btn-primary w-100">+</button>
               </div>
             }
+
             {props.isLi && 
             <div>
               <button className="btn w-50" onClick={handleUpdateButton}>
@@ -146,6 +150,7 @@ const NowInputForm = (props) => {
               </button>
             </div>
           } 
+          
       </form>
     </div>
   )
