@@ -58,6 +58,20 @@ const FileUploader = (props) => {
       .catch(err => console.error(err));
   }
 
+  const handleTester = (event) => {
+    const options = {
+      method: 'POST',
+      headers: {
+        'X-Access-Token': window.localStorage.getItem('react-context-jwt'),
+      }
+    };
+    fetch('/api/poster', options)
+      .then(() => {
+        console.log('hi')
+      })
+      .catch(err => console.error(err));
+  }
+
   return ( 
     <>
       <form onSubmit={handleSubmit} className="my-3 row">
@@ -69,6 +83,9 @@ const FileUploader = (props) => {
         </div>
         <div className="col-6">
           <button type="button" onClick={handleDelete} className="btn btn-primary w-100" disabled={isDisabled}>Delete Picture</button>
+        </div>
+        <div className="col-6">
+          <button type="button" onClick={handleTester} className="btn btn-primary w-100" disabled={isDisabled}>tester</button>
         </div>
       </form>
     </>
