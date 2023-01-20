@@ -12,22 +12,36 @@ const FileUploader = (props) => {
 
   const handleSubmit = (event) => {
     event.preventDefault()
-    const formData = new FormData();
-    formData.append("image", file)
     const options = {
       method: 'POST',
-      // body: formData,
       headers: {
-        'X-Access-Token': window.localStorage.getItem('react-context-jwt'),
+        'X-Access-Token': window.localStorage.getItem('react-context-jwt')
       }
     };
     fetch('/api/upload-profile-picture', options)
       .then(() => {
-        // getProfilePicture()
         console.log('hi')
       })
       .catch(err => console.error(err));
   }
+  // const handleSubmit = (event) => {
+  //   event.preventDefault()
+  //   const formData = new FormData();
+  //   formData.append("image", file)
+  //   const options = {
+  //     method: 'POST',
+  //     headers: {
+  //       'X-Access-Token': window.localStorage.getItem('react-context-jwt')
+  //     },
+  //     body: formData
+  //   };
+  //   fetch('/api/upload-profile-picture', options)
+  //     .then(() => {
+  //       // getProfilePicture()
+  //       console.log('hi')
+  //     })
+  //     .catch(err => console.error(err));
+  // }
 
   const handleDelete = (event) => {
     const options = {
