@@ -11,6 +11,7 @@ const jwt = require('jsonwebtoken')
 const errorMiddleware = require('./error-middleware')
 const ClientError = require('./client-error');
 const authorizationMiddleware = require('./authorization-middleware')
+const uploadsMiddleware = require('./upload-middleware')
 
 // Amazon S3 
 const crypto = require('crypto')
