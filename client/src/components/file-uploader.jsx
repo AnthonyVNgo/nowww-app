@@ -16,7 +16,7 @@ const FileUploader = (props) => {
     formData.append("image", file)
     const options = {
       method: 'POST',
-      body: formData,
+      // body: formData,
       headers: {
         'X-Access-Token': window.localStorage.getItem('react-context-jwt'),
       }
