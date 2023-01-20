@@ -158,7 +158,6 @@ router.put('/edit-profile', (req, res, next) => {
       if (!queryResult.rows[0]) {
         throw new ClientError(404, `cannot find user with userId ${userId}`);
       }
-      // res.json(queryResult.rows[0]);
       res.status(200).send(`Profile updated`)
     })
     .catch(err => next(err));
@@ -176,6 +175,13 @@ router.delete('/delete-profile', (req, res, next) => {
     `;
     const queryParams = [id];
     pool.query(sql, queryParams)
+      .then(queryResult => {
+        if (!queryResult.rows[0]) {
+          throw new ClientError(`Couldn't delete profile of user with ID: ${id}`);
+        }
+        res.status(200).send(`Profile deleted`)
+      })
+      .catch(err => next(err));
 })
 
 // Add Nowww Entry
@@ -288,7 +294,7 @@ router.delete('/delete-entry/:entryId', (req, res, next) => {
   pool.query(sql, queryParams)
     .then(queryResult => {
       if (!queryResult.rows[0]) {
-        throw new ClientError(404, `cannot delete entry with given parameters`);
+        throw new ClientError(`Could not delete entry with given parameters`);
       }
       res.status(200).send(`Entry ${entryId} deleted`)
     })
@@ -307,6 +313,13 @@ router.delete('/delete-all-entries', (req, res, next) => {
   `;
   const queryParams = [id];
   pool.query(sql, queryParams)
+    .then(queryResult => {
+      if (!queryResult.rows[0]) {
+        throw new ClientError(`Could not complete deletion of all entries`);
+      }
+      res.status(200).send(`Entry ${entryId} deleted`)
+    })
+    .catch(err => next(err));
 })
 
 // Gallery 
