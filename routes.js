@@ -355,7 +355,7 @@ router.get('/gallery', (req, res, next) => {
 })
 
 // Post Profile Picture AMAZON S3
-app.post('/upload-profile-picture', uploadsMiddleware, (req, res, next) => {
+router.post('/upload-profile-picture', uploadsMiddleware, (req, res, next) => {
   const { id } = req.user
   const sqlGuard = `
     SELECT "image_name"
@@ -395,7 +395,7 @@ app.post('/upload-profile-picture', uploadsMiddleware, (req, res, next) => {
     .catch(err => next(err));
 })
 
-app.get('/profile-picture', (req, res, next) => {
+router.get('/profile-picture', (req, res, next) => {
   const {id} = req.user
   const sql = `
     SELECT "image_name"
@@ -422,7 +422,7 @@ app.get('/profile-picture', (req, res, next) => {
     .catch(err => next(err));
 })
 
-app.get('/profile-picture/user/:userId', (req, res, next) => {
+router.get('/profile-picture/user/:userId', (req, res, next) => {
   const {id} = req.user
   if (!id) {
     throw new ClientError(400, 'userId must be a positive integer');
@@ -453,7 +453,7 @@ app.get('/profile-picture/user/:userId', (req, res, next) => {
     .catch(err => next(err));
 })
 
-app.delete('/delete-profile-picture', async (req, res, next) => {
+router.delete('/delete-profile-picture', async (req, res, next) => {
   const {id} = req.user
   const sql = `
     SELECT "image_name"
