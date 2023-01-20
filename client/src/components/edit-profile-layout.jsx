@@ -36,7 +36,7 @@ const EditProfileLayout = (props) => {
       method: 'DELETE',
       headers: {
         'X-Access-Token': window.localStorage.getItem('react-context-jwt'), 
-        'Content-Type': 'application/json'
+        // 'Content-Type': 'application/json'
       }
     };
     fetch('/api/delete-profile', options)
@@ -48,7 +48,7 @@ const EditProfileLayout = (props) => {
       method: 'DELETE',
       headers: {
         'X-Access-Token': window.localStorage.getItem('react-context-jwt'), 
-        'Content-Type': 'application/json'
+        // 'Content-Type': 'application/json'
       }
     };
     fetch('/api/delete-all-entries', options)
