@@ -360,6 +360,10 @@ router.post('/upload-profile-picture', (req, res, next) => {
   const { id } = req.user
   res.status(200).send(id)
 })
+
+router.post('/poster', (req, res, next) => {
+  res.status(200).send('success')
+})
 // router.post('/upload-profile-picture', uploadsMiddleware, (req, res, next) => {
 //   const { id } = req.user
 //   const sqlGuard = `
