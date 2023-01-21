@@ -10,11 +10,12 @@ import Navbar from 'react-bootstrap/Navbar';
 // Lib 
 import AppContext from "../lib/app-context";
 
-const NavBar = () => {
+const NavBar = (props) => {
   const { handleLogOut } = useContext(AppContext)
+  const isAuthenticated = props.isAuthenticated
   let location = useLocation().pathname
 
-  if (location === '/login' || location === '/sign-up') {
+  if (location === '/login' || location === '/sign-up' || isAuthenticated === false) {
     return (
       null
     )

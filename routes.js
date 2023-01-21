@@ -472,7 +472,7 @@ router.delete('/delete-profile-picture', async (req, res, next) => {
       `;
       const queryParams2 = [id, imageName]
       pool.query(sql2, queryParams2)
-        .then(queryResult => {
+        .then(() => {
           const deleteObjectParams = {
             Bucket: bucketName,
             Key: imageName
