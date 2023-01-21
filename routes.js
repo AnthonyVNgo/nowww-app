@@ -356,15 +356,14 @@ router.get('/gallery', (req, res, next) => {
 })
 
 // Post Profile Picture AMAZON S3
-router.post('/upload-profile-picture', (req, res, next) => {
-  const { id } = req.user
-  res.status(200).send(id)
-})
+// router.post('/upload-profile-picture', (req, res, next) => {
+//   const { id } = req.user
+//   res.status(200).send(id)
+// })
 
 router.post('/poster', uploadsMiddleware, (req, res, next) => {
   const {id} = req.user
   const image = req.file.buffer
-
   const sqlGuard = `
     SELECT "image_url"
     FROM "profile-picture"
@@ -376,7 +375,6 @@ router.post('/poster', uploadsMiddleware, (req, res, next) => {
       if (queryResult.rows.length) {
         throw new ClientError(404, `Pre-existing file found. Delete before uploading a new file.`);
       }
-      
       const filename = generateFileName()
       const putObjectParams = {
         Bucket: bucketName,
@@ -386,7 +384,6 @@ router.post('/poster', uploadsMiddleware, (req, res, next) => {
       }
       const command = new PutObjectCommand(putObjectParams)
       await s3.send(command)
-      // res.status(200).send('success so far')
       const sql = `
         INSERT INTO "profile-picture" ("image_url", "user_id")
         VALUES ($1, $2)
@@ -430,8 +427,8 @@ router.post('/poster', uploadsMiddleware, (req, res, next) => {
 //       })
     // })
     .catch(err => next(err));
-  // res.status(200).send(`Success id: ${id}, image: ${image}`)
 })
+
 router.post('/upload-profile-picture', uploadsMiddleware, (req, res, next) => {
   const { id } = req.user
   const sqlGuard = `
