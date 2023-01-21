@@ -22,7 +22,7 @@ const FileUploader = (props) => {
       },
       body: formData
     };
-    fetch('/api/poster', options)
+    fetch('/api/upload-profile-picture', options)
       .then(() => {
         getProfilePicture()
       })
