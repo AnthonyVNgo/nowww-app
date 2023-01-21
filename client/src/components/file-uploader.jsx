@@ -11,7 +11,7 @@ const FileUploader = (props) => {
     : false
 
   const handleSubmit = (event) => {
-    //   event.preventDefault()
+    event.preventDefault()
     const formData = new FormData();
     formData.append("image", file)
     const options = {
@@ -23,7 +23,7 @@ const FileUploader = (props) => {
     };
     fetch('/api/poster', options)
       .then(() => {
-        console.log('hi')
+        getProfilePicture()
       })
       .catch(err => console.error(err));
   }
