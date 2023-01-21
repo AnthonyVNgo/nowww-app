@@ -38,8 +38,8 @@ const App = () => {
     <AppContext.Provider value={contextValue} >
       <>
         <BrowserRouter>
-          {/* <NavBar isAuthenticated={isAuthenticated}/> */}
-          <NavBar />
+          <NavBar isAuthenticated={isAuthenticated}/>
+          {/* <NavBar /> */}
             <PageContainer>
               <Routes>
                 {/* <Route 
