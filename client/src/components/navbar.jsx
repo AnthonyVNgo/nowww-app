@@ -12,7 +12,6 @@ import AppContext from "../lib/app-context";
 
 const NavBar = () => {
   const { handleLogOut } = useContext(AppContext)
-
   let location = useLocation().pathname
 
   if (location === '/login' || location === '/sign-up') {
