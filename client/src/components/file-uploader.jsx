@@ -3,6 +3,7 @@ import { useState } from "react";
 const FileUploader = (props) => {
   const isDisabled = props.isDisabled
   const getProfilePicture = props.getProfilePicture
+  const setProfilePictureUrl = props.setProfilePictureUrl
   
   const [file, setFile] = useState(null)
 
@@ -27,24 +28,6 @@ const FileUploader = (props) => {
       })
       .catch(err => console.error(err));
   }
-  // const handleSubmit = (event) => {
-  //   event.preventDefault()
-  //   const formData = new FormData();
-  //   formData.append("image", file)
-  //   const options = {
-  //     method: 'POST',
-  //     headers: {
-  //       'X-Access-Token': window.localStorage.getItem('react-context-jwt')
-  //     },
-  //     body: formData
-  //   };
-  //   fetch('/api/upload-profile-picture', options)
-  //     .then(() => {
-  //       // getProfilePicture()
-  //       console.log('hi')
-  //     })
-  //     .catch(err => console.error(err));
-  // }
 
   const handleDelete = (event) => {
     const options = {
@@ -53,28 +36,10 @@ const FileUploader = (props) => {
         'X-Access-Token': window.localStorage.getItem('react-context-jwt'),
       }
     };
-
     fetch('/api/delete-profile-picture', options)
       .then(() => {
-        getProfilePicture()
-      })
-      .catch(err => console.error(err));
-  }
-
-  const handleTester = (event) => {
-    //   event.preventDefault()
-    const formData = new FormData();
-    formData.append("image", file)
-    const options = {
-      method: 'POST',
-      headers: {
-        'X-Access-Token': window.localStorage.getItem('react-context-jwt'),
-      },
-      body: formData
-    };
-    fetch('/api/poster', options)
-      .then(() => {
-        console.log('hi')
+        // getProfilePicture()
+        setProfilePictureUrl(null)
       })
       .catch(err => console.error(err));
   }
@@ -90,12 +55,6 @@ const FileUploader = (props) => {
         </div>
         <div className="col-6">
           <button type="button" onClick={handleDelete} className="btn btn-primary w-100" disabled={isDisabled}>Delete Picture</button>
-        </div>
-        <div className="col-6">
-          <button type="button" onClick={handleTester} className="btn btn-primary w-100">tester</button>
-        </div>
-        <div className="col-6">
-          <button type="button" onClick={handleSubmit} className="btn btn-primary w-100">upload-profile-picture</button>
         </div>
       </form>
     </>
