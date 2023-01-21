@@ -38,13 +38,14 @@ const App = () => {
     <AppContext.Provider value={contextValue} >
       <>
         <BrowserRouter>
-          <NavBar isAuthenticated={isAuthenticated}/>
+          {/* <NavBar isAuthenticated={isAuthenticated}/> */}
+          <NavBar />
             <PageContainer>
               <Routes>
-                <Route 
+                {/* <Route 
                   path='/' 
                   element={isAuthenticated ? <Navigate to="/gallery" /> : <Auth />} 
-                  exact />
+                  exact /> */}
                 <Route 
                   path='/login' 
                   element={isAuthenticated ? <Navigate to="/my-profile" /> : <Auth />} 
@@ -60,7 +61,8 @@ const App = () => {
                   <Route path='/edit-profile' element={<Profile />} exact />
                   <Route path='/user/:userId' element={<Profile />} />
                 </Route>
-                <Route path='*' element={<NotFound />} />
+                <Route path='*' element={isAuthenticated ? <Navigate to="/gallery" /> : <Auth />}  />
+                {/* <Route path='*' element={<NotFound />} /> */}
               </Routes>    
             </PageContainer>
         </BrowserRouter>
