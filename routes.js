@@ -364,8 +364,8 @@ router.post('/upload-profile-picture', (req, res, next) => {
 router.post('/poster', uploadsMiddleware, (req, res, next) => {
   // res.status(200).send('success')
   const {id} = req.user
-  const {file} = req.file
-  res.status(200).send(`Success id: ${id}, file: ${file}`)
+  const image = req.file.buffer
+  res.status(200).send(`Success id: ${id}, image: ${image}`)
 })
 // router.post('/upload-profile-picture', uploadsMiddleware, (req, res, next) => {
 //   const { id } = req.user
