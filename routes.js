@@ -386,7 +386,20 @@ router.post('/poster', uploadsMiddleware, (req, res, next) => {
       }
       const command = new PutObjectCommand(putObjectParams)
       await s3.send(command)
-      res.status(200).send('success so far')
+      // res.status(200).send('success so far')
+      const sql = `
+        INSERT INTO "profile-picture" ("image_url", "user_id")
+        VALUES ($1, $2)
+        RETURNING *
+      `;
+      const sqlParameters = [filename, id]
+      pool.query(sql, sqlParameters)
+        .then(queryResult => {
+          if (!queryResult.rows[0]) {
+            throw new ClientError(404, `cannot find user with user_id ${id}`);
+          }
+          res.status(200).send(`Image added`)
+        })
     })  
   // .then(async queryResult => { 
     //   if (queryResult.rows.length) {
@@ -403,7 +416,7 @@ router.post('/poster', uploadsMiddleware, (req, res, next) => {
 //       const command = new PutObjectCommand(putObjectParams)
 //       await s3.send(command) 
 //       const sql = `
-//         INSERT INTO "profile-picture" ("image_name", "user_id")
+//         INSERT INTO "profile-picture" ("image_url", "user_id")
 //         VALUES ($1, $2)
 //         RETURNING *
 //       `;
