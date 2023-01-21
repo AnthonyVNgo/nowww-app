@@ -9,11 +9,16 @@ require("dotenv").config();
 
 app.use(cors()); 
 app.use(express.json()) 
-app.use('/api', routes)
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "client/build")));
 }
+
+app.use('/api', routes)
+
+router.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "client/build/index.html"));
+});
 
 app.listen(PORT, () => {
   console.log('server has started on port', PORT)
