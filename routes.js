@@ -367,7 +367,7 @@ router.post('/poster', uploadsMiddleware, (req, res, next) => {
   const image = req.file.buffer
 
   const sqlGuard = `
-    SELECT "image_name"
+    SELECT "image_url"
     FROM "profile-picture"
     WHERE "user_id" = $1
   `;
