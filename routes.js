@@ -19,6 +19,7 @@ const crypto = require('crypto')
 const generateFileName = (bytes = 32) => crypto.randomBytes(bytes).toString('hex')
 const { S3Client, PutObjectCommand, GetObjectCommand, DeleteObjectCommand } = require("@aws-sdk/client-s3");
 const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
+const { response } = require('express');
 
 const bucketName = process.env.BUCKET_NAME
 const bucketRegion = process.env.BUCKET_REGION
@@ -229,7 +230,7 @@ router.post('/add-entry', (req, res, next) => {
 });
 
 // Get My Nowww Entries 
-router.get('/my-entries', (req, res, next) => {
+router.get('/my-entries', async (req, res, next) => {
   const { id } = req.user
   if (!id) {
     throw new ClientError(400, 'id must be a positive integer');
@@ -240,16 +241,37 @@ router.get('/my-entries', (req, res, next) => {
     WHERE "user_id" = $1
   `;
   const queryParams = [id]
-  pool.query(sql, queryParams)
-    .then(queryResult => {
-      if (!queryResult.rows[0]) {
-        res.json(queryResult.rows);
-        throw new ClientError(404, `cannot find entries for user with id: ${id}`);
-      }
-      res.json(queryResult.rows);
-    })
-    .catch(err => next(err));
+  try {
+    const response = await pool.query(sql, queryParams)
+    if (!response.rows[0]) {
+      throw new ClientError(404, `cannot find entries for user with id: ${id}`);
+    }
+    res.json(queryResult.rows);
+  } catch(error) {
+    next(error)
+  }
 })
+// router.get('/my-entries', (req, res, next) => {
+//   const { id } = req.user
+//   if (!id) {
+//     throw new ClientError(400, 'id must be a positive integer');
+//   }
+//   const sql = `
+//     SELECT * 
+//     FROM "nowwww-entry"
+//     WHERE "user_id" = $1
+//   `;
+//   const queryParams = [id]
+//   pool.query(sql, queryParams)
+//     .then(queryResult => {
+//       if (!queryResult.rows[0]) {
+//         res.json(queryResult.rows);
+//         throw new ClientError(404, `cannot find entries for user with id: ${id}`);
+//       }
+//       res.json(queryResult.rows);
+//     })
+//     .catch(err => next(err));
+// })
 
 // Get !My Nowww Entries 
 router.get('/user/:userId/entries', (req, res, next) => {
@@ -344,17 +366,29 @@ router.delete('/delete-all-entries', (req, res, next) => {
 })
 
 // Gallery 
-router.get('/gallery', (req, res, next) => {
+router.get('/gallery', async (req, res, next) => {
   const sql = ` 
     SELECT "id", "username", "tagline"
     FROM "user"
   `;
-  pool.query(sql)
-    .then(queryResult => {
-      res.json(queryResult.rows)
-    })
-    .catch(err => {next(err)})
+  try {
+    const response = await pool.query(sql)
+    res.status(200).json(response.rows)
+  } catch(error) {
+    next(error)
+  }
 })
+// router.get('/gallery', (req, res, next) => {
+//   const sql = ` 
+//     SELECT "id", "username", "tagline"
+//     FROM "user"
+//   `;
+//   pool.query(sql)
+//     .then(queryResult => {
+//       res.json(queryResult.rows)
+//     })
+//     .catch(err => {next(err)})
+// })
 
 // Post Profile Picture AMAZON S3
 router.post('/upload-profile-picture', uploadsMiddleware, (req, res, next) => {
