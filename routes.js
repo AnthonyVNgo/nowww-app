@@ -430,7 +430,8 @@ router.post('/poster', uploadsMiddleware, (req, res, next) => {
 })
 
 router.post('/upload-profile-picture', uploadsMiddleware, (req, res, next) => {
-  const { id } = req.user
+  const {id} = req.user
+  const image = req.file.buffer
   const sqlGuard = `
     SELECT "image_url"
     FROM "profile-picture"
@@ -438,11 +439,10 @@ router.post('/upload-profile-picture', uploadsMiddleware, (req, res, next) => {
   `;
   const guardQueryParams = [id]
   pool.query(sqlGuard, guardQueryParams)
-    .then(async queryResult => { 
+    .then(async queryResult => {
       if (queryResult.rows.length) {
         throw new ClientError(404, `Pre-existing file found. Delete before uploading a new file.`);
       }
-      let image = req.file.buffer
       const filename = generateFileName()
       const putObjectParams = {
         Bucket: bucketName,
@@ -451,7 +451,7 @@ router.post('/upload-profile-picture', uploadsMiddleware, (req, res, next) => {
         ContentType: req.file.mimetype,
       }
       const command = new PutObjectCommand(putObjectParams)
-      await s3.send(command) 
+      await s3.send(command)
       const sql = `
         INSERT INTO "profile-picture" ("image_url", "user_id")
         VALUES ($1, $2)
@@ -464,10 +464,49 @@ router.post('/upload-profile-picture', uploadsMiddleware, (req, res, next) => {
             throw new ClientError(404, `cannot find user with user_id ${id}`);
           }
           res.status(200).send(`Image added`)
-      })
-    })
+        })
+    })  
     .catch(err => next(err));
 })
+// router.post('/upload-profile-picture', uploadsMiddleware, (req, res, next) => {
+//   const { id } = req.user
+//   const sqlGuard = `
+//     SELECT "image_url"
+//     FROM "profile-picture"
+//     WHERE "user_id" = $1
+//   `;
+//   const guardQueryParams = [id]
+//   pool.query(sqlGuard, guardQueryParams)
+//     .then(async queryResult => { 
+//       if (queryResult.rows.length) {
+//         throw new ClientError(404, `Pre-existing file found. Delete before uploading a new file.`);
+//       }
+//       let image = req.file.buffer
+//       const filename = generateFileName()
+//       const putObjectParams = {
+//         Bucket: bucketName,
+//         Key: filename,
+//         Body: image,
+//         ContentType: req.file.mimetype,
+//       }
+//       const command = new PutObjectCommand(putObjectParams)
+//       await s3.send(command) 
+//       const sql = `
+//         INSERT INTO "profile-picture" ("image_url", "user_id")
+//         VALUES ($1, $2)
+//         RETURNING *
+//       `;
+//       const sqlParameters = [filename, id]
+//       pool.query(sql, sqlParameters)
+//         .then(queryResult => {
+//           if (!queryResult.rows[0]) {
+//             throw new ClientError(404, `cannot find user with user_id ${id}`);
+//           }
+//           res.status(200).send(`Image added`)
+//       })
+//     })
+//     .catch(err => next(err));
+// })
 
 router.get('/profile-picture', (req, res, next) => {
   const {id} = req.user

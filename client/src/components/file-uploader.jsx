@@ -91,6 +91,9 @@ const FileUploader = (props) => {
         <div className="col-6">
           <button type="button" onClick={handleTester} className="btn btn-primary w-100">tester</button>
         </div>
+        <div className="col-6">
+          <button type="button" onClick={handleSubmit} className="btn btn-primary w-100">upload-profile-picture</button>
+        </div>
       </form>
     </>
   )
