@@ -251,6 +251,30 @@ router.get('/my-entries', async (req, res, next) => {
     next(error)
   }
 })
+
+router.get('/my-entries', async (req, res, next) => {
+  const { id } = req.user;
+  if (!id) {
+    throw new ClientError(400, 'id must be a positive integer');
+  }
+  try {
+  const sql = `
+    SELECT * 
+    FROM "nowwww-entry" 
+    WHERE "user_id" = $1
+  `;
+  const queryParams = [id];
+  const queryResult = await pool.query(sql, queryParams);
+  if (!queryResult.rows[0]) {
+    res.json(queryResult.rows);
+    throw new ClientError(404, `cannot find entries for user with id: ${id}`);
+  }
+  res.json(queryResult.rows);
+  } catch (err) {
+    next(err);
+  }
+});
+
 // router.get('/my-entries', (req, res, next) => {
 //   const { id } = req.user
 //   if (!id) {
@@ -272,6 +296,7 @@ router.get('/my-entries', async (req, res, next) => {
 //     })
 //     .catch(err => next(err));
 // })
+
 
 // Get !My Nowww Entries 
 router.get('/user/:userId/entries', (req, res, next) => {
