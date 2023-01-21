@@ -230,27 +230,27 @@ router.post('/add-entry', (req, res, next) => {
 });
 
 // Get My Nowww Entries 
-router.get('/my-entries', async (req, res, next) => {
-  const { id } = req.user
-  if (!id) {
-    throw new ClientError(400, 'id must be a positive integer');
-  }
-  const sql = `
-    SELECT * 
-    FROM "nowwww-entry"
-    WHERE "user_id" = $1
-  `;
-  const queryParams = [id]
-  try {
-    const response = await pool.query(sql, queryParams)
-    if (!response.rows[0]) {
-      throw new ClientError(404, `cannot find entries for user with id: ${id}`);
-    }
-    res.json(queryResult.rows);
-  } catch(error) {
-    next(error)
-  }
-})
+// router.get('/my-entries', async (req, res, next) => {
+//   const { id } = req.user
+//   if (!id) {
+//     throw new ClientError(400, 'id must be a positive integer');
+//   }
+//   const sql = `
+//     SELECT * 
+//     FROM "nowwww-entry"
+//     WHERE "user_id" = $1
+//   `;
+//   const queryParams = [id]
+//   try {
+//     const response = await pool.query(sql, queryParams)
+//     if (!response.rows[0]) {
+//       throw new ClientError(404, `cannot find entries for user with id: ${id}`);
+//     }
+//     res.json(queryResult.rows);
+//   } catch(error) {
+//     next(error)
+//   }
+// })
 
 router.get('/my-entries', async (req, res, next) => {
   const { id } = req.user;
