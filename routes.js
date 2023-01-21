@@ -485,9 +485,9 @@ router.delete('/delete-profile-picture', async (req, res, next) => {
     .catch(err => next(err));
 })
 
-router.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "client/build/index.html"));
-});
+// router.get("*", (req, res) => {
+//   res.sendFile(path.join(__dirname, "client/build/index.html"));
+// });
 
 router.use(errorMiddleware);
 
