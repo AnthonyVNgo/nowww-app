@@ -11,14 +11,17 @@ const FileUploader = (props) => {
     : false
 
   const handleSubmit = (event) => {
-    event.preventDefault()
+    //   event.preventDefault()
+    const formData = new FormData();
+    formData.append("image", file)
     const options = {
       method: 'POST',
       headers: {
-        'X-Access-Token': window.localStorage.getItem('react-context-jwt')
-      }
+        'X-Access-Token': window.localStorage.getItem('react-context-jwt'),
+      },
+      body: formData
     };
-    fetch('/api/upload-profile-picture', options)
+    fetch('/api/poster', options)
       .then(() => {
         console.log('hi')
       })
