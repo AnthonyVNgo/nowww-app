@@ -2,7 +2,10 @@ const ClientError = require('./client-error');
 const {JsonWebTokenError } = require('jsonwebtoken')
 
 function errorMiddleware(err, req, res, next) {
-  if (err instanceof ClientError) {
+  if (err.status === 404) {
+    res.status(404).sendFile(path.join(__dirname, "client/build/index.html")).send('Page could not be found, redirected home');
+  }
+  else if (err instanceof ClientError) {
     res.status(err.status).json({
       error: err.message
     });
