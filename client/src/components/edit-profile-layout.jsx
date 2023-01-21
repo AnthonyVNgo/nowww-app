@@ -11,6 +11,7 @@ const EditProfileLayout = (props) => {
   const userDetails = props.userDetails
   const getProfileDetails = props.getProfileDetails
   const getProfilePicture = props.getProfilePicture
+  const setProfilePictureUrl = props.setProfilePictureUrl
   const profilePictureUrl = props.profilePictureUrl
   const imgSrc = props.imgSrc
   
@@ -84,7 +85,7 @@ const EditProfileLayout = (props) => {
           </div>
         </div>
 
-        <FileUploader profilePicture={imgSrc} getProfilePicture={getProfilePicture} isDisabled={isDisabled}/>
+        <FileUploader profilePicture={imgSrc} getProfilePicture={getProfilePicture} isDisabled={isDisabled} setProfilePictureUrl={setProfilePictureUrl}/>
 
         <form id='now-details-form' onSubmit={handleSubmit}>
           <div className="mb-3 row">
