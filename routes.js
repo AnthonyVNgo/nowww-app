@@ -373,19 +373,24 @@ router.post('/poster', uploadsMiddleware, (req, res, next) => {
   `;
   const guardQueryParams = [id]
   pool.query(sqlGuard, guardQueryParams)
-    .then(async queryResult => { 
+    .then(queryResult => {
       if (queryResult.rows.length) {
         throw new ClientError(404, `Pre-existing file found. Delete before uploading a new file.`);
       }
-//       let image = req.file.buffer
-      const filename = generateFileName()
-      const putObjectParams = {
-        Bucket: bucketName,
-        Key: filename,
-        Body: image,
-        ContentType: req.file.mimetype,
-      }
       res.status(200).send('success so far')
+    })  
+  // .then(async queryResult => { 
+    //   if (queryResult.rows.length) {
+    //     throw new ClientError(404, `Pre-existing file found. Delete before uploading a new file.`);
+    //   }
+//       let image = req.file.buffer
+      // const filename = generateFileName()
+      // const putObjectParams = {
+      //   Bucket: bucketName,
+      //   Key: filename,
+      //   Body: image,
+      //   ContentType: req.file.mimetype,
+      // }
 //       const command = new PutObjectCommand(putObjectParams)
 //       await s3.send(command) 
 //       const sql = `
@@ -401,10 +406,8 @@ router.post('/poster', uploadsMiddleware, (req, res, next) => {
 //           }
 //           res.status(200).send(`Image added`)
 //       })
-    })
+    // })
     .catch(err => next(err));
-
-
   // res.status(200).send(`Success id: ${id}, image: ${image}`)
 })
 // router.post('/upload-profile-picture', uploadsMiddleware, (req, res, next) => {
