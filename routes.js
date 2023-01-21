@@ -485,7 +485,7 @@ router.get('/profile-picture', (req, res, next) => {
       if (!queryResult.rows[0]) {
         throw new ClientError(404, `cannot find profile picture for user with user id: ${id}`);
       }
-      const imageName = queryResult.rows[0].image_name
+      const imageName = queryResult.rows[0].image_url
       const getObjectParams = {
         Bucket: bucketName,
         Key: imageName
@@ -506,7 +506,7 @@ router.get('/profile-picture/user/:userId', (req, res, next) => {
   }
   const userId = Number(req.params.userId)
   const sql = `
-    SELECT "image_name"
+    SELECT "image_url"
     FROM "profile-picture"
     WHERE "user_id" = $1
   `;
@@ -516,7 +516,7 @@ router.get('/profile-picture/user/:userId', (req, res, next) => {
       if (!queryResult.rows[0]) {
         throw new ClientError(404, `cannot find profile picture for user with user id: ${id}`);
       }
-      const imageName = queryResult.rows[0].image_name
+      const imageName = queryResult.rows[0].image_url
       const getObjectParams = {
         Bucket: bucketName,
         Key: imageName
@@ -533,17 +533,17 @@ router.get('/profile-picture/user/:userId', (req, res, next) => {
 router.delete('/delete-profile-picture', async (req, res, next) => {
   const {id} = req.user
   const sql = `
-    SELECT "image_name"
+    SELECT "image_url"
     FROM "profile-picture"
     WHERE "user_id" = $1
   `;
   const queryParams = [id]
   pool.query(sql, queryParams)
     .then(queryResult => {
-      const imageName = queryResult.rows[0].image_name
+      const imageName = queryResult.rows[0].image_url
       const sql2 = `
         DELETE FROM "profile-picture"
-        WHERE "user_id" = $1 AND "image_name" = $2
+        WHERE "user_id" = $1 AND "image_url" = $2
       `;
       const queryParams2 = [id, imageName]
       pool.query(sql2, queryParams2)
