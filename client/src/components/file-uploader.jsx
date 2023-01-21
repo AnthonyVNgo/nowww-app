@@ -38,7 +38,6 @@ const FileUploader = (props) => {
     };
     fetch('/api/delete-profile-picture', options)
       .then(() => {
-        // getProfilePicture()
         setProfilePictureUrl(null)
       })
       .catch(err => console.error(err));

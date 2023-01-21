@@ -41,6 +41,10 @@ const App = () => {
             <PageContainer>
               <Routes>
                 <Route 
+                  path='/' 
+                  element={isAuthenticated ? <Navigate to="/gallery" /> : <Auth />} 
+                  exact />
+                <Route 
                   path='/login' 
                   element={isAuthenticated ? <Navigate to="/my-profile" /> : <Auth />} 
                   exact />
@@ -55,6 +59,7 @@ const App = () => {
                   <Route path='/edit-profile' element={<Profile />} exact />
                   <Route path='/user/:userId' element={<Profile />} />
                 </Route>
+                <Route path='*' element={<NotFound />} />
               </Routes>    
             </PageContainer>
         </BrowserRouter>
