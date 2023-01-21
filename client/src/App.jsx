@@ -39,13 +39,8 @@ const App = () => {
       <>
         <BrowserRouter>
           <NavBar isAuthenticated={isAuthenticated}/>
-          {/* <NavBar /> */}
             <PageContainer>
               <Routes>
-                {/* <Route 
-                  path='/' 
-                  element={isAuthenticated ? <Navigate to="/gallery" /> : <Auth />} 
-                  exact /> */}
                 <Route 
                   path='/login' 
                   element={isAuthenticated ? <Navigate to="/my-profile" /> : <Auth />} 
@@ -62,7 +57,6 @@ const App = () => {
                   <Route path='/user/:userId' element={<Profile />} />
                 </Route>
                 <Route path='*' element={isAuthenticated ? <Navigate to="/gallery" /> : <Auth />}  />
-                {/* <Route path='*' element={<NotFound />} /> */}
               </Routes>    
             </PageContainer>
         </BrowserRouter>
