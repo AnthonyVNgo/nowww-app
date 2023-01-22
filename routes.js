@@ -185,6 +185,7 @@ router.get('/my-profile', async (req, res, next) => {
 
 // GET !My Profile
 router.get('/user/:userId', async (req, res, next) => {
+  const userId = Number(req.params.userId)
   if (!userId) {
     throw new ClientError(400, 'userId must be a positive integer');
   }
