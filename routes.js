@@ -104,37 +104,66 @@ router.post('/sign-up', async (req, res, next) => {
 // })
 
 // Login 
-router.post('/login', (req, res, next) => {
+router.post('/login', async (req, res, next) => {
   const { username, password } = req.body;
   if ( !username || !password) {
     throw console.error('username and password are required fields', 400);
   }
-  const sql = `
-    SELECT "id", "hashedPassword"
-    FROM "user"
-    WHERE "username" = $1
-  `;
-  const queryParams = [username];
-  pool.query(sql, queryParams)
-    .then(queryResult => {
-      const [userDetails] = queryResult.rows
-      if (!userDetails) {
-        throw console.err('invalid login')
-      }
-      const { id, hashedPassword } = userDetails;
-      return argon2
-        .verify(hashedPassword, password)
-        .then(isPwMatching => {
-          if (!isPwMatching) {
-            throw console.error('invalid login')
-          }
-          const payload = { id, username };
-          const token = jwt.sign(payload, process.env.TOKEN_SECRET) 
-          res.json({ token, user: payload})
-        })
-      })
-      .catch(err => {next(err)})
+  try {
+    const sql = `
+      SELECT "id", "hashedPassword"
+      FROM "user"
+      WHERE "username" = $1
+    `;
+    const queryParams = [username];
+    const queryResult = await pool.query(sql, queryParams)
+    const [userDetails] = queryResult.rows
+    if (!userDetails) {
+      throw console.err('invalid login')
+    }
+    const { id, hashedPassword } = userDetails;
+    const isPwMatching = await argon2.verify(hashedPassword, password)
+    if (!isPwMatching) {
+      throw console.error('invalid login')
+    }
+    const payload = { id, username };
+    const token = jwt.sign(payload, process.env.TOKEN_SECRET) 
+    res.status(200).json({ token, user: payload})
+  } catch(err) {
+    next(err)
+  }
 })
+// router.post('/login', (req, res, next) => {
+//   const { username, password } = req.body;
+//   if ( !username || !password) {
+//     throw console.error('username and password are required fields', 400);
+//   }
+//   const sql = `
+//     SELECT "id", "hashedPassword"
+//     FROM "user"
+//     WHERE "username" = $1
+//   `;
+//   const queryParams = [username];
+//   pool.query(sql, queryParams)
+//     .then(queryResult => {
+//       const [userDetails] = queryResult.rows
+//       if (!userDetails) {
+//         throw console.err('invalid login')
+//       }
+//       const { id, hashedPassword } = userDetails;
+//       return argon2
+//         .verify(hashedPassword, password)
+//         .then(isPwMatching => {
+//           if (!isPwMatching) {
+//             throw console.error('invalid login')
+//           }
+//           const payload = { id, username };
+//           const token = jwt.sign(payload, process.env.TOKEN_SECRET) 
+//           res.json({ token, user: payload})
+//         })
+//       })
+//       .catch(err => {next(err)})
+// })
 
 // AUTHORIZATON MIDDLEWARE 
 router.use(authorizationMiddleware);
