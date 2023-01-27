@@ -1,7 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const pool = require("./db");
-const path = require("path");
+const pool = require("../database/db");
 require("dotenv").config();
 
 // Authentication 
@@ -9,10 +8,10 @@ const argon2 = require('argon2')
 const jwt = require('jsonwebtoken')
 
 // Middleware 
-const errorMiddleware = require('./error-middleware')
-const ClientError = require('./client-error');
-const authorizationMiddleware = require('./authorization-middleware')
-const uploadsMiddleware = require('./upload-middleware')
+const errorMiddleware = require('../middleware/error-middleware')
+const ClientError = require('../middleware/client-error');
+const authorizationMiddleware = require('../middleware/authorization-middleware')
+const uploadsMiddleware = require('../middleware/upload-middleware')
 
 // Amazon S3 
 const crypto = require('crypto')
@@ -92,7 +91,7 @@ router.post('/login', async (req, res, next) => {
     }
     const payload = { id, username };
     const token = jwt.sign(payload, process.env.TOKEN_SECRET) 
-    res.status(200).json({ token, user: payload})
+    res.json({ token, user: payload})
   } catch(err) {
     next(err)
   }
@@ -176,7 +175,7 @@ router.put('/edit-profile', async (req, res, next) => {
     if (!queryResult.rows[0]) {
       throw new ClientError(404, `cannot find user with userId ${userId}`);
     }
-    res.status(200).send(`Profile updated`)
+    res.send(`Profile updated`)
   } catch(err) {
     next(err)
   }
@@ -198,7 +197,7 @@ router.delete('/delete-profile', async (req, res, next) => {
     if (!queryResult.rows[0]) {
       throw new ClientError(`Couldn't delete profile of user with ID: ${id}`);
     }
-    res.status(200).send(`Profile deleted`)
+    res.send(`Profile deleted`)
   } catch(err) {
     next(err)
   }
@@ -222,7 +221,7 @@ router.post('/add-entry', async (req, res, next) => {
     if (!queryResult.rows[0]) {
       throw new ClientError(404, `cannot find user with userId ${userId}`);
     }
-    res.status(200).send(`User ${id} added: ${input}`)
+    res.status(201).send(`User ${id} added: ${input}`)
   } catch(err) {
    next(err) 
   }
@@ -299,7 +298,7 @@ router.put('/edit-entry/:entryId', async (req, res, next) => {
     if (!queryResults.rows[0]) {
       throw new ClientError(404, `cannot edit entry with given parameters`);
     }
-    res.status(200).send(`Entry ${entryId} updated`)
+    res.send(`Entry ${entryId} updated`)
   } catch(err) {
     next(err)
   }
@@ -323,7 +322,7 @@ router.delete('/delete-entry/:entryId', async (req, res, next) => {
     if (!queryResult.rows[0]) {
       throw new ClientError(`Could not delete entry with given parameters`);
     }
-    res.status(200).send(`Entry ${entryId} deleted`)
+    res.send(`Entry ${entryId} deleted`)
   } catch(err) {
     next(err)
   }
@@ -345,7 +344,7 @@ router.delete('/delete-all-entries', async (req, res, next) => {
     if (!queryResult.rows[0]) {
       throw new ClientError(`Could not complete deletion of all entries`);
     }
-    res.status(200).send(`Entry ${entryId} deleted`)
+    res.send(`Entry ${entryId} deleted`)
   } catch(err) {
     next(err)
   }
@@ -359,7 +358,7 @@ router.get('/gallery', async (req, res, next) => {
       FROM "user"
     `;
     const response = await pool.query(sql)
-    res.status(200).json(response.rows)
+    res.json(response.rows)
   } catch(error) {
     next(error)
   }
@@ -402,7 +401,7 @@ router.post('/upload-profile-picture', uploadsMiddleware, async (req, res, next)
     if (!queryResult2.rows[0]) {
       throw new ClientError(404, `cannot find user with user_id ${id}`);
     }
-    res.status(200).send(`Image added`)
+    res.status(201).send(`Image added`)
   } catch(err) {
     next(err)
   }
@@ -431,7 +430,7 @@ router.get('/profile-picture', async (req, res, next) => {
     }
     const command = new GetObjectCommand(getObjectParams)
     const imageUrl = await getSignedUrl(s3, command, {expiresIn: 3600})
-    res.status(200).json(imageUrl)
+    res.json(imageUrl)
   } catch(err) {
     next(err)
   }
@@ -461,7 +460,7 @@ router.get('/profile-picture/user/:userId', async (req, res, next) => {
     }
     const command = new GetObjectCommand(getObjectParams)
     const imageUrl = await getSignedUrl(s3, command, {expiresIn: 3600})
-    res.status(200).json(imageUrl)
+    res.json(imageUrl)
   } catch(err) {
     next(err)
   }
@@ -491,7 +490,7 @@ router.delete('/delete-profile-picture', async (req, res, next) => {
           }
           const command = new DeleteObjectCommand(deleteObjectParams)
           s3.send(command) 
-          res.status(200).send('Image deleted')
+          res.send('Image deleted')
         })
     })
     .catch(err => next(err));
