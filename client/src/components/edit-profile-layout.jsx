@@ -76,14 +76,14 @@ const EditProfileLayout = (props) => {
   }
 
   return (
-    <div className="row justify-content-center my-5">
-      <div className="col">
-      
-        <div className="d-flex justify-content-center">
+    <>
+      <div className="py-4"> 
+        <div className="d-flex justify-content-center my-3">
           <div className="ratio ratio-1x1 w-25">
-            <img src={imgSrc} alt="profile" className="img-thumbnail rounded-circle border border-5 mb-3" style={{'objectFit':'cover'}}/>
+            <img src={imgSrc} alt="profile" className="img-thumbnail rounded-circle border border-5" style={{'objectFit':'cover'}}/>
           </div>
         </div>
+      </div>
 
         <FileUploader profilePicture={imgSrc} getProfilePicture={getProfilePicture} isDisabled={isDisabled} setProfilePictureUrl={setProfilePictureUrl}/>
 
@@ -238,8 +238,7 @@ const EditProfileLayout = (props) => {
           </svg>
         </button>
         <ModalDialog handleDeleteButton={handleDeleteButton} />
-      </div>
-    </div>
+    </>
   )
 }
 

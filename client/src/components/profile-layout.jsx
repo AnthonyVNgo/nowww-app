@@ -8,9 +8,7 @@ const ProfileLayout = (props) => {
   const isLoading = props.isLoading
 
   return (
-    <div>
-      <div className="d-flex justify-content-center">
-      </div>
+    <>
 
       {isLoading && 
         <>
@@ -22,23 +20,24 @@ const ProfileLayout = (props) => {
 
       {!isLoading && 
         <>
-          <div className="border-bottom py-4">
-            <div className="d-flex justify-content-center">
+          <div className="border-bottom py-4"> 
+            <div className="d-flex justify-content-center my-3">
               <div className="ratio ratio-1x1 w-25">
-                <img src={imgSrc} alt="profile picture" className="img-thumbnail rounded-circle border border-5 mb-3" style={{'objectFit':'cover'}}/>
+                <img src={imgSrc} alt="profile picture" className="img-thumbnail rounded-circle border border-5" style={{'objectFit':'cover'}}/>
               </div>
             </div>
             <h3>{userDetails.username}</h3>
-            <p className="text-break">{userDetails.tagline}</p>
+            {userDetails.tagline
+              ? <p className="text-break">{userDetails.tagline}</p>
+              : <p className="text-muted">No tagline available</p>
+            }
           </div>
 
           <div className="border-bottom py-4">
             <h5>About</h5>
-            {userDetails.bio && 
-              <p className="text-break">{userDetails.bio}</p>
-            }
-            {!userDetails.bio && 
-              <p className="text-muted">No details available</p>
+            {userDetails.bio
+              ? <p className="text-break">{userDetails.bio}</p>
+              : <p className="text-muted">No details available</p>  
             }
           </div>
 
@@ -48,7 +47,7 @@ const ProfileLayout = (props) => {
           </div>
         </>
       }
-    </div>
+    </>
   )
 }
 
