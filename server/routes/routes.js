@@ -18,7 +18,7 @@ const crypto = require('crypto')
 const generateFileName = (bytes = 32) => crypto.randomBytes(bytes).toString('hex')
 const { S3Client, PutObjectCommand, GetObjectCommand, DeleteObjectCommand } = require("@aws-sdk/client-s3");
 const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
-const { response } = require('express');
+// const { response } = require('express');
 
 const bucketName = process.env.BUCKET_NAME
 const bucketRegion = process.env.BUCKET_REGION
@@ -59,7 +59,7 @@ router.post('/sign-up', async (req, res, next) => {
     `; 
     const queryParams2 = [username, hashedPassword];
     const queryResults2 = await pool.query(sql2, queryParams2)
-    const [newUser] = queryParams2.rows
+    const [newUser] = queryResults2.rows
     res.status(201).json(newUser)
   } catch(err) {
     next(err)
