@@ -74,7 +74,7 @@ const Profile = () => {
 
   return (
     <div className="row justify-content-center">
-      <div className="col-12 col-md-9 col-lg-7 col-xl-6 border p-5 rounded position-relative">
+      <div className="col-12 col-md-9 col-lg-7 col-xl-6 border p-5 pt-2 rounded position-relative">
         {(location === '/my-profile' || !isMyProfile) && <ProfileLayout userDetails={userDetails} imgSrc={imgSrc} location={location} isLoading={isLoading}/>}
         {(location === '/edit-profile' && isLoading) && <Loading />}
         {(location === '/edit-profile' && !isLoading) && <EditProfileLayout userDetails={userDetails} profilePictureUrl={profilePictureUrl} imgSrc={imgSrc} getProfileDetails={getProfileDetails} getProfilePicture={getProfilePicture} setProfilePictureUrl={setProfilePictureUrl} location={location} isLoading={isLoading}/>}
