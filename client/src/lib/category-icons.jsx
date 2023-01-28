@@ -39,7 +39,8 @@ const CategoryIcons = (props) => {
           </svg>
         </div>
         <div className="d-flex justify-content-center">
-          <span className="small">Fun &<br />Hobbies</span>  
+          <span className="small">Hobbies</span>  
+          {/* <span className="small">Fun &<br />Hobbies</span>   */}
         </div>
       </div>
     )
@@ -53,7 +54,8 @@ const CategoryIcons = (props) => {
         </svg>
         </div>
         <div className="d-flex justify-content-center">
-          <span className="small">Learning &<br/>Edu</span>  
+          <span className="small">Learning</span>  
+          {/* <span className="small">Learning &<br/>Edu</span>   */}
         </div>
       </div>
     )
@@ -82,7 +84,8 @@ const CategoryIcons = (props) => {
           </svg>
         </div>
         <div className="d-flex justify-content-center">
-          <span className="small">Health&<br/>Fitness</span>
+          <span className="small">Health</span>
+          {/* <span className="small">Health&<br/>Fitness</span> */}
         </div>
       </div>
     )
