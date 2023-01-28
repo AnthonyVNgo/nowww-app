@@ -91,7 +91,45 @@ const NowInputForm = (props) => {
   return ( 
     <div className="d-flex my-2 py-2 border-bottom">
       <form className="w-100" onSubmit={props.isLi ? handleUpdateButton : handleSubmit}>
-        <div className="row flex-row-reverse">
+        <div className="row flex-row-reverse m-0 w-100">
+
+          <div className="col-12 col-xl-10 p-0">
+            <input 
+              className="form-control rounded-0 rounded-end" 
+              type="text" 
+              value={input} 
+              onChange={handleChange} 
+              placeholder={placeholderMessage} 
+              disabled={inputIsDisabled}
+              maxlength="120"
+              required
+              aria-label="entry" 
+              aria-describedby="basic-addon1"
+            ></input>
+          </div>
+
+          <div className="col-12 col-xl-2 p-0">
+            <select 
+              value={category} 
+              className="form-select rounded-0 rounded-start"
+              onChange={handleCategoryChange}
+              disabled={inputIsDisabled}
+              >
+              <option selected value={null}>Select</option>
+              <option value="1">Career</option>
+              <option value="2">Fun & Hobbies</option>
+              <option value="3">Learning & Edu</option>
+              <option value="4">Reading</option>
+              <option value="5">Health & Fitness</option>
+              <option value="6">Personal</option>
+              <option value="7">Wanted</option>
+              <option value="8">Wisdom</option>
+              <option value="9">Misc</option>
+            </select>
+          </div>
+        </div>
+
+        {/* <div className="row flex-row-reverse">
 
           <div className="col-12 col-xl-9">
             <input 
@@ -127,7 +165,7 @@ const NowInputForm = (props) => {
               <option value="9">Misc</option>
             </select>
           </div>
-        </div>
+        </div> */}
 
             {!props.isLi && 
               <div className="pt-1">
