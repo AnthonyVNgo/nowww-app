@@ -18,7 +18,6 @@ const crypto = require('crypto')
 const generateFileName = (bytes = 32) => crypto.randomBytes(bytes).toString('hex')
 const { S3Client, PutObjectCommand, GetObjectCommand, DeleteObjectCommand } = require("@aws-sdk/client-s3");
 const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
-// const { response } = require('express');
 
 const bucketName = process.env.BUCKET_NAME
 const bucketRegion = process.env.BUCKET_REGION
