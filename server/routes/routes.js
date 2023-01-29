@@ -12,10 +12,11 @@ const errorMiddleware = require('../middleware/error-middleware')
 const ClientError = require('../middleware/client-error');
 const authorizationMiddleware = require('../middleware/authorization-middleware')
 const uploadsMiddleware = require('../middleware/upload-middleware')
+const generateFileName = require('../middleware/filename-generator')
 
 // Amazon S3 
-const crypto = require('crypto')
-const generateFileName = (bytes = 32) => crypto.randomBytes(bytes).toString('hex')
+// const crypto = require('crypto')
+// const generateFileName = (bytes = 32) => crypto.randomBytes(bytes).toString('hex')
 const { S3Client, PutObjectCommand, GetObjectCommand, DeleteObjectCommand } = require("@aws-sdk/client-s3");
 const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
 
