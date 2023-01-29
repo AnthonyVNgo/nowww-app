@@ -12,25 +12,8 @@ const errorMiddleware = require('../middleware/error-middleware')
 const ClientError = require('../middleware/client-error');
 const authorizationMiddleware = require('../middleware/authorization-middleware')
 const uploadsMiddleware = require('../middleware/upload-middleware')
-
-// Amazon S3 
-const crypto = require('crypto')
-const generateFileName = (bytes = 32) => crypto.randomBytes(bytes).toString('hex')
-const { S3Client, PutObjectCommand, GetObjectCommand, DeleteObjectCommand } = require("@aws-sdk/client-s3");
-const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
-
-const bucketName = process.env.BUCKET_NAME
-const bucketRegion = process.env.BUCKET_REGION
-const bucketAccessKey = process.env.BUCKET_ACCESS_KEY
-const bucketSecretAccessKey = process.env.BUCKET_SECRET_ACCESS_KEY
-
-const s3 = new S3Client({
-  credentials: {
-    accessKeyId: bucketAccessKey,
-    secretAccessKey: bucketSecretAccessKey
-  },
-  region: bucketRegion
-})
+const generateFileName = require('../middleware/filename-generator')
+const { s3, bucketName, getSignedUrl, PutObjectCommand, GetObjectCommand, DeleteObjectCommand } = require('../middleware/aws-middleware')
 
 // Sign-up 
 router.post('/sign-up', async (req, res, next) => {
@@ -54,7 +37,7 @@ router.post('/sign-up', async (req, res, next) => {
     const sql2 = `
       INSERT INTO "user" ("username", "hashedPassword")
       VALUES ($1, $2)
-      RETURNING *;
+      RETURNING *
     `; 
     const queryParams2 = [username, hashedPassword];
     const queryResults2 = await pool.query(sql2, queryParams2)
@@ -396,7 +379,7 @@ router.post('/upload-profile-picture', uploadsMiddleware, async (req, res, next)
       RETURNING *
     `;
     const sqlParameters = [filename, id]
-    const queryResult2 = pool.query(sql, sqlParameters)
+    const queryResult2 = await pool.query(sql, sqlParameters)
     if (!queryResult2.rows[0]) {
       throw new ClientError(404, `cannot find user with user_id ${id}`);
     }
