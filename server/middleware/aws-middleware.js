@@ -15,4 +15,4 @@ const s3 = new S3Client({
   region: bucketRegion
 })
 
-module.exports = { bucketName, s3, getSignedUrl, }
+module.exports = { bucketName, s3, getSignedUrl, PutObjectCommand, GetObjectCommand, DeleteObjectCommand }
