@@ -1,9 +1,11 @@
 const ClientError = require('../middleware/client-error');
 const pool = require("../database/db");
+const generateFileName = require('../middleware/filename-generator')
+const { s3, bucketName, getSignedUrl, PutObjectCommand, GetObjectCommand, DeleteObjectCommand } = require('../middleware/aws-middleware')
 
 const getProfile = async (req, res, next) => {
   const endpoint = req.originalUrl
-  let id = endpoint === '/api/my-profile' || endpoint === '/api/edit-profile' ? req.user.id : req.params.userId
+  let id = endpoint === '/api/my-profile' || endpoint === '/api/edit-profile' ? req.user.id : Number(req.params.userId)
   if (!id) {
     throw new ClientError(400, 'id must be a positive integer');
   }
@@ -102,7 +104,7 @@ const addNowEntry = async (req, res, next) => {
 
 const getNowEntries = async (req, res, next) => {  
   const endpoint = req.originalUrl
-  let id = endpoint === '/api/my-entries' ? req.user.id : req.params.userId
+  let id = endpoint === '/api/my-entries' ? req.user.id : Number(req.params.userId)
   if (!id) {
     throw new ClientError(400, 'id must be a positive integer');
   }
@@ -195,4 +197,109 @@ const deleteAllNowEntries = async (req, res, next) => {
   }
 }
 
-module.exports = { getProfile, editMyProfile, deleteMyProfile, addNowEntry, getNowEntries, editNowEntry, deleteNowEntry, deleteAllNowEntries }
+const addProfilePicture = async (req, res, next) => {
+  const {id} = req.user
+  if (!id) {
+    throw new ClientError(400, 'userId must be a positive integer');
+  }
+  try {
+    const image = req.file.buffer
+    const sqlGuard = `
+      SELECT "image_url"
+      FROM "profile-picture"
+      WHERE "user_id" = $1
+    `;
+    const guardQueryParams = [id]
+    const queryResult = await pool.query(sqlGuard, guardQueryParams)
+    if (queryResult.rows.length) {
+      throw new ClientError(404, `Pre-existing file found. Delete before uploading a new file.`);
+    }
+    const filename = generateFileName()
+    const putObjectParams = {
+      Bucket: bucketName,
+      Key: filename,
+      Body: image,
+      ContentType: req.file.mimetype,
+    }
+    const command = new PutObjectCommand(putObjectParams)
+    await s3.send(command)
+    const sql = `
+      INSERT INTO "profile-picture" ("image_url", "user_id")
+      VALUES ($1, $2)
+      RETURNING *
+    `;
+    const sqlParameters = [filename, id]
+    const queryResult2 = await pool.query(sql, sqlParameters)
+    if (!queryResult2.rows[0]) {
+      throw new ClientError(404, `cannot find user with user_id ${id}`);
+    }
+    res.status(201).send(`Image added`)
+  } catch(err) {
+    next(err)
+  }
+}
+
+const getProfilePicture =  async (req, res, next) => {
+  const endpoint = req.originalUrl
+  let id = endpoint === '/api/profile-picture' ? req.user.id : Number(req.params.userId)
+  if (!id) {
+    throw new ClientError(400, 'userId must be a positive integer');
+  }
+  try {
+    const sql = `
+      SELECT "image_url"
+      FROM "profile-picture"
+      WHERE "user_id" = $1
+    `;
+    const queryParams = [id]
+    const queryResult = await pool.query(sql, queryParams)
+    if (!queryResult.rows[0]) {
+      throw new ClientError(404, `cannot find profile picture for user with user id: ${id}`);
+    }
+    const imageName = queryResult.rows[0].image_url
+    const getObjectParams = {
+      Bucket: bucketName,
+      Key: imageName
+    }
+    const command = new GetObjectCommand(getObjectParams)
+    const imageUrl = await getSignedUrl(s3, command, {expiresIn: 3600})
+    res.json(imageUrl)
+  } catch(err) {
+    next(err)
+  }
+}
+
+const deleteProfilePicture = async (req, res, next) => {
+  const {id} = req.user
+  if (!id) {
+    throw new ClientError(400, 'userId must be a positive integer')
+  }
+  const sql = `
+    SELECT "image_url"
+    FROM "profile-picture"
+    WHERE "user_id" = $1
+  `;
+  const queryParams = [id]
+  pool.query(sql, queryParams)
+    .then(queryResult => {
+      const imageName = queryResult.rows[0].image_url
+      const sql2 = `
+        DELETE FROM "profile-picture"
+        WHERE "user_id" = $1 AND "image_url" = $2
+      `;
+      const queryParams2 = [id, imageName]
+      pool.query(sql2, queryParams2)
+        .then(() => {
+          const deleteObjectParams = {
+            Bucket: bucketName,
+            Key: imageName
+          }
+          const command = new DeleteObjectCommand(deleteObjectParams)
+          s3.send(command) 
+          res.send('Image deleted')
+        })
+    })
+    .catch(err => next(err));
+}
+
+module.exports = { getProfile, editMyProfile, deleteMyProfile, addNowEntry, getNowEntries, editNowEntry, deleteNowEntry, deleteAllNowEntries, addProfilePicture, getProfilePicture, deleteProfilePicture}
