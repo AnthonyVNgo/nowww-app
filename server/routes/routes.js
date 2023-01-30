@@ -13,7 +13,8 @@ const { s3, bucketName, getSignedUrl, PutObjectCommand, GetObjectCommand, Delete
 
 // Controller Functions
 const {createUser, authenticateUser } = require('../controller/auth')
-const { getMyProfile, editMyProfile, deleteMyProfile, addNowEntry, getNowEntries, editNowEntry, deleteNowEntry, deleteAllNowEntries } = require('../controller/my-profile')
+const { getProfile, editMyProfile, deleteMyProfile, addNowEntry, getNowEntries, editNowEntry, deleteNowEntry, deleteAllNowEntries } = require('../controller/my-profile')
+const { getGallery } = require('../controller/gallery')
 
 // Sign-up 
 router.post('/sign-up', createUser)
@@ -26,31 +27,10 @@ router.use(authorizationMiddleware);
 // AUTHORIZATON MIDDLEWARE 
 
 // GET My Profile
-router.get('/my-profile', getMyProfile);
+router.get('/my-profile', getProfile);
 
 // GET !My Profile
-router.get('/user/:userId', async (req, res, next) => {
-  const userId = Number(req.params.userId)
-  if (!userId) {
-    throw new ClientError(400, 'userId must be a positive integer');
-  }
-  try {
-    const userId = Number(req.params.userId)
-    const sql = `
-      SELECT "username", "profilePicture", "tagline", "bio", "linkedin", "github",  "dribbble",  "medium",  "twitter",  "youtube",  "instagram"
-      FROM "user"
-      WHERE "id" = $1
-    `;
-    const paramQueryValue = [userId];
-    const queryResult = await pool.query(sql, paramQueryValue)
-    if (!queryResult.rows[0]) {
-      throw new ClientError(404, `cannot find user with userId: ${userId}`);
-    }
-    res.json(queryResult.rows[0]);
-  } catch(err) {
-    next(err)
-  }
-});
+router.get('/user/:userId', getProfile);
 
 // Edit Profile
 router.put('/edit-profile', editMyProfile)
@@ -66,6 +46,7 @@ router.get('/my-entries', getNowEntries);
 
 // Get !My Nowww Entries 
 router.get('/user/:userId/entries', async (req, res, next) => {
+  console.log(Number(req.params.userId))
   const { id } = req.user
   if (!id) {
     throw new ClientError(400, 'id must be a positive integer');
@@ -99,18 +80,7 @@ router.delete('/delete-entry/:entryId', deleteNowEntry);
 router.delete('/delete-all-entries', deleteAllNowEntries)
 
 // Gallery 
-router.get('/gallery', async (req, res, next) => {
-  try {
-    const sql = ` 
-      SELECT "id", "username", "tagline"
-      FROM "user"
-    `;
-    const response = await pool.query(sql)
-    res.json(response.rows)
-  } catch(error) {
-    next(error)
-  }
-})
+router.get('/gallery', getGallery)
 
 // Post Profile Picture AMAZON S3
 router.post('/upload-profile-picture', uploadsMiddleware, async (req, res, next) => {
