@@ -32,8 +32,12 @@ This project was inspired by the concept of a "[Now Page](https://sive.rs/nowff)
 - User can view other Nowww user profiles
 
 ## Future Stretch Features
+- User can see last login timestamp
 - User can send messages to other users
 - User can be notified of other users updates
+- User can load more gallery cards
+- User can filter gallery cards
 
 ## Try it Out
 Try the application [Here](https://new-nowww.herokuapp.com/)
+

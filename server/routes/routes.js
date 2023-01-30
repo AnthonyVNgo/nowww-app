@@ -47,6 +47,7 @@ router.get('/my-entries', getNowEntries);
 // Get !My Nowww Entries 
 router.get('/user/:userId/entries', async (req, res, next) => {
   console.log(Number(req.params.userId))
+  console.log('req.originalurl:', req.originalUrl)
   const { id } = req.user
   if (!id) {
     throw new ClientError(400, 'id must be a positive integer');

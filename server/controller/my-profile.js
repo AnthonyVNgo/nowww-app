@@ -2,9 +2,8 @@ const ClientError = require('../middleware/client-error');
 const pool = require("../database/db");
 
 const getProfile = async (req, res, next) => {
-  console.log('req.originalurl:', req.originalUrl)
   const endpoint = req.originalUrl
-  let id = endpoint === '/api/my-profile' || endpoint === '/api/edit-profile' ? req.user : req.params.userId
+  let id = endpoint === '/api/my-profile' || endpoint === '/api/edit-profile' ? req.user.id : req.params.userId
   if (!id) {
     throw new ClientError(400, 'id must be a positive integer');
   }
