@@ -13,7 +13,7 @@ const { s3, bucketName, getSignedUrl, PutObjectCommand, GetObjectCommand, Delete
 
 // Controller Functions
 const {createUser, authenticateUser } = require('../controller/auth')
-const { getProfile, editMyProfile, deleteMyProfile, addNowEntry, getNowEntries, editNowEntry, deleteNowEntry, deleteAllNowEntries } = require('../controller/my-profile')
+const { getProfile, editMyProfile, deleteMyProfile, addNowEntry, getNowEntries, editNowEntry, deleteNowEntry, deleteAllNowEntries } = require('../controller/user-profile')
 const { getGallery } = require('../controller/gallery')
 
 // Sign-up 
@@ -45,31 +45,7 @@ router.post('/add-entry', addNowEntry);
 router.get('/my-entries', getNowEntries);
 
 // Get !My Nowww Entries 
-router.get('/user/:userId/entries', async (req, res, next) => {
-  console.log(Number(req.params.userId))
-  console.log('req.originalurl:', req.originalUrl)
-  const { id } = req.user
-  if (!id) {
-    throw new ClientError(400, 'id must be a positive integer');
-  }
-  try {
-    const userId = Number(req.params.userId)
-    const sql = `
-      SELECT * 
-      FROM "nowwww-entry"
-      WHERE "user_id" = $1
-    `;
-    const queryParams = [userId]
-    const queryResult = await pool.query(sql, queryParams)
-    if (!queryResult.rows[0]) {
-      res.json(queryResult.rows);
-      throw new ClientError(404, `cannot find entries for user with id: ${id}`);
-    }
-    res.json(queryResult.rows);
-  } catch(err) {
-    next(err);
-  }
-});
+router.get('/user/:userId/entries', getNowEntries);
 
 // Edit Nowww Entry 
 router.put('/edit-entry/:entryId', editNowEntry)

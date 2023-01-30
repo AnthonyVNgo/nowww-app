@@ -100,25 +100,18 @@ const addNowEntry = async (req, res, next) => {
   }
 }
 
-const getNowEntries = async (req, res, next) => {
-  // console.log('req.originalurl:', req.originalUrl)
-  
-  const { id } = req.user;
+const getNowEntries = async (req, res, next) => {  
+  const endpoint = req.originalUrl
+  let id = endpoint === '/api/my-entries' ? req.user.id : req.params.userId
   if (!id) {
     throw new ClientError(400, 'id must be a positive integer');
   }
   try {
-  // const endpoint = req.originalUrl
-  // let userId = endpoint === '/api/my-profile' || endpoint === '/api/edit-profile' ? req.user : Number(req.params.userId)
-  // console.log(userId)
-
-
   const sql = `
     SELECT * 
     FROM "nowwww-entry" 
     WHERE "user_id" = $1
   `;
-  // const queryParams = [userId];
   const queryParams = [id];
   const queryResult = await pool.query(sql, queryParams);
   if (!queryResult.rows[0]) {
