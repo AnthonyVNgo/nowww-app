@@ -1,4 +1,5 @@
 import { useState, useContext } from "react"
+import Axios from 'axios'
 
 // Components 
 import ModalDialog from "./modal-dialog"
@@ -32,29 +33,53 @@ const EditProfileLayout = (props) => {
 
   const { handleLogOut } = useContext(AppContext)
 
-  const deleteUser = () => {
-    const options = {
-      method: 'DELETE',
-      headers: {
-        'X-Access-Token': window.localStorage.getItem('react-context-jwt'), 
-      }
-    };
-    fetch('/api/delete-profile', options)
-    handleLogOut()
+  const deleteUser = async () => {
+    try {
+      const res = await Axios.delete('/api/delete-profile', {
+        headers: {
+          'X-Access-Token': window.localStorage.getItem('react-context-jwt'), 
+        }
+      })
+    } catch(err) {
+      console.error(err)
+    }
   }
+  // const deleteUser = () => {
+  //   const options = {
+  //     method: 'DELETE',
+  //     headers: {
+  //       'X-Access-Token': window.localStorage.getItem('react-context-jwt'), 
+  //     }
+  //   };
+  //   fetch('/api/delete-profile', options)
+  //   handleLogOut()
+  // }
 
-  const deleteAllEntries = () => {
-    const options = {
-      method: 'DELETE',
-      headers: {
-        'X-Access-Token': window.localStorage.getItem('react-context-jwt'), 
-      }
-    };
-    fetch('/api/delete-all-entries', options)
-      .then(deleteUser())
+  const deleteAllEntries = async () => {
+    try {
+      const res = await Axios.delete('/api/delete-all-entries', {
+        headers: {
+          'X-Access-Token': window.localStorage.getItem('react-context-jwt'), 
+        }
+      })
+      deleteUser()
+    } catch(err) {
+      console.error(err)
+    }
   }
+  // const deleteAllEntries = () => {
+  //   const options = {
+  //     method: 'DELETE',
+  //     headers: {
+  //       'X-Access-Token': window.localStorage.getItem('react-context-jwt'), 
+  //     }
+  //   };
+  //   fetch('/api/delete-all-entries', options)
+  //     .then(deleteUser())
+  // }
 
   const handleDeleteButton = () => {
+    handleLogOut()
     deleteAllEntries()
   }
 
