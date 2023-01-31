@@ -5,7 +5,6 @@ import { useState } from 'react';
 import Gallery from './pages/Gallery'
 import Auth from './pages/Auth'
 import Profile from './pages/Profile'
-import NotFound from './pages/NotFound'
 
 // Components 
 import PageContainer from './components/page-container';
@@ -19,7 +18,7 @@ const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
 
   const handleLogIn = (result) => {
-    const {user, token } = result;
+    const { token } = result;
     window.localStorage.setItem('react-context-jwt', token);
     setIsAuthenticated(true)
   }

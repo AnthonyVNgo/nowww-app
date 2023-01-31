@@ -35,7 +35,7 @@ const createUser = async (req, res, next) => {
 }
 
 const authenticateUser = async (req, res, next) => {
-  const { username, password } = req.body;
+  const { username, password } = req.body.data;
   if ( !username || !password) {
     throw console.error('username and password are required fields', 400);
   }
