@@ -118,7 +118,7 @@ const getNowEntries = async (req, res, next) => {
   const queryResult = await pool.query(sql, queryParams);
   const sortedResponse = queryResult.rows.sort((a, b) => a.id - b.id)
   res.json(sortedResponse);
-  } catch (err) {
+  } catch(err) {
     next(err);
   }
 }
