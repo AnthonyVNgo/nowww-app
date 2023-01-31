@@ -117,7 +117,7 @@ const getNowEntries = async (req, res, next) => {
   const queryParams = [id];
   const queryResult = await pool.query(sql, queryParams);
   if (!queryResult.rows[0]) {
-    res.json(queryResult.rows);
+    throw new ClientError(404, `cannot find entries for user with id: ${id}`);
   }
   const sortedResponse = queryResult.rows.sort((a, b) => a.id - b.id)
   res.json(sortedResponse);

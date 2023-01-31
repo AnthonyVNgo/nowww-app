@@ -1,24 +1,26 @@
 import { useEffect, useState } from "react"
 import GalleryCard from "../components/gallery-card"
 import Loading from "../components/loading"
+import axios from 'axios'
 
 const Gallery = (props) => {
   const [galleryElements, setGalleryElement] = useState([])
   const [isLoading, setIsLoading] = useState(null)
 
-  const populateGallery = () => {
+  const populateGallery = async () => {
+   try {
     setIsLoading(true)
-    fetch(`/api/gallery`, {
-      method: 'GET',
+    const res = await axios.get("/api/gallery", {
       headers: {
-        'X-Access-Token': window.localStorage.getItem('react-context-jwt')
-      }
+        "X-Access-Token": window.localStorage.getItem("react-context-jwt"),
+      },
     })
-    .then(res => res.json())
-    .then(galleryDetails => {
-      setGalleryElement(galleryDetails)
-      setIsLoading(false)
-    });
+    const galleryData = res.data;
+    setGalleryElement(galleryData);
+    setIsLoading(false);
+   } catch(err) {
+    console.error(err)
+   }
   }
 
   useEffect(()=> {
