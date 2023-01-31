@@ -7,7 +7,8 @@ const getGallery = async (req, res, next) => {
       FROM "user"
     `;
     const response = await pool.query(sql)
-    res.json(response.rows)
+    const sortedResponse = response.rows.sort((a, b) => a.id - b.id)
+    res.json(sortedResponse)
   } catch(error) {
     next(error)
   }
