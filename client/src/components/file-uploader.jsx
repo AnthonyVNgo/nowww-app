@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Axios from "axios";
 
 const FileUploader = (props) => {
   const isDisabled = props.isDisabled
@@ -29,18 +30,17 @@ const FileUploader = (props) => {
       .catch(err => console.error(err));
   }
 
-  const handleDelete = (event) => {
-    const options = {
-      method: 'DELETE',
-      headers: {
-        'X-Access-Token': window.localStorage.getItem('react-context-jwt'),
-      }
-    };
-    fetch('/api/delete-profile-picture', options)
-      .then(() => {
-        setProfilePictureUrl(null)
+  const handleDelete = async (event) => {
+    try {
+      await Axios.delete('/api/delete-profile-picture', {
+        headers: {
+          'X-Access-Token': window.localStorage.getItem('react-context-jwt'),
+        }
       })
-      .catch(err => console.error(err));
+      setProfilePictureUrl(null)
+    } catch(err) {
+      console.error(err)
+    }
   }
 
   return ( 

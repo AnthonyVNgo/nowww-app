@@ -185,10 +185,7 @@ const deleteAllNowEntries = async (req, res, next) => {
     `;
     const queryParams = [id];
     const queryResult = await pool.query(sql, queryParams)
-    if (!queryResult.rows[0]) {
-      throw new ClientError(`Could not complete deletion of all entries`);
-    }
-    res.send(`Entry ${entryId} deleted`)
+    res.send(`All Nowww entries deleted for user with id: ${id}`)
   } catch(err) {
     next(err)
   }

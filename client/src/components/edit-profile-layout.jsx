@@ -35,7 +35,7 @@ const EditProfileLayout = (props) => {
 
   const deleteUser = async () => {
     try {
-      const res = await Axios.delete('/api/delete-profile', {
+      await Axios.delete('/api/delete-profile', {
         headers: {
           'X-Access-Token': window.localStorage.getItem('react-context-jwt'), 
         }
@@ -57,29 +57,18 @@ const EditProfileLayout = (props) => {
 
   const deleteAllEntries = async () => {
     try {
-      const res = await Axios.delete('/api/delete-all-entries', {
+      await Axios.delete('/api/delete-all-entries', {
         headers: {
           'X-Access-Token': window.localStorage.getItem('react-context-jwt'), 
         }
       })
-      deleteUser()
     } catch(err) {
       console.error(err)
     }
   }
-  // const deleteAllEntries = () => {
-  //   const options = {
-  //     method: 'DELETE',
-  //     headers: {
-  //       'X-Access-Token': window.localStorage.getItem('react-context-jwt'), 
-  //     }
-  //   };
-  //   fetch('/api/delete-all-entries', options)
-  //     .then(deleteUser())
-  // }
 
   const handleDeleteButton = () => {
-    handleLogOut()
+    // handleLogOut()
     deleteAllEntries()
   }
 
