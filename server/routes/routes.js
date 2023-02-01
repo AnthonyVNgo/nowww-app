@@ -31,6 +31,7 @@ router.put('/edit-entry/:entryId', editNowEntry)
 router.delete('/delete-entry/:entryId', deleteNowEntry);
 router.delete('/delete-all-entries', deleteAllNowEntries)
 
+// router.post('/upload-profile-picture', addProfilePicture)
 router.post('/upload-profile-picture', uploadsMiddleware, addProfilePicture)
 router.get('/profile-picture', getProfilePicture)
 router.delete('/delete-profile-picture', deleteProfilePicture)
