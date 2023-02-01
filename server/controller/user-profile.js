@@ -116,12 +116,9 @@ const getNowEntries = async (req, res, next) => {
   `;
   const queryParams = [id];
   const queryResult = await pool.query(sql, queryParams);
-  if (!queryResult.rows[0]) {
-    res.json(queryResult.rows);
-    throw new ClientError(404, `cannot find entries for user with id: ${id}`);
-  }
-  res.json(queryResult.rows);
-  } catch (err) {
+  const sortedResponse = queryResult.rows.sort((a, b) => a.id - b.id)
+  res.json(sortedResponse);
+  } catch(err) {
     next(err);
   }
 }
@@ -188,10 +185,7 @@ const deleteAllNowEntries = async (req, res, next) => {
     `;
     const queryParams = [id];
     const queryResult = await pool.query(sql, queryParams)
-    if (!queryResult.rows[0]) {
-      throw new ClientError(`Could not complete deletion of all entries`);
-    }
-    res.send(`Entry ${entryId} deleted`)
+    res.send(`All Nowww entries deleted for user with id: ${id}`)
   } catch(err) {
     next(err)
   }

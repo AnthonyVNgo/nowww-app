@@ -5,7 +5,6 @@ import { useState } from 'react';
 import Gallery from './pages/Gallery'
 import Auth from './pages/Auth'
 import Profile from './pages/Profile'
-import NotFound from './pages/NotFound'
 
 // Components 
 import PageContainer from './components/page-container';
@@ -17,22 +16,19 @@ import AppContext from './lib/app-context';
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
-  const [user, setUser] = useState(null) 
 
   const handleLogIn = (result) => {
-    const {user, token } = result;
+    const { token } = result;
     window.localStorage.setItem('react-context-jwt', token);
-    setUser(user)
     setIsAuthenticated(true)
   }
 
   const handleLogOut = () => {
     window.localStorage.removeItem('react-context-jwt');
-    setUser(null)
     setIsAuthenticated(false)
   }
 
-  const contextValue = { user, handleLogIn, handleLogOut}
+  const contextValue = { handleLogIn, handleLogOut }
   
   return (
     <AppContext.Provider value={contextValue} >

@@ -1,5 +1,6 @@
 import { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import Axios from "axios";
 
 // Lib 
 import AppContext from "../lib/app-context";
@@ -19,44 +20,40 @@ function AuthForm(props) {
 
   const handleChange = (event) => {
     const { name, value } = event.target;
-    if (name === 'password') {
-      setPassword(value)
-    } else if (name === 'username') {
-      setUsername(value);
-    }
+    name === 'password' 
+      ? setPassword(value)
+      : setUsername(value); 
   }
 
   const handleAltLinkClick = () => {
     navigate(alternateLink)
   }
 
-  const authenticate = () => {
-    const options = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({username, password})
-    };
-    fetch(`/api${action}`, options)
-      .then(response => response.json())
-      .then(result => {
-        if (action === '/sign-up' && result.error) {
-          setValidLogin('is-invalid')
-        } else if (action === '/sign-up') {
-          navigate('/login')
-          setValidLogin('')
-        } else if (action === '/login' && result.error) {
-          setValidLogin('is-invalid')
-        } else if (result.user && result.token) {
-          handleLogIn(result)
+  const authenticateUser = async () => {
+    try {
+      const res = await Axios.post(`/api${action}`, {
+        data: {
+          username,
+          password
         }
-      });      
-  }
+      });
+      const result = res.data;
+      if (action === '/sign-up') {
+        navigate('/login');
+        setValidLogin('');
+      } else if (action === '/login' && result.error || action === '/sign-up' && result.error) {
+        setValidLogin('is-invalid');
+      } else if (result.user && result.token) {
+        handleLogIn(result);
+      }
+    } catch(error) {
+      console.error(error);
+    }
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    authenticate()
+    authenticateUser()
   }
 
   const welcomeMessage = action === '/login'

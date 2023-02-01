@@ -1,5 +1,6 @@
 import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react"
+import Axios from 'axios'
 
 // Components 
 import EditProfileLayout from "../components/edit-profile-layout";
@@ -20,20 +21,20 @@ const Profile = () => {
     ? '/api/my-profile'
     : `/api${location}`
 
-  const getProfileDetails = () => {
-    setIsLoading(true)
-    let options = {
-      method: 'GET',
-      headers: {
-        'X-Access-Token': window.localStorage.getItem('react-context-jwt')
-      }
+  const getProfileDetails = async () => {
+    try {
+      setIsLoading(true)
+      const res = await Axios.get(`${getProfilePath}`,{
+        headers: {
+          "X-Access-Token": window.localStorage.getItem("react-context-jwt"),
+        },
+      })
+      const userData = res.data
+      setUserDetails(userData)
+      setIsLoading(false)
+    } catch(err) {
+      console.error(err)
     }
-    fetch(getProfilePath, options)
-      .then(res => res.json())
-      .then(userDetailsResponse => {
-        setUserDetails(userDetailsResponse)
-        setIsLoading(false)
-      });
   }
 
   const [profilePictureUrl, setProfilePictureUrl] = useState(null)
@@ -46,25 +47,18 @@ const Profile = () => {
     ? 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Placeholder_view_vector.svg/681px-Placeholder_view_vector.svg.png' // add image to static folder
     : profilePictureUrl
 
-  const getProfilePicture = () => {
-    const options = {
-      method: 'GET',
-      headers: {
-        'X-Access-Token': window.localStorage.getItem('react-context-jwt'),
-      }
-    };
-    fetch(getProfilePicturePath, options)
-      .then(fetchResponse => { 
-        if (!fetchResponse.ok) {
-          setProfilePictureUrl(null)
-          return 
-        } 
-        fetchResponse.json()
-          .then(profilePictureUrl => {
-            setProfilePictureUrl(profilePictureUrl)
-          })
+  const getProfilePicture = async () => {
+    try {
+      const res = await Axios.get(`${getProfilePicturePath}`, {
+        headers: {
+          'X-Access-Token': window.localStorage.getItem('react-context-jwt'),
+        }
       })
-      .catch(err => console.error(err));
+      const pictureData = res.data
+      setProfilePictureUrl(pictureData)
+    } catch(err) {
+      console.error(err)
+    }
   }
   
   useEffect(() => {

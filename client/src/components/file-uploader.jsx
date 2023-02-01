@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Axios from "axios";
 
 const FileUploader = (props) => {
   const isDisabled = props.isDisabled
@@ -11,36 +12,38 @@ const FileUploader = (props) => {
     ? true
     : false
 
-  const handleSubmit = (event) => {
-    event.preventDefault()
-    const formData = new FormData();
-    formData.append("image", file)
-    const options = {
-      method: 'POST',
-      headers: {
-        'X-Access-Token': window.localStorage.getItem('react-context-jwt'),
-      },
-      body: formData
-    };
-    fetch('/api/upload-profile-picture', options)
-      .then(() => {
-        getProfilePicture()
+  const handleSubmit = async (event) => {
+    try {
+      event.preventDefault()
+      const formData = new FormData();
+      formData.append("image", file)
+
+      await Axios({
+        method: 'post', 
+        url: '/api/upload-profile-picture', 
+        headers: {
+          'X-Access-Token': window.localStorage.getItem('react-context-jwt'),
+          'Content-Type': 'multipart/form-data',
+        },
+        data: formData
       })
-      .catch(err => console.error(err));
+      getProfilePicture()
+    } catch(err) {
+      console.error(err)
+    }
   }
 
-  const handleDelete = (event) => {
-    const options = {
-      method: 'DELETE',
-      headers: {
-        'X-Access-Token': window.localStorage.getItem('react-context-jwt'),
-      }
-    };
-    fetch('/api/delete-profile-picture', options)
-      .then(() => {
-        setProfilePictureUrl(null)
+  const handleDelete = async (event) => {
+    try {
+      await Axios.delete('/api/delete-profile-picture', {
+        headers: {
+          'X-Access-Token': window.localStorage.getItem('react-context-jwt'),
+        }
       })
-      .catch(err => console.error(err));
+      setProfilePictureUrl(null)
+    } catch(err) {
+      console.error(err)
+    }
   }
 
   return ( 

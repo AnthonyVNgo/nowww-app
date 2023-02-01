@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import { useLocation } from "react-router-dom";
+import Axios from "axios";
 
 // Components 
 import NowInputForm from "./now-input-form"
@@ -20,25 +21,22 @@ const NowEntryContainer = () => {
     ? '/api/my-entries'
     : `/api${location}/entries`
 
-  const getEntries = () => {
-    setIsLoading(true)
-    let options = {
-      method: 'GET',
-      headers: {
-        'X-Access-Token': window.localStorage.getItem('react-context-jwt')
-      }
+  const getEntries = async () => {
+    try {
+      setIsLoading(true);
+      const response = await Axios.get(path, {
+        headers: {
+          'X-Access-Token': window.localStorage.getItem('react-context-jwt'),
+        },
+      });
+      const entries = response.data;
+      setEntries(entries);
+      setIsLoading(false);
+    } catch(err) {
+      console.error(err)
     }
-    fetch(path, options)
-      .then(res => res.json())
-      .then(entries => {
-        setEntries(entries)
-        setIsLoading(false)
-      })
-      .catch(err => {
-        console.log('error:', err)
-      })
-  }
-
+  };
+  
   useEffect(() => {
     getEntries()
   }, [location])
