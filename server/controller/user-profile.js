@@ -164,9 +164,6 @@ const deleteNowEntry = async (req, res, next) => {
     `;
     const queryParams = [entryId, id];
     const queryResult = await pool.query(sql, queryParams)
-    if (!queryResult.rows[0]) {
-      throw new ClientError(`Could not delete entry with given parameters`);
-    }
     res.send(`Entry ${entryId} deleted`)
   } catch(err) {
     next(err)

@@ -1,5 +1,6 @@
 import { useState } from "react"
 import NowInputFormPlaceholder from "./now-input-form-placeholder"
+import Axios from 'axios'
 
 const NowInputForm = (props) => {
   const entryId = props.entryId
@@ -27,20 +28,19 @@ const NowInputForm = (props) => {
     setCategory(null)
   }
 
-  const addEntry = () => {
-    const options = {
-      method: 'POST',
-      headers: {
-        'X-Access-Token': window.localStorage.getItem('react-context-jwt'), 'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({input, category})
-    };
-    fetch('/api/add-entry', options)
-      .then(() => {
-        clearInput()
-        clearSelect()
-        getEntries()
+  const addEntry = async () => {
+    try {
+      await Axios.post('/api/add-entry', {input, category}, {
+        headers: {
+          'X-Access-Token': window.localStorage.getItem('react-context-jwt')
+        }
       })
+      clearInput()
+      clearSelect()
+      getEntries()
+    } catch(err) {
+      console.error(err)
+    }
   }
   
   const handleSubmit = (event) => {
@@ -49,15 +49,14 @@ const NowInputForm = (props) => {
   }
 
   let deletePath = `/api/delete-entry/${entryId}`
-  const deleteEntry = () => {
-    let options = {
-      method: 'DELETE',
+
+  const deleteEntry = async () => {
+    await Axios.delete(deletePath, {
       headers: {
         'X-Access-Token': window.localStorage.getItem('react-context-jwt')
       }
-    }
-    fetch(deletePath, options)
-      .then(() => getEntries())
+    })
+    getEntries()
   }
 
   const handleDeleteButton = () => {
@@ -65,16 +64,18 @@ const NowInputForm = (props) => {
   }
 
   let updatePath = `/api/edit-entry/${entryId}`
-  const updateEntry = () => {
-    const options = {
-      method: 'PUT',
-      headers: {
-        'X-Access-Token': window.localStorage.getItem('react-context-jwt'), 'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({input, category})
+
+  const updateEntry = async () => {
+    try {
+      await Axios.put(updatePath, {input, category}, {
+        headers: {
+          'X-Access-Token': window.localStorage.getItem('react-context-jwt'), 'Content-Type': 'application/json'  
+        }
+      })
+      getEntries()
+    } catch(err) {
+      console.error(err)
     }
-    fetch(updatePath, options)
-      .then(() => getEntries())
   }
 
   const handleUpdate = (event) => {
@@ -115,7 +116,6 @@ const NowInputForm = (props) => {
               onChange={handleCategoryChange}
               disabled={inputIsDisabled}
               >
-              {/* <option selected value={null}>Select</option> */}
               <option value={null}>Select</option>
               <option value="1">Career</option>
               <option value="2">Hobbies</option>
