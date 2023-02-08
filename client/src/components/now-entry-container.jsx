@@ -43,34 +43,44 @@ const NowEntryContainer = () => {
 
   return (
     <div className="pt-4 placeholder-glow">
-      {location === '/edit-profile' && <NowInputForm getEntries={getEntries} entryCount={entryCount} isLoading={isLoading}/>}
+      {location === '/edit-profile'  
+        ? <NowInputForm getEntries={getEntries} entryCount={entryCount} isLoading={isLoading}/>
+        : null
+      }
       
-      {(entries.length !== 0 && location === '/edit-profile') && entries.map((entry)=> (
-        <NowInputForm
-          key={entry.id} 
-          userId={entry.user_id} 
-          entryId={entry.id} 
-          categoryId={entry.category_id}
-          content={entry.content} 
-          getEntries={getEntries} 
-          isLi={true}
-          isLoading={isLoading}
-          />
-      ))}
-
-      {(location !== '/edit-profile' && isLoading) && 
-        <h5 className="mb-3 placeholder col-4" /> 
+      {entries.length !== 0 && location === '/edit-profile' 
+        ? entries.map((entry)=> (
+          <NowInputForm
+            key={entry.id} 
+            userId={entry.user_id} 
+            entryId={entry.id} 
+            categoryId={entry.category_id}
+            content={entry.content} 
+            getEntries={getEntries} 
+            isLi={true}
+            isLoading={isLoading}
+            />
+        ))
+        : null   
       }
 
-      {(location !== '/edit-profile' && !isLoading) && 
-        <h5 className="mb-3">Nowww Entries</h5>
+      {location !== '/edit-profile' && isLoading 
+        ? <h5 className="mb-3 placeholder col-4" /> 
+        : null
       }
 
-      {(entries.length === 0 && location !== '/edit-profile' && !isLoading) && 
-        <p className="text-muted">There currently are no entries</p>
+      {location !== '/edit-profile' && !isLoading
+        ? <h5 className="mb-3">Nowww Entries</h5>
+        : null
       }
 
-      {(entries.length !== 0 && location !== '/edit-profile') && entries.map((entry)=> (
+      {entries.length === 0 && location !== '/edit-profile' && !isLoading 
+        ? <p className="text-muted">There currently are no entries</p>
+        : null
+      }
+
+      {entries.length !== 0 && location !== '/edit-profile' 
+        ? entries.map((entry)=> (
         <NowEntryLI 
           key={entry.id} 
           userId={entry.user_id} 
@@ -79,7 +89,9 @@ const NowEntryContainer = () => {
           content={entry.content} 
           getEntries={getEntries} 
           isLoading={isLoading}/>
-      ))}
+        ))
+        : null
+      }
     </div>
   )
 }
