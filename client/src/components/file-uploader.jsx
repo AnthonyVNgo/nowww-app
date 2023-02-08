@@ -12,7 +12,7 @@ const FileUploader = (props) => {
     ? true
     : false
 
-  const handleSubmit = async (event) => {
+  const handleSubmitPicture = async (event) => {
     try {
       event.preventDefault()
       const formData = new FormData();
@@ -33,7 +33,7 @@ const FileUploader = (props) => {
     }
   }
 
-  const handleDelete = async (event) => {
+  const handleDeletePicture = async (event) => {
     try {
       await Axios.delete('/api/delete-profile-picture', {
         headers: {
@@ -48,7 +48,7 @@ const FileUploader = (props) => {
 
   return ( 
     <>
-      <form onSubmit={handleSubmit} className="my-3 row">
+      <form onSubmit={handleSubmitPicture} className="my-3 row">
         <div className="col-12">
           <input onChange={e => setFile(e.target.files[0])} type="file" accept="image/*" className="form-control mb-3" />
         </div>
@@ -56,7 +56,7 @@ const FileUploader = (props) => {
           <button type="submit" className="btn btn-primary w-100" disabled={!isDisabled || isUploadDisabled}>Upload</button>
         </div>
         <div className="col-6">
-          <button type="button" onClick={handleDelete} className="btn btn-primary w-100" disabled={isDisabled}>Delete Picture</button>
+          <button type="button" onClick={handleDeletePicture} className="btn btn-primary w-100" disabled={isDisabled}>Delete Picture</button>
         </div>
       </form>
     </>
