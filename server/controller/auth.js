@@ -3,7 +3,7 @@ const argon2 = require('argon2')
 const jwt = require('jsonwebtoken')
 
 const createUser = async (req, res, next) => {
-  const { username, password } = req.body.data;
+  const { username, password } = req.body;
   if ( !username || !password) {
     throw new ClientError(400, 'username and password are required fields');
   } 
@@ -35,7 +35,7 @@ const createUser = async (req, res, next) => {
 }
 
 const authenticateUser = async (req, res, next) => {
-  const { username, password } = req.body.data;
+  const { username, password } = req.body;
   if ( !username || !password) {
     throw console.error('username and password are required fields', 400);
   }
