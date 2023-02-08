@@ -8,6 +8,7 @@ import FileUploader from "./file-uploader"
 const EditProfileLayout = (props) => {
   const userDetails = props.userDetails
   const getProfileDetails = props.getProfileDetails
+
   const getProfilePicture = props.getProfilePicture
   const setProfilePictureUrl = props.setProfilePictureUrl
   const profilePictureUrl = props.profilePictureUrl
@@ -17,16 +18,27 @@ const EditProfileLayout = (props) => {
   ? true
   : false
 
-  const [bio, setBio] = useState(userDetails.bio)
-  const [tagline, setTagline] = useState(userDetails.tagline)
-  const [linkedin, setLinkedIn] = useState(userDetails.linkedin)
-  const [github, setGitHub] = useState(userDetails.github)
-  const [dribbble, setDribbble] = useState(userDetails.dribbble)
-  const [medium, setMedium] = useState(userDetails.medium)
-  const [twitter, setTwitter] = useState(userDetails.twitter)
-  const [youtube, setYoutube] = useState(userDetails.youtube)
-  const [instagram, setInstagram] = useState(userDetails.instagram)
-  const [inputValue, setInputValue] = useState({bio, tagline, linkedin, github, dribbble, medium, twitter, youtube, instagram})
+  const [inputValue, setInputValue] = useState({
+    bio: userDetails.bio, 
+    tagline: userDetails.tagline, 
+    linkedin: userDetails.linkedin, 
+    github: userDetails.github, 
+    dribbble: userDetails.dribbble, 
+    medium: userDetails.medium, 
+    twitter: userDetails.twitter, 
+    youtube: userDetails.youtube, 
+    instagram: userDetails.instagram
+  })
+  // const [bio, setBio] = useState(userDetails.bio)
+  // const [tagline, setTagline] = useState(userDetails.tagline)
+  // const [linkedin, setLinkedIn] = useState(userDetails.linkedin)
+  // const [github, setGitHub] = useState(userDetails.github)
+  // const [dribbble, setDribbble] = useState(userDetails.dribbble)
+  // const [medium, setMedium] = useState(userDetails.medium)
+  // const [twitter, setTwitter] = useState(userDetails.twitter)
+  // const [youtube, setYoutube] = useState(userDetails.youtube)
+  // const [instagram, setInstagram] = useState(userDetails.instagram)
+  // const [inputValue, setInputValue] = useState({bio, tagline, linkedin, github, dribbble, medium, twitter, youtube, instagram})
 
   const handleSubmit = async (event) => {
     try {
@@ -66,16 +78,28 @@ const EditProfileLayout = (props) => {
                 id="tagline" 
                 name="tagline"
                 placeholder="Tagline"
-                value={tagline}
+                value={inputValue.tagline}
                 maxLength={60}
-                onChange={e => {setTagline(e.target.value); setInputValue({...inputValue, tagline: e.target.value}) }}
+                onChange={e => {setInputValue({...inputValue, tagline: e.target.value}) }}
                 />
             </div>
           </div>
-          <div className="row align-items-start mb-3">
+          <div className="row mb-3">
             <label htmlFor="bio" className="col-3 form-label">Bio</label>
             <div className="col-9">
               <textarea 
+                className="form-control-plaintext border-bottom" 
+                id="bio" 
+                rows="3"
+                placeholder="bio"
+                value={inputValue.bio}
+                maxLength={280}
+                type="text"
+                name="bio"
+                onChange={e => {setInputValue({...inputValue, bio: e.target.value})}}
+                >
+                </textarea>
+              {/* <textarea 
                 className="form-control-plaintext border-bottom" 
                 id="bio" 
                 rows="3"
@@ -86,10 +110,115 @@ const EditProfileLayout = (props) => {
                 name="bio"
                 onChange={e => {setBio(e.target.value); setInputValue({...inputValue, bio: e.target.value})}}
                 >
-                </textarea>
+                </textarea> */}
             </div>
           </div>
           <div className="mb-3 row">
+            <label htmlFor="github" className="col-3 col-form-label">GitHub</label>
+            <div className="col-9">
+              <input 
+                type="text" 
+                className="form-control-plaintext border-bottom" 
+                id="github" 
+                name="github"
+                placeholder="Github"
+                value={inputValue.github}
+                pattern="[a-zA-Z0-9-]+"
+                onChange={e => {setInputValue({...inputValue,github: e.target.value})}}
+                />
+            </div>
+          </div>
+          <div className="mb-3 row">
+            <label htmlFor="linkedin" className="col-3 col-form-label">LinkedIn</label>
+            <div className="col-9">
+              <input 
+                type="text" 
+                className="form-control-plaintext border-bottom" 
+                id="linkedin" 
+                name="linkedin"
+                placeholder="Linkedin"
+                value={inputValue.linkedin}
+                pattern="[a-zA-Z0-9-]+"
+                onChange={e => {setInputValue({...inputValue,linkedin: e.target.value})}}
+                />   
+            </div>
+          </div>
+          <div className="mb-3 row">
+            <label htmlFor="dribbbl" className="col-3 col-form-label">Dribbble</label>
+            <div className="col-9">
+              <input 
+                type="text" 
+                className="form-control-plaintext border-bottom" 
+                id="dribbble" 
+                name="dribbble"
+                placeholder="Dribbble"
+                value={inputValue.dribbble}
+                pattern="[a-zA-Z0-9-]+"
+                onChange={e => {setInputValue({...inputValue,dribbble: e.target.value})}}
+                />
+            </div>
+          </div>
+          <div className="mb-3 row">
+            <label htmlFor="medium" className="col-3 col-form-label">Medium</label>
+            <div className="col-9">
+              <input 
+                className="form-control-plaintext border-bottom" 
+                id="medium" 
+                name="medium"
+                type="text" 
+                placeholder="Medium"
+                value={inputValue.medium}
+                pattern="[a-zA-Z0-9-]+"
+                onChange={e => {setInputValue({...inputValue,medium: e.target.value})}}
+                />
+            </div>
+          </div>
+          <div className="mb-3 row">
+            <label htmlFor="twitter" className="col-3 col-form-label">Twitter</label>
+            <div className="col-9">
+              <input 
+                type="text" 
+                className="form-control-plaintext border-bottom" 
+                id="twitter" 
+                name="twitter"
+                placeholder="Twitter"
+                value={inputValue.twitter}
+                pattern="[a-zA-Z0-9-]+"
+                onChange={e => {setInputValue({...inputValue,twitter: e.target.value})}}
+                />
+            </div>
+          </div>
+          <div className="mb-3 row">
+            <label htmlFor="youtube" className="col-3 col-form-label">YouTube</label>
+            <div className="col-9">
+              <input 
+                type="text" 
+                className="form-control-plaintext border-bottom" 
+                id="youtube" 
+                name="youtube"
+                placeholder="YouTube"
+                value={inputValue.youtube}
+                pattern="[a-zA-Z0-9-]+"
+                onChange={e => {setInputValue({...inputValue,youtube: e.target.value})}}
+                />
+            </div>
+          </div>
+          <div className="mb-3 row">
+            <label htmlFor="instagram" className="col-3 col-form-label">Instagram</label>
+            <div className="col-9">
+              <input 
+                type="text" 
+                className="form-control-plaintext border-bottom" 
+                id="instagram" 
+                name="instagram"
+                placeholder="Instagram"
+                value={inputValue.instagram}
+                pattern="[a-zA-Z0-9-]+"
+                onChange={e => {setInputValue({...inputValue,instagram: e.target.value})}}
+                />
+            </div>
+          </div>
+          {/* <div className="mb-3 row">
             <label htmlFor="github" className="col-3 col-form-label">GitHub</label>
             <div className="col-9">
               <input 
@@ -193,7 +322,7 @@ const EditProfileLayout = (props) => {
                 onChange={e => {setInstagram(e.target.value); setInputValue({...inputValue,instagram: e.target.value})}}
                 />
             </div>
-          </div>
+          </div> */}
           <div className="d-flex justify-space-between"> 
             <button type="submit" form='now-details-form' className="btn btn-primary sign-up-btn w-fit-content">
               Save
