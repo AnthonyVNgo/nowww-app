@@ -29,16 +29,6 @@ const EditProfileLayout = (props) => {
     youtube: userDetails.youtube, 
     instagram: userDetails.instagram
   })
-  // const [bio, setBio] = useState(userDetails.bio)
-  // const [tagline, setTagline] = useState(userDetails.tagline)
-  // const [linkedin, setLinkedIn] = useState(userDetails.linkedin)
-  // const [github, setGitHub] = useState(userDetails.github)
-  // const [dribbble, setDribbble] = useState(userDetails.dribbble)
-  // const [medium, setMedium] = useState(userDetails.medium)
-  // const [twitter, setTwitter] = useState(userDetails.twitter)
-  // const [youtube, setYoutube] = useState(userDetails.youtube)
-  // const [instagram, setInstagram] = useState(userDetails.instagram)
-  // const [inputValue, setInputValue] = useState({bio, tagline, linkedin, github, dribbble, medium, twitter, youtube, instagram})
 
   const handleSubmit = async (event) => {
     try {
@@ -66,7 +56,12 @@ const EditProfileLayout = (props) => {
         </div>
       </div>
 
-        <FileUploader profilePicture={imgSrc} getProfilePicture={getProfilePicture} isDisabled={isDisabled} setProfilePictureUrl={setProfilePictureUrl}/>
+        <FileUploader 
+          profilePicture={imgSrc} 
+          getProfilePicture={getProfilePicture} 
+          isDisabled={isDisabled} 
+          setProfilePictureUrl={setProfilePictureUrl}
+        />
 
         <form id='now-details-form' onSubmit={handleSubmit}>
           <div className="mb-3 row">
@@ -99,18 +94,6 @@ const EditProfileLayout = (props) => {
                 onChange={e => {setInputValue({...inputValue, bio: e.target.value})}}
                 >
                 </textarea>
-              {/* <textarea 
-                className="form-control-plaintext border-bottom" 
-                id="bio" 
-                rows="3"
-                placeholder="bio"
-                value={bio}
-                maxLength={280}
-                type="text"
-                name="bio"
-                onChange={e => {setBio(e.target.value); setInputValue({...inputValue, bio: e.target.value})}}
-                >
-                </textarea> */}
             </div>
           </div>
           <div className="mb-3 row">
@@ -218,111 +201,6 @@ const EditProfileLayout = (props) => {
                 />
             </div>
           </div>
-          {/* <div className="mb-3 row">
-            <label htmlFor="github" className="col-3 col-form-label">GitHub</label>
-            <div className="col-9">
-              <input 
-                type="text" 
-                className="form-control-plaintext border-bottom" 
-                id="github" 
-                name="github"
-                placeholder="Github"
-                value={github}
-                pattern="[a-zA-Z0-9-]+"
-                onChange={e => {setGitHub(e.target.value); setInputValue({...inputValue,github: e.target.value})}}
-                />
-            </div>
-          </div>
-          <div className="mb-3 row">
-            <label htmlFor="linkedin" className="col-3 col-form-label">LinkedIn</label>
-            <div className="col-9">
-              <input 
-                type="text" 
-                className="form-control-plaintext border-bottom" 
-                id="linkedin" 
-                name="linkedin"
-                placeholder="Linkedin"
-                value={linkedin}
-                pattern="[a-zA-Z0-9-]+"
-                onChange={e => {setLinkedIn(e.target.value); setInputValue({...inputValue,linkedin: e.target.value})}}
-                />   
-            </div>
-          </div>
-          <div className="mb-3 row">
-            <label htmlFor="dribbbl" className="col-3 col-form-label">Dribbble</label>
-            <div className="col-9">
-              <input 
-                type="text" 
-                className="form-control-plaintext border-bottom" 
-                id="dribbble" 
-                name="dribbble"
-                placeholder="Dribbble"
-                value={dribbble}
-                pattern="[a-zA-Z0-9-]+"
-                onChange={e => {setDribbble(e.target.value); setInputValue({...inputValue,dribbble: e.target.value})}}
-                />
-            </div>
-          </div>
-          <div className="mb-3 row">
-            <label htmlFor="medium" className="col-3 col-form-label">Medium</label>
-            <div className="col-9">
-              <input 
-                className="form-control-plaintext border-bottom" 
-                id="medium" 
-                name="medium"
-                type="text" 
-                placeholder="Medium"
-                value={medium}
-                pattern="[a-zA-Z0-9-]+"
-                onChange={e => {setMedium(e.target.value); setInputValue({...inputValue,medium: e.target.value})}}
-                />
-            </div>
-          </div>
-          <div className="mb-3 row">
-            <label htmlFor="twitter" className="col-3 col-form-label">Twitter</label>
-            <div className="col-9">
-              <input 
-                type="text" 
-                className="form-control-plaintext border-bottom" 
-                id="twitter" 
-                name="twitter"
-                placeholder="Twitter"
-                value={twitter}
-                pattern="[a-zA-Z0-9-]+"
-                onChange={e => {setTwitter(e.target.value); setInputValue({...inputValue,twitter: e.target.value})}}
-                />
-            </div>
-          </div>
-          <div className="mb-3 row">
-            <label htmlFor="youtube" className="col-3 col-form-label">YouTube</label>
-            <div className="col-9">
-              <input 
-                type="text" 
-                className="form-control-plaintext border-bottom" 
-                id="youtube" 
-                name="youtube"
-                placeholder="YouTube"
-                value={youtube}
-                pattern="[a-zA-Z0-9-]+"
-                onChange={e => {setYoutube(e.target.value); setInputValue({...inputValue,youtube: e.target.value})}}
-                />
-            </div>
-          </div>
-          <div className="mb-3 row">
-            <label htmlFor="instagram" className="col-3 col-form-label">Instagram</label>
-            <div className="col-9">
-              <input 
-                type="text" 
-                className="form-control-plaintext border-bottom" 
-                id="instagram" 
-                name="instagram"
-                placeholder="Instagram"
-                value={instagram}
-                pattern="[a-zA-Z0-9-]+"
-                onChange={e => {setInstagram(e.target.value); setInputValue({...inputValue,instagram: e.target.value})}}
-                />
-            </div>
-          </div> */}
           <div className="d-flex justify-space-between"> 
             <button type="submit" form='now-details-form' className="btn btn-primary sign-up-btn w-fit-content">
               Save
