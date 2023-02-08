@@ -31,12 +31,7 @@ function AuthForm(props) {
 
   const authenticateUser = async () => {
     try {
-      const res = await Axios.post(`/api${action}`, {
-        data: {
-          username,
-          password
-        }
-      });
+      const res = await Axios.post(`/api${action}`, {username, password});
       const result = res.data;
       if (action === '/sign-up') {
         navigate('/login');
