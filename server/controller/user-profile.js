@@ -73,7 +73,7 @@ const deleteMyProfile = async (req, res, next) => {
     if (!queryResult.rows[0]) {
       throw new ClientError(`Couldn't delete profile of user with ID: ${id}`);
     }
-    res.send(`Profile deleted`)
+    res.send(`Deleted profile for user with id: ${id}`)
   } catch(err) {
     next(err)
   }
@@ -184,7 +184,7 @@ const deleteAllNowEntries = async (req, res, next) => {
       WHERE "user_id" = $1
     `;
     const queryParams = [id];
-    const queryResult = await pool.query(sql, queryParams)
+    await pool.query(sql, queryParams)
     res.send(`All Nowww entries deleted for user with id: ${id}`)
   } catch(err) {
     next(err)

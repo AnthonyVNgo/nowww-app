@@ -44,17 +44,7 @@ const EditProfileLayout = (props) => {
       console.error(err)
     }
   }
-  // const deleteUser = () => {
-  //   const options = {
-  //     method: 'DELETE',
-  //     headers: {
-  //       'X-Access-Token': window.localStorage.getItem('react-context-jwt'), 
-  //     }
-  //   };
-  //   fetch('/api/delete-profile', options)
-  //   handleLogOut()
-  // }
-
+  
   const deleteAllEntries = async () => {
     try {
       await Axios.delete('/api/delete-all-entries', {
@@ -67,9 +57,23 @@ const EditProfileLayout = (props) => {
     }
   }
 
+  const handleDeletePicture = async (event) => {
+    try {
+      await Axios.delete('/api/delete-profile-picture', {
+        headers: {
+          'X-Access-Token': window.localStorage.getItem('react-context-jwt'),
+        }
+      })
+    } catch(err) {
+      console.error(err)
+    }
+  }
+
   const handleDeleteButton = () => {
-    // handleLogOut()
     deleteAllEntries()
+    handleDeletePicture()
+    deleteUser()
+    handleLogOut()
   }
 
   const handleSubmit = (event) => {
