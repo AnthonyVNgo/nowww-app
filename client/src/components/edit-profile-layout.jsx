@@ -28,21 +28,20 @@ const EditProfileLayout = (props) => {
   const [instagram, setInstagram] = useState(userDetails.instagram)
   const [inputValue, setInputValue] = useState({bio, tagline, linkedin, github, dribbble, medium, twitter, youtube, instagram})
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    setInputValue({...inputValue, bio})
-    const options = {
-      method: 'PUT',
-      headers: {
-        'X-Access-Token': window.localStorage.getItem('react-context-jwt'), 
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(inputValue)
-    };
-    fetch('/api/edit-profile', options)
-      .then(res => {
-        getProfileDetails()
+  const handleSubmit = async (event) => {
+    try {
+      event.preventDefault();
+      setInputValue({...inputValue})
+
+      await Axios.put('/api/edit-profile', inputValue, {
+        headers: {
+          'X-Access-Token': window.localStorage.getItem('react-context-jwt'),
+        },
       })
+      getProfileDetails()
+    } catch(err) {
+      console.error(err)
+    }
   }
 
   return (

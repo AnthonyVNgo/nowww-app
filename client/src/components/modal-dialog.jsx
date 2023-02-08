@@ -4,7 +4,7 @@ import Axios from 'axios'
 // Lib 
 import AppContext from "../lib/app-context"
 
-const ModalDialog = (props) => {
+const ModalDialog = () => {
   const { handleLogOut } = useContext(AppContext)
 
   const deleteAllEntries = async () => {
