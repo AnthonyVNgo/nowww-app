@@ -36,7 +36,7 @@ function AuthForm(props) {
       if (action === '/sign-up') {
         navigate('/login');
         setValidLogin('');
-      } else if (action === '/login' && result.error || action === '/sign-up' && result.error) {
+      } else if ((action === '/login' && result.error) || (action === '/sign-up' && result.error)) {
         setValidLogin('is-invalid');
       } else if (result.user && result.token) {
         handleLogIn(result);

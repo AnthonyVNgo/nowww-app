@@ -23,7 +23,7 @@ const ProfileLayout = (props) => {
           <div className="border-bottom py-4"> 
             <div className="d-flex justify-content-center my-3">
               <div className="ratio ratio-1x1 w-25">
-                <img src={imgSrc} alt="profile picture" className="img-thumbnail rounded-circle border border-5" style={{'objectFit':'cover'}}/>
+                <img src={imgSrc} alt="profile" className="img-thumbnail rounded-circle border border-5" style={{'objectFit':'cover'}}/>
               </div>
             </div>
             <h3>{userDetails.username}</h3>
