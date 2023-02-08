@@ -8,6 +8,9 @@ import ProfileLayout from "../components/profile-layout";
 import NowEntryContainer from "../components/now-entry-container";
 import Loading from "../components/loading";
 
+// Assets
+import placeholderImg from '../assets/placeholder.png'
+
 const Profile = () => {
   const [userDetails, setUserDetails] = useState('')  
   const [isLoading, setIsLoading] = useState(null)
@@ -44,7 +47,7 @@ const Profile = () => {
     : `/api/profile-picture${location}`
   
   const imgSrc = profilePictureUrl === null
-    ? 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Placeholder_view_vector.svg/681px-Placeholder_view_vector.svg.png' // add image to static folder
+    ? placeholderImg
     : profilePictureUrl
 
   const getProfilePicture = async () => {
@@ -55,7 +58,11 @@ const Profile = () => {
         }
       })
       const pictureData = res.data
-      setProfilePictureUrl(pictureData)
+      if (pictureData.rowCount === 0) {
+        setProfilePictureUrl(null)
+      } else {
+        setProfilePictureUrl(pictureData)
+      }
     } catch(err) {
       console.error(err)
     }
