@@ -130,7 +130,8 @@ const NowInputForm = (props) => {
           </div>
         </div>
 
-            {!props.isLi && 
+            {!props.isLi 
+              ?
               <div className="pt-1">
                 <button disabled={inputIsDisabled} type="submit" className="btn btn-primary w-100">
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-plus-lg" viewBox="0 0 16 16">
@@ -138,9 +139,11 @@ const NowInputForm = (props) => {
                   </svg>
                 </button>
               </div>
+              : null
             }
 
-            {props.isLi && 
+            {props.isLi 
+            ? 
             <div>
               <button className="btn w-100" onClick={handleDeleteButton} type="button">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-x-lg" viewBox="0 0 16 16">
@@ -148,6 +151,7 @@ const NowInputForm = (props) => {
                 </svg>
               </button>
             </div>
+            : null
           } 
           
       </form>
