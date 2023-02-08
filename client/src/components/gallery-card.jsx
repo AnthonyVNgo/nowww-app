@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
+import Axios from 'axios'
 
 const GalleryCard = (props) => {
   let element = props.element
@@ -17,26 +18,20 @@ const imgSrc = profilePictureUrl === null
   : profilePictureUrl
 
 
-const getProfilePicture = () => {
-  const options = {
-    method: 'GET',
-    headers: {
-      'X-Access-Token': window.localStorage.getItem('react-context-jwt'),
-    }
-  };
-  fetch(`/api/profile-picture/user/${userId}`, options)
-    .then(fetchResponse => { 
-      if (!fetchResponse.ok) {
-        setProfilePictureUrl(null)
-        return 
-      } 
-      fetchResponse.json()
-        .then(profilePictureUrl => {
-          setProfilePictureUrl(profilePictureUrl)
-        })
+const getProfilePicture = async () => {
+  try {
+    const res = await Axios.get(`/api/profile-picture/user/${userId}`, {
+      headers: {
+        'X-Access-Token': window.localStorage.getItem('react-context-jwt'),
+      }
     })
-    .catch(err => console.error(err));
-  }  
+    if (res.status >= 200 && res.status < 300) {
+      setProfilePictureUrl(res.data)
+    }
+  } catch(err) {
+    console.error(err)
+  }
+}  
 
   useEffect(() => {
     getProfilePicture()
