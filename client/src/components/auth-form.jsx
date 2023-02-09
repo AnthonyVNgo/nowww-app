@@ -50,32 +50,36 @@ function AuthForm(props) {
     event.preventDefault();
     authenticateUser()
   }
-   
-  const welcomeMessage = action === '/login'
-    ? 'Sign in to continue'
-    : 'Create an account';
-  const altAction = action === '/login'
-    ? 'Not a user?'
-    : 'Already a user?';
+
   const alternatActionText = action === '/login'
     ? 'Create an account'
     : 'Login instead';
   const submitButtonText = action === '/login'
-    ? 'Login'
+    ? 'Log In'
     : 'Create';
   const invalidMessage = action === '/login'
     ? 'invalid login credentials'
     : 'username already exists'
 
   return (
-    <div className="card">
+    <div className="card border-0">
       <form className="w-100 p-5" onSubmit={handleSubmit}>
         <div className="text-center">
-          <h2 className="mb-2">
-            Nowww
-          </h2>
-          <p className="text-muted">
-            {welcomeMessage}
+          <h1
+           className="mb-3 text-start"
+           style={{
+            backgroundImage: 'linear-gradient(to right, #0695ff, #a33afa, #ff6968)', 
+            WebkitBackgroundClip: 'text',
+            backgroundClip: 'text', 
+            color: 'transparent',
+            fontSize: '45px',
+            lineHeight: '.9'
+            }}
+           >
+            Share your current focus
+          </h1>
+          <p className="text-muted text-start">
+            Nowww makes it easy to share what you are focused on now
           </p>
         </div>
         <div>
@@ -91,7 +95,8 @@ function AuthForm(props) {
             pattern="[a-zA-Z0-9-]+"
             minLength={8}
             maxLength={32}
-            className={`form-control bg-light ${isValidLogin}`} />
+            className={`form-control bg-light border-0 ${isValidLogin}`} 
+          />
           <div id="username" className="invalid-feedback">
             {invalidMessage}
           </div>
@@ -107,18 +112,24 @@ function AuthForm(props) {
             minLength={8}
             maxLength={32}
             onChange={handleChange}
-            className="form-control bg-light" />
+            className="form-control bg-light border-0"
+          />
         </div>
-        <button type="submit" className="btn btn-primary sign-up-btn w-100">
-          {submitButtonText}
-        </button>
-        <div className='row justify-content-center'>
-          <p className='text-center my-2'>
-            {altAction}
-          </p>
-          <span onClick={handleAltLinkClick} className="btn btn-link">
-            {alternatActionText}
-          </span>
+        <div className='row'>
+          <div>
+            <button 
+              type="submit" 
+              className="btn btn-primary rounded-pill px-3"
+            >
+              {submitButtonText}
+            </button>
+            <span 
+              onClick={handleAltLinkClick} 
+              className="btn btn-link"
+            >
+              {alternatActionText}
+            </span>
+          </div>
         </div>
       </form>
     </div>
