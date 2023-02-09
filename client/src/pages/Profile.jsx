@@ -6,7 +6,6 @@ import Axios from 'axios'
 import EditProfileLayout from "../components/edit-profile-layout";
 import ProfileLayout from "../components/profile-layout";
 import NowEntryContainer from "../components/now-entry-container";
-import Loading from "../components/loading";
 
 // Assets
 import placeholderImg from '../assets/placeholder.png'
@@ -76,15 +75,11 @@ const Profile = () => {
   return (
     <div className="row justify-content-center">
       <div className="col-12 col-md-9 col-lg-7 col-xl-6 border p-5 pt-2 rounded position-relative">
-        {location === '/my-profile' || !isMyProfile
+        {(location === '/my-profile' || !isMyProfile)
          ? <ProfileLayout userDetails={userDetails} imgSrc={imgSrc} location={location} isLoading={isLoading}/>
          : null
         }
-        {location === '/edit-profile' && isLoading 
-          ? <Loading />
-          : null
-        }
-        {location === '/edit-profile' && !isLoading 
+        {(location === '/edit-profile')
           ? <EditProfileLayout userDetails={userDetails} profilePictureUrl={profilePictureUrl} imgSrc={imgSrc} getProfileDetails={getProfileDetails} getProfilePicture={getProfilePicture} setProfilePictureUrl={setProfilePictureUrl} location={location} isLoading={isLoading}/>
           : null
         }
