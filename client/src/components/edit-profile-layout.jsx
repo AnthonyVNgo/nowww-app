@@ -4,6 +4,7 @@ import Axios from 'axios'
 // Components 
 import ModalDialog from "./modal-dialog"
 import FileUploader from "./file-uploader"
+import EditProfileInput from "./edit-profile-input"
 
 const EditProfileLayout = (props) => {
   const userDetails = props.userDetails
@@ -64,148 +65,18 @@ const EditProfileLayout = (props) => {
         />
 
         <form id='now-details-form' onSubmit={handleSubmit}>
-          <div className="mb-3 row">
-            <label htmlFor="tagline" className="col-3 col-form-label">Tagline</label>
-            <div className="col-9">
-              <input 
-                type="text" 
-                className="form-control-plaintext border-bottom" 
-                id="tagline" 
-                name="tagline"
-                placeholder="Tagline"
-                value={inputValue.tagline}
-                maxLength={60}
-                onChange={e => {setInputValue({...inputValue, tagline: e.target.value}) }}
-                />
-            </div>
-          </div>
-          <div className="row mb-3">
-            <label htmlFor="bio" className="col-3 form-label">Bio</label>
-            <div className="col-9">
-              <textarea 
-                className="form-control-plaintext border-bottom" 
-                id="bio" 
-                rows="3"
-                placeholder="bio"
-                value={inputValue.bio}
-                maxLength={280}
-                type="text"
-                name="bio"
-                onChange={e => {setInputValue({...inputValue, bio: e.target.value})}}
-                >
-                </textarea>
-            </div>
-          </div>
-          <div className="mb-3 row">
-            <label htmlFor="github" className="col-3 col-form-label">GitHub</label>
-            <div className="col-9">
-              <input 
-                type="text" 
-                className="form-control-plaintext border-bottom" 
-                id="github" 
-                name="github"
-                placeholder="Github"
-                value={inputValue.github}
-                pattern="[a-zA-Z0-9-]+"
-                onChange={e => {setInputValue({...inputValue,github: e.target.value})}}
-                />
-            </div>
-          </div>
-          <div className="mb-3 row">
-            <label htmlFor="linkedin" className="col-3 col-form-label">LinkedIn</label>
-            <div className="col-9">
-              <input 
-                type="text" 
-                className="form-control-plaintext border-bottom" 
-                id="linkedin" 
-                name="linkedin"
-                placeholder="Linkedin"
-                value={inputValue.linkedin}
-                pattern="[a-zA-Z0-9-]+"
-                onChange={e => {setInputValue({...inputValue,linkedin: e.target.value})}}
-                />   
-            </div>
-          </div>
-          <div className="mb-3 row">
-            <label htmlFor="dribbbl" className="col-3 col-form-label">Dribbble</label>
-            <div className="col-9">
-              <input 
-                type="text" 
-                className="form-control-plaintext border-bottom" 
-                id="dribbble" 
-                name="dribbble"
-                placeholder="Dribbble"
-                value={inputValue.dribbble}
-                pattern="[a-zA-Z0-9-]+"
-                onChange={e => {setInputValue({...inputValue,dribbble: e.target.value})}}
-                />
-            </div>
-          </div>
-          <div className="mb-3 row">
-            <label htmlFor="medium" className="col-3 col-form-label">Medium</label>
-            <div className="col-9">
-              <input 
-                className="form-control-plaintext border-bottom" 
-                id="medium" 
-                name="medium"
-                type="text" 
-                placeholder="Medium"
-                value={inputValue.medium}
-                pattern="[a-zA-Z0-9-]+"
-                onChange={e => {setInputValue({...inputValue,medium: e.target.value})}}
-                />
-            </div>
-          </div>
-          <div className="mb-3 row">
-            <label htmlFor="twitter" className="col-3 col-form-label">Twitter</label>
-            <div className="col-9">
-              <input 
-                type="text" 
-                className="form-control-plaintext border-bottom" 
-                id="twitter" 
-                name="twitter"
-                placeholder="Twitter"
-                value={inputValue.twitter}
-                pattern="[a-zA-Z0-9-]+"
-                onChange={e => {setInputValue({...inputValue,twitter: e.target.value})}}
-                />
-            </div>
-          </div>
-          <div className="mb-3 row">
-            <label htmlFor="youtube" className="col-3 col-form-label">YouTube</label>
-            <div className="col-9">
-              <input 
-                type="text" 
-                className="form-control-plaintext border-bottom" 
-                id="youtube" 
-                name="youtube"
-                placeholder="YouTube"
-                value={inputValue.youtube}
-                pattern="[a-zA-Z0-9-]+"
-                onChange={e => {setInputValue({...inputValue,youtube: e.target.value})}}
-                />
-            </div>
-          </div>
-          <div className="mb-3 row">
-            <label htmlFor="instagram" className="col-3 col-form-label">Instagram</label>
-            <div className="col-9">
-              <input 
-                type="text" 
-                className="form-control-plaintext border-bottom" 
-                id="instagram" 
-                name="instagram"
-                placeholder="Instagram"
-                value={inputValue.instagram}
-                pattern="[a-zA-Z0-9-]+"
-                onChange={e => {setInputValue({...inputValue,instagram: e.target.value})}}
-                />
-            </div>
-          </div>
+          
+          {Object.entries(inputValue).map(([key, value]) => (
+              <>
+              <EditProfileInput key={key} label={key} value={value} inputValue={inputValue} setInputValue={setInputValue}/>
+              </>
+          ))}
+
           <div className="d-flex justify-space-between"> 
             <button type="submit" form='now-details-form' className="btn btn-primary sign-up-btn w-fit-content">
               Save
             </button>       
-          </div>     
+          </div>      
         </form>
 
         <button type="button" className="btn btn-sm btn-outline-danger position-absolute top-0 end-0 m-3" data-bs-toggle="modal" data-bs-target="#exampleModal">

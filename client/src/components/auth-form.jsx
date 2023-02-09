@@ -50,7 +50,7 @@ function AuthForm(props) {
     event.preventDefault();
     authenticateUser()
   }
-
+   
   const welcomeMessage = action === '/login'
     ? 'Sign in to continue'
     : 'Create an account';
