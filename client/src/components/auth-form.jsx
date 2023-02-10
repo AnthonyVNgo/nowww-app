@@ -72,7 +72,7 @@ function AuthForm(props) {
             WebkitBackgroundClip: 'text',
             backgroundClip: 'text', 
             color: 'transparent',
-            fontSize: '45px',
+            fontSize: 'clamp(2rem, 4vw + 1.5rem, 4rem)',
             lineHeight: '.9'
             }}
            >
