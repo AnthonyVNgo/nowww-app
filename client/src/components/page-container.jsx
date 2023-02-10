@@ -7,11 +7,12 @@ const PageContainer = ({children}) => {
     : '5'
 
   return (
-    <div className="bg-light">
+    // // <div className="bg-light">
+    // <div className="bg-dark">
       <div className={`container py-${padding} min-vh-100`}>
         {children}
       </div>
-    </div>
+    // </div>
   )
 }
 

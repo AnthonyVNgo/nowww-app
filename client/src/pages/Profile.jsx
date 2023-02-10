@@ -6,7 +6,9 @@ import Axios from 'axios'
 import EditProfileLayout from "../components/edit-profile-layout";
 import ProfileLayout from "../components/profile-layout";
 import NowEntryContainer from "../components/now-entry-container";
-import Loading from "../components/loading";
+
+// Assets
+import placeholderImg from '../assets/placeholder.png'
 
 const Profile = () => {
   const [userDetails, setUserDetails] = useState('')  
@@ -44,7 +46,7 @@ const Profile = () => {
     : `/api/profile-picture${location}`
   
   const imgSrc = profilePictureUrl === null
-    ? 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Placeholder_view_vector.svg/681px-Placeholder_view_vector.svg.png' // add image to static folder
+    ? placeholderImg
     : profilePictureUrl
 
   const getProfilePicture = async () => {
@@ -55,7 +57,11 @@ const Profile = () => {
         }
       })
       const pictureData = res.data
-      setProfilePictureUrl(pictureData)
+      if (pictureData.rowCount === 0) {
+        setProfilePictureUrl(null)
+      } else {
+        setProfilePictureUrl(pictureData)
+      }
     } catch(err) {
       console.error(err)
     }
@@ -69,15 +75,11 @@ const Profile = () => {
   return (
     <div className="row justify-content-center">
       <div className="col-12 col-md-9 col-lg-7 col-xl-6 border p-5 pt-2 rounded position-relative">
-        {location === '/my-profile' || !isMyProfile
+        {(location === '/my-profile' || !isMyProfile)
          ? <ProfileLayout userDetails={userDetails} imgSrc={imgSrc} location={location} isLoading={isLoading}/>
          : null
         }
-        {location === '/edit-profile' && isLoading 
-          ? <Loading />
-          : null
-        }
-        {location === '/edit-profile' && !isLoading 
+        {(location === '/edit-profile')
           ? <EditProfileLayout userDetails={userDetails} profilePictureUrl={profilePictureUrl} imgSrc={imgSrc} getProfileDetails={getProfileDetails} getProfilePicture={getProfilePicture} setProfilePictureUrl={setProfilePictureUrl} location={location} isLoading={isLoading}/>
           : null
         }

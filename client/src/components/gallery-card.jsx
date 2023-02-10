@@ -2,6 +2,9 @@ import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import Axios from 'axios'
 
+// Assets 
+import placeholderImg from '../assets/placeholder.png'
+
 const GalleryCard = (props) => {
   let element = props.element
   const userId = props.element.id
@@ -14,9 +17,8 @@ const GalleryCard = (props) => {
 const [profilePictureUrl, setProfilePictureUrl] = useState(null)
 
 const imgSrc = profilePictureUrl === null
-  ? 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Placeholder_view_vector.svg/681px-Placeholder_view_vector.svg.png'
+  ? placeholderImg
   : profilePictureUrl
-
 
 const getProfilePicture = async () => {
   try {
@@ -25,7 +27,9 @@ const getProfilePicture = async () => {
         'X-Access-Token': window.localStorage.getItem('react-context-jwt'),
       }
     })
-    if (res.status >= 200 && res.status < 300) {
+    if (res.data.rowCount === 0) {
+      setProfilePictureUrl(null)
+    } else {
       setProfilePictureUrl(res.data)
     }
   } catch(err) {

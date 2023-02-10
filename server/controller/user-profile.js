@@ -244,17 +244,19 @@ const getProfilePicture =  async (req, res, next) => {
     `;
     const queryParams = [id]
     const queryResult = await pool.query(sql, queryParams)
-    if (!queryResult.rows[0]) {
-      throw new ClientError(404, `cannot find profile picture for user with user id: ${id}`);
+    if (queryResult.rows.length === 0) {
+      res.send(queryResult)
     }
-    const imageName = queryResult.rows[0].image_url
-    const getObjectParams = {
-      Bucket: bucketName,
-      Key: imageName
+    else {
+      const imageName = queryResult.rows[0].image_url
+      const getObjectParams = {
+        Bucket: bucketName,
+        Key: imageName
+      }
+      const command = new GetObjectCommand(getObjectParams)
+      const imageUrl = await getSignedUrl(s3, command, {expiresIn: 3600})
+      res.json(imageUrl)
     }
-    const command = new GetObjectCommand(getObjectParams)
-    const imageUrl = await getSignedUrl(s3, command, {expiresIn: 3600})
-    res.json(imageUrl)
   } catch(err) {
     next(err)
   }

@@ -43,6 +43,7 @@ const NowEntryContainer = () => {
 
   return (
     <div className="pt-4 placeholder-glow">
+      
       {location === '/edit-profile'  
         ? <NowInputForm getEntries={getEntries} entryCount={entryCount} isLoading={isLoading}/>
         : null
