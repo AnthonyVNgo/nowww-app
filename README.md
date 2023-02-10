@@ -41,3 +41,6 @@ This project was inspired by the concept of a "[Now Page](https://sive.rs/nowff)
 ## Try it Out
 Try the application [Here](https://new-nowww.herokuapp.com/)
 
+## Demo
+![Demo](client/src/assets/NowwwDemo.gif)
+
