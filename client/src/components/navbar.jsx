@@ -1,24 +1,28 @@
-import { useContext } from "react";
 import { NavLink } from 'react-router-dom'
 import { useLocation } from "react-router-dom";
+
+// Redux 
+import { useSelector, useDispatch } from 'react-redux'
+import { rejectAuth } from "../features/authenticationSlice"
 
 // Components 
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 
-// Lib 
-import AppContext from "../lib/app-context";
-
-const NavBar = (props) => {
-  const { handleLogOut } = useContext(AppContext)
-  const isAuthenticated = props.isAuthenticated
+const NavBar = () => {
+  const {isAuthenticated} = useSelector((store) => store.authentication)
+  const dispatch = useDispatch()
+  
   let location = useLocation().pathname
 
-  if (location === '/login' || location === '/sign-up' || isAuthenticated === false) {
-    return (
-      null
-    )
+  const handleLogOut = () => {
+    window.localStorage.removeItem('react-context-jwt');
+    dispatch(rejectAuth())
+  }
+
+  if (location === '/login' || location === '/sign-up' || !isAuthenticated) {
+    return null
   }
 
   return (

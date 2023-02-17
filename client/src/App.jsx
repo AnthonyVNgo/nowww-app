@@ -1,8 +1,7 @@
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom'
 
 // Redux 
-import { useSelector, useDispatch } from 'react-redux'
-import { rejectAuth } from './features/authenticationSlice';
+import { useSelector } from 'react-redux'
 
 // Pages 
 import Gallery from './pages/Gallery'
@@ -15,24 +14,14 @@ import NavBar from './components/navbar';
 
 // Lib 
 import PrivateRoutes from './lib/PrivateRoutes';
-import AppContext from './lib/app-context'; 
 
 const App = () => {
   const {isAuthenticated} = useSelector((store) => store.authentication)
-  const dispatch = useDispatch()
-
-  const handleLogOut = () => {
-    window.localStorage.removeItem('react-context-jwt');
-    dispatch(rejectAuth())
-  }
-
-  const contextValue = { handleLogOut }
   
   return (
-    <AppContext.Provider value={contextValue} >
       <>
         <BrowserRouter>
-          <NavBar isAuthenticated={isAuthenticated}/>
+          <NavBar />
             <PageContainer>
               <Routes>
                 <Route 
@@ -55,7 +44,6 @@ const App = () => {
             </PageContainer>
         </BrowserRouter>
       </>
-    </AppContext.Provider>
   );
 }
 
