@@ -1,5 +1,8 @@
-import {BrowserRouter, Route, Routes, Navigate } from 'react-router-dom'
-import { useState } from 'react';
+import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom'
+
+// Redux 
+import { useSelector, useDispatch } from 'react-redux'
+import { setFalse, setTrue } from './features/authenticationSlice';
 
 // Pages 
 import Gallery from './pages/Gallery'
@@ -15,17 +18,19 @@ import PrivateRoutes from './lib/PrivateRoutes';
 import AppContext from './lib/app-context'; 
 
 const App = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const {isAuthenticated} = useSelector((store) => store.authentication)
+  const dispatch = useDispatch()
+
 
   const handleLogIn = (result) => {
     const { token } = result;
     window.localStorage.setItem('react-context-jwt', token);
-    setIsAuthenticated(true)
+    dispatch(setTrue())
   }
 
   const handleLogOut = () => {
     window.localStorage.removeItem('react-context-jwt');
-    setIsAuthenticated(false)
+    dispatch(setFalse())
   }
 
   const contextValue = { handleLogIn, handleLogOut }

@@ -6,20 +6,24 @@ import 'bootstrap/dist/js/bootstrap.min.js';
 import store from './app/store';
 import { Provider } from 'react-redux';
 
-const root = ReactDOM.createRoot(document.querySelector('#root'));
+// const container = document.querySelector('#root');
+// const root = ReactDOM.createRoot(container);
 
 // root.render(<App />);
 
 
 // ReactDOM.render(
-//   <Provider store={store}>
-//   </Provider>,
-//     <App />
-//   document.getElementById('root')
-// )
-
+  //   <Provider store={store}>
+  //   </Provider>,
+  //     <App />
+  //   document.getElementById('root')
+  // )
+const root = ReactDOM.createRoot(document.querySelector('#root'));
+  
 root.render(
-  <Provider store={store}>
-    <App />
-  </Provider>,
+  <React.StrictMode>
+    <Provider store={store}>
+      <App />
+    </Provider>
+  </React.StrictMode>
 );
