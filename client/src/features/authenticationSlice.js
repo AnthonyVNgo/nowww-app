@@ -4,6 +4,7 @@ const initialState = {
   isAuthenticated: false,
   username: '',
   password: '',
+  authInputClass: '',
 }
 
 const authenticationSlice = createSlice({
@@ -22,8 +23,14 @@ const authenticationSlice = createSlice({
     setPassword: (state, action) => {
       state.password = action.payload
     },
+    setAuthInvalidClass: (state) => {
+      state.authInputClass = 'is-invalid'
+    },
+    clearAuthInvalidClass: (state) => {
+      state.authInputClass = ''
+    },
   }
 })
 
-export const { rejectAuth, acceptAuth, setUsername, setPassword } = authenticationSlice.actions
+export const { rejectAuth, acceptAuth, setUsername, setPassword, setAuthInvalidClass,clearAuthInvalidClass } = authenticationSlice.actions
 export default authenticationSlice.reducer

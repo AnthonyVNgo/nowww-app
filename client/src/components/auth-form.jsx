@@ -1,23 +1,17 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+
+// Axios 
 import Axios from "axios";
 
 // Redux 
 import { useSelector, useDispatch } from 'react-redux'
-import { setUsername, setPassword, acceptAuth } from "../features/authenticationSlice";
+import { setUsername, setPassword, acceptAuth, setAuthInvalidClass, clearAuthInvalidClass } from "../features/authenticationSlice";
 
-function AuthForm(props) {
+function AuthForm() {
   const dispatch = useDispatch()
-  const { username, password } = useSelector((store) => store.authentication)
-  const [isValidLogin, setValidLogin] = useState('')
-  
-  const navigate = useNavigate()
-  let action = props.action 
-  let alternateLink = action === '/login' ? '/sign-up' : '/login'
-
-  useEffect(()=> {
-    setValidLogin('')
-  }, [action])
+  const { username, password, authInputClass } = useSelector((store) => store.authentication)
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -26,9 +20,20 @@ function AuthForm(props) {
       : dispatch(setUsername(value)); 
   }
 
+  const navigate = useNavigate()
+
+  let location = useLocation().pathname
+  let alternateLink = location === '/login' 
+    ? '/sign-up' 
+    : '/login'
+
   const handleAltLinkClick = () => {
     navigate(alternateLink)
   }
+
+  useEffect(()=> {
+    dispatch(clearAuthInvalidClass())
+  }, [location])
 
   const handleLogIn = (result) => {
     const { token } = result;
@@ -38,18 +43,16 @@ function AuthForm(props) {
 
   const authenticateUser = async () => {
     try {
-      const res = await Axios.post(`/api${action}`, {username, password});
+      const res = await Axios.post(`/api${location}`, {username, password});
       const result = res.data;
-      if (action === '/sign-up') {
+      if (location === '/sign-up') {
         navigate('/login');
-        setValidLogin('');
-      } else if ((action === '/login' && result.error) || (action === '/sign-up' && result.error)) {
-        setValidLogin('is-invalid');
+        dispatch(clearAuthInvalidClass())
       } else if (result.user && result.token) {
         handleLogIn(result);
       }
     } catch(error) {
-      console.error(error);
+      dispatch(setAuthInvalidClass())
     }
   };
 
@@ -58,13 +61,13 @@ function AuthForm(props) {
     authenticateUser()
   }
 
-  const alternatActionText = action === '/login'
+  const alternateLocationText = location === '/login'
     ? 'Create an account'
     : 'Login instead';
-  const submitButtonText = action === '/login'
+  const submitButtonText = location === '/login'
     ? 'Log In'
     : 'Create';
-  const invalidMessage = action === '/login'
+  const invalidMessage = location === '/login'
     ? 'invalid login credentials'
     : 'username already exists'
 
@@ -102,7 +105,7 @@ function AuthForm(props) {
             pattern="[a-zA-Z0-9-]+"
             minLength={8}
             maxLength={32}
-            className={`form-control bg-light border-0 ${isValidLogin}`} 
+            className={`form-control bg-light border-0 ${authInputClass}`} 
           />
           <div id="username" className="invalid-feedback">
             {invalidMessage}
@@ -119,7 +122,7 @@ function AuthForm(props) {
             minLength={8}
             maxLength={32}
             onChange={handleChange}
-            className="form-control bg-light border-0"
+            className={`form-control bg-light border-0 ${authInputClass}`} 
           />
         </div>
         <div className='row'>
@@ -134,7 +137,7 @@ function AuthForm(props) {
               onClick={handleAltLinkClick} 
               className="btn btn-link"
             >
-              {alternatActionText}
+              {alternateLocationText}
             </span>
           </div>
         </div>
