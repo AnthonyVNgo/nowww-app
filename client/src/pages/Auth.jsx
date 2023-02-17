@@ -12,7 +12,7 @@ const AuthPage = () => {
       </div>
       <div className="d-none d-lg-block col-lg-6" style={{height: '60vh'}}>
         <div className="d-flex justify-content-center" style={{height: '100%'}}>
-          <img src={mockupImg} alt="" srcset="" className="rounded rounded-3 shadow-lg" />
+          <img src={mockupImg} alt="" srcSet="" className="rounded rounded-3 shadow-lg" />
         </div>
       </div>
     </div>
