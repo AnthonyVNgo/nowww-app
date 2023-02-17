@@ -2,12 +2,17 @@ import { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Axios from "axios";
 
+// Redux 
+import { useSelector, useDispatch } from 'react-redux'
+import { setUsername, setPassword } from "../features/authenticationSlice";
+
 // Lib 
 import AppContext from "../lib/app-context";
 
 function AuthForm(props) {
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
+  const dispatch = useDispatch()
+  const { username, password } = useSelector((store) => store.authentication)
+
   const [isValidLogin, setValidLogin] = useState('')
   const { handleLogIn} = useContext(AppContext)
   const navigate = useNavigate()
@@ -21,8 +26,8 @@ function AuthForm(props) {
   const handleChange = (event) => {
     const { name, value } = event.target;
     name === 'password' 
-      ? setPassword(value)
-      : setUsername(value); 
+      ? dispatch(setPassword(value))
+      : dispatch(setUsername(value)); 
   }
 
   const handleAltLinkClick = () => {

@@ -2,7 +2,7 @@ import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom'
 
 // Redux 
 import { useSelector, useDispatch } from 'react-redux'
-import { setFalse, setTrue } from './features/authenticationSlice';
+import { rejectAuth, acceptAuth } from './features/authenticationSlice';
 
 // Pages 
 import Gallery from './pages/Gallery'
@@ -21,16 +21,15 @@ const App = () => {
   const {isAuthenticated} = useSelector((store) => store.authentication)
   const dispatch = useDispatch()
 
-
   const handleLogIn = (result) => {
     const { token } = result;
     window.localStorage.setItem('react-context-jwt', token);
-    dispatch(setTrue())
+    dispatch(acceptAuth())
   }
 
   const handleLogOut = () => {
     window.localStorage.removeItem('react-context-jwt');
-    dispatch(setFalse())
+    dispatch(rejectAuth())
   }
 
   const contextValue = { handleLogIn, handleLogOut }
