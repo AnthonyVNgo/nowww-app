@@ -25,5 +25,5 @@ const authenticationSlice = createSlice({
   }
 })
 
-export const { rejectAuth, acceptAuth, setUsername, setPassword, setValidLogin } = authenticationSlice.actions
+export const { rejectAuth, acceptAuth, setUsername, setPassword } = authenticationSlice.actions
 export default authenticationSlice.reducer

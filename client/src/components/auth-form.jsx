@@ -1,20 +1,15 @@
-import { useState, useContext, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Axios from "axios";
 
 // Redux 
 import { useSelector, useDispatch } from 'react-redux'
-import { setUsername, setPassword, rejectAuth, acceptAuth } from "../features/authenticationSlice";
-
-// Lib 
-import AppContext from "../lib/app-context";
+import { setUsername, setPassword, acceptAuth } from "../features/authenticationSlice";
 
 function AuthForm(props) {
   const dispatch = useDispatch()
   const { username, password } = useSelector((store) => store.authentication)
-
   const [isValidLogin, setValidLogin] = useState('')
-  // const { handleLogIn} = useContext(AppContext)
   
   const navigate = useNavigate()
   let action = props.action 
