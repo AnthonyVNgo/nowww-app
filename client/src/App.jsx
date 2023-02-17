@@ -21,18 +21,19 @@ const App = () => {
   const {isAuthenticated} = useSelector((store) => store.authentication)
   const dispatch = useDispatch()
 
-  const handleLogIn = (result) => {
-    const { token } = result;
-    window.localStorage.setItem('react-context-jwt', token);
-    dispatch(acceptAuth())
-  }
+  // const handleLogIn = (result) => {
+  //   const { token } = result;
+  //   window.localStorage.setItem('react-context-jwt', token);
+  //   dispatch(acceptAuth())
+  // }
 
   const handleLogOut = () => {
     window.localStorage.removeItem('react-context-jwt');
     dispatch(rejectAuth())
   }
 
-  const contextValue = { handleLogIn, handleLogOut }
+  const contextValue = { handleLogOut }
+  // const contextValue = { handleLogIn, handleLogOut }
   
   return (
     <AppContext.Provider value={contextValue} >

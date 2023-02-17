@@ -4,7 +4,7 @@ import Axios from "axios";
 
 // Redux 
 import { useSelector, useDispatch } from 'react-redux'
-import { setUsername, setPassword } from "../features/authenticationSlice";
+import { setUsername, setPassword, rejectAuth, acceptAuth } from "../features/authenticationSlice";
 
 // Lib 
 import AppContext from "../lib/app-context";
@@ -14,7 +14,8 @@ function AuthForm(props) {
   const { username, password } = useSelector((store) => store.authentication)
 
   const [isValidLogin, setValidLogin] = useState('')
-  const { handleLogIn} = useContext(AppContext)
+  // const { handleLogIn} = useContext(AppContext)
+  
   const navigate = useNavigate()
   let action = props.action 
   let alternateLink = action === '/login' ? '/sign-up' : '/login'
@@ -32,6 +33,12 @@ function AuthForm(props) {
 
   const handleAltLinkClick = () => {
     navigate(alternateLink)
+  }
+
+  const handleLogIn = (result) => {
+    const { token } = result;
+    window.localStorage.setItem('react-context-jwt', token);
+    dispatch(acceptAuth())
   }
 
   const authenticateUser = async () => {
