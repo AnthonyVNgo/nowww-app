@@ -5,7 +5,7 @@ import Axios from 'axios'
 import ModalDialog from "./modal-dialog"
 import FileUploader from "./file-uploader"
 import EditProfileInput from "./edit-profile-input"
-import ProfileDetailsPlaceholder from "./profile-details-placeholder"
+import ProfileDetailsPlaceholder from "../placeholder/profile-details-placeholder"
 
 const EditProfileLayout = (props) => {
   const userDetails = props.userDetails

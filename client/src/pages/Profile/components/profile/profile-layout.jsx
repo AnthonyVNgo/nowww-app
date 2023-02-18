@@ -1,6 +1,6 @@
 // Components 
 import SocialIcons from "./social-icons"
-import ProfileDetailsPlaceholder from "./profile-details-placeholder"
+import ProfileDetailsPlaceholder from "../placeholder/profile-details-placeholder"
 
 const ProfileLayout = (props) => {
   const userDetails = props.userDetails

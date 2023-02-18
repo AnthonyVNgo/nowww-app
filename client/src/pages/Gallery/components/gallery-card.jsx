@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom"
 import Axios from 'axios'
 
 // Assets 
-import placeholderImg from '../assets/placeholder.png'
+import placeholderImg from '../../../assets/placeholder.png'
 
 const GalleryCard = (props) => {
   let element = props.element

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import GalleryCard from "../../components/gallery-card"
+import GalleryCard from "./components/gallery-card"
 import Loading from "../../components/loading"
 import Axios from 'axios'
 
