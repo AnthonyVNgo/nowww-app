@@ -7,7 +7,7 @@ import Axios from "axios";
 
 // Redux 
 import { useSelector, useDispatch } from 'react-redux'
-import { setUsername, setPassword, acceptAuth, setAuthInvalidClass, clearAuthInvalidClass } from "../features/authenticationSlice";
+import { setUsername, setPassword, acceptAuth, setAuthInvalidClass, clearAuthInvalidClass } from "./authenticationSlice";
 
 function AuthForm() {
   const dispatch = useDispatch()
