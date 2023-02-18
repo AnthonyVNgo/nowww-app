@@ -2,7 +2,7 @@ import Axios from 'axios'
 
 // Redux 
 import { useDispatch } from 'react-redux'
-import { rejectAuth } from "../features/authentication/authenticationSlice"
+import { rejectAuth } from "../state/authentication/authenticationSlice"
 
 const ModalDialog = () => {
   const dispatch = useDispatch()

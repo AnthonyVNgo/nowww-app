@@ -3,12 +3,12 @@ import { useEffect, useState } from "react"
 import Axios from 'axios'
 
 // Components 
-import EditProfileLayout from "../components/edit-profile-layout";
-import ProfileLayout from "../components/profile-layout";
-import NowEntryContainer from "../components/now-entry-container";
+import EditProfileLayout from "../../components/edit-profile-layout";
+import ProfileLayout from "../../components/profile-layout";
+import NowEntryContainer from "../../components/now-entry-container";
 
 // Assets
-import placeholderImg from '../assets/placeholder.png'
+import placeholderImg from '../../assets/placeholder.png'
 
 const Profile = () => {
   const [userDetails, setUserDetails] = useState('')  

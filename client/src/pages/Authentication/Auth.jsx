@@ -1,5 +1,5 @@
-import AuthForm from "../features/authentication/auth-form";
-import mockupImg from "../assets/nowww_landing_mockup.png"
+import AuthForm from "./components/auth-form";
+import mockupImg from "../../assets/nowww_landing_mockup.png"
 
 const AuthPage = () => {
   return (

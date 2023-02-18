@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
-import GalleryCard from "../components/gallery-card"
-import Loading from "../components/loading"
+import GalleryCard from "../../components/gallery-card"
+import Loading from "../../components/loading"
 import Axios from 'axios'
 
 const Gallery = (props) => {

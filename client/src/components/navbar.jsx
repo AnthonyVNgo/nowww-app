@@ -3,7 +3,7 @@ import { useLocation } from "react-router-dom";
 
 // Redux 
 import { useSelector, useDispatch } from 'react-redux'
-import { rejectAuth } from "../features/authentication/authenticationSlice"
+import { rejectAuth } from "../state/authentication/authenticationSlice"
 
 // Components 
 import Container from 'react-bootstrap/Container';

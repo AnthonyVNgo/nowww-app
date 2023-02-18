@@ -3,21 +3,9 @@ import ReactDOM from 'react-dom/client';
 import App from './App';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.min.js';
-import store from './app/store';
+import store from './state/store';
 import { Provider } from 'react-redux';
 
-// const container = document.querySelector('#root');
-// const root = ReactDOM.createRoot(container);
-
-// root.render(<App />);
-
-
-// ReactDOM.render(
-  //   <Provider store={store}>
-  //   </Provider>,
-  //     <App />
-  //   document.getElementById('root')
-  // )
 const root = ReactDOM.createRoot(document.querySelector('#root'));
   
 root.render(
