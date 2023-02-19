@@ -10,15 +10,18 @@ const ProfileLayout = (props) => {
   return (
     <>
 
-      {isLoading && 
+      {isLoading 
+        ? 
         <>
         <ProfileDetailsPlaceholder />
         <ProfileDetailsPlaceholder />
         <ProfileDetailsPlaceholder />
         </>
+        : null
       }
 
-      {!isLoading && 
+      {!isLoading 
+        ?
         <>
           <div className="border-bottom py-4"> 
             <div className="d-flex justify-content-center my-3">
@@ -46,6 +49,7 @@ const ProfileLayout = (props) => {
             <SocialIcons userDetails={userDetails} />
           </div>
         </>
+        : null
       }
     </>
   )

@@ -3,7 +3,7 @@ import GalleryCard from "./components/gallery-card"
 import Loading from "../../components/loading"
 import Axios from 'axios'
 
-const Gallery = (props) => {
+const Gallery = () => {
   const [galleryElements, setGalleryElement] = useState([])
   const [isLoading, setIsLoading] = useState(null)
 

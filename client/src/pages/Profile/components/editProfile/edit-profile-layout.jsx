@@ -1,6 +1,9 @@
 import { useState } from "react"
 import Axios from 'axios'
 
+// Redux 
+import { useDispatch } from 'react-redux'
+
 // Components 
 import ModalDialog from "./modal-dialog"
 import FileUploader from "./file-uploader"
@@ -8,9 +11,10 @@ import EditProfileInput from "./edit-profile-input"
 import ProfileDetailsPlaceholder from "../placeholder/profile-details-placeholder"
 
 const EditProfileLayout = (props) => {
+  const dispatch = useDispatch()
+  
+  const getUserDetails = props.getUserDetails
   const userDetails = props.userDetails
-  const getProfileDetails = props.getProfileDetails
-
   const getProfilePicture = props.getProfilePicture
   const setProfilePictureUrl = props.setProfilePictureUrl
   const profilePictureUrl = props.profilePictureUrl
@@ -43,7 +47,8 @@ const EditProfileLayout = (props) => {
           'X-Access-Token': window.localStorage.getItem('react-context-jwt'),
         },
       })
-      getProfileDetails()
+      // getProfileDetails()
+      dispatch(getUserDetails())
     } catch(err) {
       console.error(err)
     }
