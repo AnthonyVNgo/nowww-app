@@ -1,9 +1,8 @@
 import { useLocation } from "react-router-dom";
-import { useEffect, useState } from "react"
-import Axios from 'axios'
+import { useEffect } from "react"
 
 // Redux 
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { getUserDetails } from "../../state/Profile/profileSlice";
 import { getProfilePicture } from "../../state/Profile/profilePictureSlice";
 
@@ -12,12 +11,7 @@ import EditProfileLayout from "./components/editProfile/edit-profile-layout";
 import ProfileLayout from "./components/profile/profile-layout";
 import NowEntryContainer from "./components/now-entry-container";
 
-// Assets
-import placeholderImg from '../../assets/placeholder.png'
-
 const Profile = () => {
-  const { isLoading, userDetails, error} = useSelector((state) => state.profile)
-  const { profilePictureUrl } = useSelector((state) => state.profilePicture)
   const dispatch = useDispatch()
   
   let location = useLocation().pathname
@@ -33,10 +27,6 @@ const Profile = () => {
     ? '/api/profile-picture'
     : `/api/profile-picture${location}`
   
-  const imgSrc = profilePictureUrl === null
-    ? placeholderImg
-    : profilePictureUrl
-  
   useEffect(() => {
     dispatch(getUserDetails(getProfilePath))
     dispatch(getProfilePicture(getProfilePicturePath))
@@ -46,23 +36,11 @@ const Profile = () => {
     <div className="row justify-content-center">
       <div className="col-12 col-md-9 col-lg-7 col-xl-6 border p-5 pt-2 rounded rounded-3 position-relative border-0 shadow-sm">
         {(location === '/my-profile' || !isMyProfile)
-         ? <ProfileLayout 
-          userDetails={userDetails} 
-          imgSrc={imgSrc} 
-          isLoading={isLoading}
-          />
+         ? <ProfileLayout />
          : null
         }
         {(location === '/edit-profile')
-          ? <EditProfileLayout 
-            userDetails={userDetails} 
-            profilePictureUrl={profilePictureUrl} 
-            imgSrc={imgSrc} 
-            getUserDetails={getUserDetails} 
-            getProfilePicture={getProfilePicture} 
-            // setProfilePictureUrl={setProfilePictureUrl} 
-            isLoading={isLoading}
-            />
+          ? <EditProfileLayout />
           : null
         }
         <NowEntryContainer />

@@ -1,11 +1,20 @@
+// Redux 
+import { useSelector } from 'react-redux'
+
 // Components 
 import SocialIcons from "./social-icons"
 import ProfileDetailsPlaceholder from "../placeholder/profile-details-placeholder"
 
-const ProfileLayout = (props) => {
-  const userDetails = props.userDetails
-  const imgSrc = props.imgSrc
-  const isLoading = props.isLoading
+// Assets 
+import placeholderImg from '../../../../assets/placeholder.png'
+
+const ProfileLayout = () => {
+  const { profilePictureUrl } = useSelector((state) => state.profilePicture)
+  const { isLoading, userDetails, error} = useSelector((state) => state.profile)
+  
+  const imgSrc = profilePictureUrl === null
+  ? placeholderImg
+  : profilePictureUrl
 
   return (
     <>
@@ -46,7 +55,7 @@ const ProfileLayout = (props) => {
 
           <div className="border-bottom py-4">
             <h5 className="mb-3">Social</h5>
-            <SocialIcons userDetails={userDetails} />
+            <SocialIcons />
           </div>
         </>
         : null

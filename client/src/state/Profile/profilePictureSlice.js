@@ -28,6 +28,11 @@ export const getProfilePicture = createAsyncThunk('profile/getProflePicture', as
 const profilePictureSlice = createSlice({
   name: 'profilePicture',
   initialState,
+  reducers: {
+    setProfilePictureUrlNull: (state) => {
+      state.profilePictureUrl = null
+    }
+  },
   extraReducers: (builder) => {
     builder.addCase(getProfilePicture.pending, (state) => {
       state.isLoading = true;
@@ -45,5 +50,5 @@ const profilePictureSlice = createSlice({
   },
 });
 
-// export const {  } = profilePictureSlice.actions
+export const { setProfilePictureUrlNull } = profilePictureSlice.actions
 export default profilePictureSlice.reducer

@@ -1,11 +1,20 @@
 import { useState } from "react";
 import Axios from "axios";
 
-const FileUploader = (props) => {
-  const isDisabled = props.isDisabled
-  const getProfilePicture = props.getProfilePicture
-  const setProfilePictureUrl = props.setProfilePictureUrl
-  
+// Redux 
+import { useDispatch, useSelector } from 'react-redux'
+import { getProfilePicture } from "../../../../state/Profile/profilePictureSlice";
+import { setProfilePictureUrlNull } from "../../../../state/Profile/profilePictureSlice";
+
+const FileUploader = () => {
+  const { profilePictureUrl } = useSelector((state) => state.profilePicture)
+  const dispatch = useDispatch()
+
+
+  const isDisabled = profilePictureUrl === null
+    ? true
+    : false
+
   const [file, setFile] = useState(null)
 
   const isUploadDisabled = file === null 
@@ -24,8 +33,7 @@ const FileUploader = (props) => {
           'Content-Type': 'multipart/form-data',
         }
       })
-
-      getProfilePicture()
+      dispatch(getProfilePicture()) 
     } catch(err) {
       console.error(err)
     }
@@ -38,8 +46,7 @@ const FileUploader = (props) => {
           'X-Access-Token': window.localStorage.getItem('react-context-jwt'),
         }
       })
-      
-      setProfilePictureUrl(null)
+      dispatch(setProfilePictureUrlNull())
     } catch(err) {
       console.error(err)
     }

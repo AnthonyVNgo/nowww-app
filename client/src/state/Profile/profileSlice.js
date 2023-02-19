@@ -4,7 +4,6 @@ import Axios from 'axios'
 const initialState = {
   isLoading: false,
   userDetails: '',
-  profilePictureUrl: null,
   error: '',
 }
 
