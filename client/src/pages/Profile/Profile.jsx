@@ -5,6 +5,7 @@ import Axios from 'axios'
 // Redux 
 import { useSelector, useDispatch } from 'react-redux'
 import { getUserDetails } from "../../state/Profile/profileSlice";
+import { getProfilePicture } from "../../state/Profile/profilePictureSlice";
 
 // Components 
 import EditProfileLayout from "./components/editProfile/edit-profile-layout";
@@ -16,6 +17,7 @@ import placeholderImg from '../../assets/placeholder.png'
 
 const Profile = () => {
   const { isLoading, userDetails, error} = useSelector((state) => state.profile)
+  const { profilePictureUrl } = useSelector((state) => state.profilePicture)
   const dispatch = useDispatch()
   
   let location = useLocation().pathname
@@ -31,33 +33,13 @@ const Profile = () => {
     ? '/api/profile-picture'
     : `/api/profile-picture${location}`
   
-  const [profilePictureUrl, setProfilePictureUrl] = useState(null)
-
   const imgSrc = profilePictureUrl === null
     ? placeholderImg
     : profilePictureUrl
-
-  const getProfilePicture = async () => {
-    try {
-      const res = await Axios.get(`${getProfilePicturePath}`, {
-        headers: {
-          'X-Access-Token': window.localStorage.getItem('react-context-jwt'),
-        }
-      })
-      const pictureData = res.data
-      if (pictureData.rowCount === 0) {
-        setProfilePictureUrl(null)
-      } else {
-        setProfilePictureUrl(pictureData)
-      }
-    } catch(err) {
-      console.error(err)
-    }
-  }
   
   useEffect(() => {
-    getProfilePicture()
     dispatch(getUserDetails(getProfilePath))
+    dispatch(getProfilePicture(getProfilePicturePath))
   }, [location])
 
   return (
@@ -78,7 +60,7 @@ const Profile = () => {
             imgSrc={imgSrc} 
             getUserDetails={getUserDetails} 
             getProfilePicture={getProfilePicture} 
-            setProfilePictureUrl={setProfilePictureUrl} 
+            // setProfilePictureUrl={setProfilePictureUrl} 
             isLoading={isLoading}
             />
           : null

@@ -4,13 +4,9 @@ import Axios from 'axios'
 const initialState = {
   isLoading: false,
   userDetails: '',
+  profilePictureUrl: null,
   error: '',
 }
-// const initialState = {
-//   isLoading: false,
-//   userDetailss: '',
-//   error: '',
-// }
 
 export const getUserDetails = createAsyncThunk('profile/getUserDetails', async (getProfilePath, thunkAPI) => {
   try {
@@ -45,8 +41,6 @@ const profileSlice = createSlice({
     });
   },
 });
-
-
 
 // export const {  } = profileSlice.actions
 export default profileSlice.reducer
