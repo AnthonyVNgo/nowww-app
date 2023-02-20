@@ -1,10 +1,12 @@
-import {BrowserRouter, Route, Routes, Navigate } from 'react-router-dom'
-import { useState } from 'react';
+import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom'
+
+// Redux 
+import { useSelector } from 'react-redux'
 
 // Pages 
-import Gallery from './pages/Gallery'
-import Auth from './pages/Auth'
-import Profile from './pages/Profile'
+import Gallery from './pages/Gallery/Gallery'
+import Auth from './pages/Authentication/Auth'
+import Profile from './pages/Profile/Profile'
 
 // Components 
 import PageContainer from './components/page-container';
@@ -12,29 +14,14 @@ import NavBar from './components/navbar';
 
 // Lib 
 import PrivateRoutes from './lib/PrivateRoutes';
-import AppContext from './lib/app-context'; 
 
 const App = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false)
-
-  const handleLogIn = (result) => {
-    const { token } = result;
-    window.localStorage.setItem('react-context-jwt', token);
-    setIsAuthenticated(true)
-  }
-
-  const handleLogOut = () => {
-    window.localStorage.removeItem('react-context-jwt');
-    setIsAuthenticated(false)
-  }
-
-  const contextValue = { handleLogIn, handleLogOut }
+  const {isAuthenticated} = useSelector((store) => store.authentication)
   
   return (
-    <AppContext.Provider value={contextValue} >
       <>
         <BrowserRouter>
-          <NavBar isAuthenticated={isAuthenticated}/>
+          <NavBar />
             <PageContainer>
               <Routes>
                 <Route 
@@ -57,7 +44,6 @@ const App = () => {
             </PageContainer>
         </BrowserRouter>
       </>
-    </AppContext.Provider>
   );
 }
 

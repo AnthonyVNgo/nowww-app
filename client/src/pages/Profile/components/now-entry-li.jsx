@@ -1,6 +1,6 @@
 // Components 
-import CategoryIcons from "../lib/category-icons"
-import NowEntryLIPlaceholder from "./now-entry-li-placeholder"
+import CategoryIcons from "./category-icons"
+import NowEntryLIPlaceholder from "../components/placeholder/now-entry-li-placeholder"
 
 const NowEntryLI = (props) => {
   const categoryId = props.categoryId

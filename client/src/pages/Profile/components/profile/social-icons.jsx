@@ -1,5 +1,8 @@
-const SocialIcons = (props) => {
-  const userDetails = props.userDetails
+// Redux 
+import { useSelector } from 'react-redux'
+
+const SocialIcons = () => {
+const { userDetails } = useSelector((state) => state.profile)
 
   if (!userDetails.linkedin && !userDetails.github && !userDetails.dribbble && !userDetails.medium && !userDetails.twitter && !userDetails.youtube && !userDetails.instagram) {
     return (

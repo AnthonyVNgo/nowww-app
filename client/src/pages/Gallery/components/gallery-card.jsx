@@ -3,39 +3,40 @@ import { useNavigate } from "react-router-dom"
 import Axios from 'axios'
 
 // Assets 
-import placeholderImg from '../assets/placeholder.png'
+import placeholderImg from '../../../assets/placeholder.png'
 
 const GalleryCard = (props) => {
   let element = props.element
   const userId = props.element.id
+  
   const navigate = useNavigate()
 
   const handleCardClick = () => {
     navigate(`/user/${element.id}`)
   }
 
-const [profilePictureUrl, setProfilePictureUrl] = useState(null)
+  const [profilePictureUrl, setProfilePictureUrl] = useState(null)
 
-const imgSrc = profilePictureUrl === null
-  ? placeholderImg
-  : profilePictureUrl
+  const imgSrc = profilePictureUrl === null
+    ? placeholderImg
+    : profilePictureUrl
 
-const getProfilePicture = async () => {
-  try {
-    const res = await Axios.get(`/api/profile-picture/user/${userId}`, {
-      headers: {
-        'X-Access-Token': window.localStorage.getItem('react-context-jwt'),
+  const getProfilePicture = async () => {
+    try {
+      const res = await Axios.get(`/api/profile-picture/user/${userId}`, {
+        headers: {
+          'X-Access-Token': window.localStorage.getItem('react-context-jwt'),
+        }
+      })
+      if (res.data.rowCount === 0) {
+        setProfilePictureUrl(null)
+      } else {
+        setProfilePictureUrl(res.data)
       }
-    })
-    if (res.data.rowCount === 0) {
-      setProfilePictureUrl(null)
-    } else {
-      setProfilePictureUrl(res.data)
+    } catch(err) {
+      console.error(err)
     }
-  } catch(err) {
-    console.error(err)
-  }
-}  
+  }  
 
   useEffect(() => {
     getProfilePicture()

@@ -1,5 +1,5 @@
 import { useState } from "react"
-import NowInputFormPlaceholder from "./now-input-form-placeholder"
+import NowInputFormPlaceholder from "./placeholder/now-input-form-placeholder"
 import Axios from 'axios'
 
 const NowInputForm = (props) => {

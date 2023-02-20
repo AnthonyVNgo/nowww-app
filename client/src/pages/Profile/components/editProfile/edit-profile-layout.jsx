@@ -1,25 +1,27 @@
 import { useState } from "react"
 import Axios from 'axios'
 
+// Redux 
+import { useDispatch, useSelector } from 'react-redux'
+import { getUserDetails } from "../../../../state/Profile/profileSlice"
+
 // Components 
 import ModalDialog from "./modal-dialog"
 import FileUploader from "./file-uploader"
 import EditProfileInput from "./edit-profile-input"
-import ProfileDetailsPlaceholder from "./profile-details-placeholder"
+import ProfileDetailsPlaceholder from "../placeholder/profile-details-placeholder"
 
-const EditProfileLayout = (props) => {
-  const userDetails = props.userDetails
-  const getProfileDetails = props.getProfileDetails
+// Assets 
+import placeholderImg from '../../../../assets/placeholder.png'
 
-  const getProfilePicture = props.getProfilePicture
-  const setProfilePictureUrl = props.setProfilePictureUrl
-  const profilePictureUrl = props.profilePictureUrl
-  const imgSrc = props.imgSrc
-  const isLoading = props.isLoading
+const EditProfileLayout = () => {
+  const { isLoading, userDetails, error} = useSelector((state) => state.profile)
+  const { profilePictureUrl } = useSelector((state) => state.profilePicture)
+  const dispatch = useDispatch()
   
-  const isDisabled = profilePictureUrl === null
-  ? true
-  : false
+  const imgSrc = profilePictureUrl === null
+    ? placeholderImg
+    : profilePictureUrl
 
   const [inputValue, setInputValue] = useState({
     bio: userDetails.bio, 
@@ -43,7 +45,7 @@ const EditProfileLayout = (props) => {
           'X-Access-Token': window.localStorage.getItem('react-context-jwt'),
         },
       })
-      getProfileDetails()
+      dispatch(getUserDetails())
     } catch(err) {
       console.error(err)
     }
@@ -59,12 +61,7 @@ const EditProfileLayout = (props) => {
         </div>
       </div>
 
-        <FileUploader 
-          profilePicture={imgSrc} 
-          getProfilePicture={getProfilePicture} 
-          isDisabled={isDisabled} 
-          setProfilePictureUrl={setProfilePictureUrl}
-        />
+        <FileUploader />
 
         {isLoading
           ? <ProfileDetailsPlaceholder />

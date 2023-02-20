@@ -1,11 +1,11 @@
-import { useContext } from "react"
 import Axios from 'axios'
 
-// Lib 
-import AppContext from "../lib/app-context"
+// Redux 
+import { useDispatch } from 'react-redux'
+import { rejectAuth } from "../../../../state/Authentication/authenticationSlice"
 
 const ModalDialog = () => {
-  const { handleLogOut } = useContext(AppContext)
+  const dispatch = useDispatch()
 
   const deleteAllEntries = async () => {
     try {
@@ -41,6 +41,11 @@ const ModalDialog = () => {
     } catch(err) {
       console.error(err)
     }
+  }
+
+  const handleLogOut = () => {
+    window.localStorage.removeItem('react-context-jwt');
+    dispatch(rejectAuth())
   }
 
   const handleDeleteButton = () => {
