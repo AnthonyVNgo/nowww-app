@@ -3,8 +3,8 @@ import Axios from "axios";
 
 // Redux 
 import { useDispatch, useSelector } from 'react-redux'
-import { getProfilePicture } from "../../../../state/Profile/profilePictureSlice";
-import { setProfilePictureUrlNull } from "../../../../state/Profile/profilePictureSlice";
+import { getProfilePicture } from "../../../../state/profile/profilePictureSlice";
+import { setProfilePictureUrlNull } from "../../../../state/profile/profilePictureSlice";
 
 const FileUploader = () => {
   const { profilePictureUrl } = useSelector((state) => state.profilePicture)

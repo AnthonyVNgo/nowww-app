@@ -4,7 +4,7 @@ import Loading from "../../components/loading"
 
 // Redux 
 import { useDispatch, useSelector } from 'react-redux'
-import { getGalleryElements } from "../../state/Gallery/gallerySlice"
+import { getGalleryElements } from "../../state/gallery/gallerySlice"
 
 const Gallery = () => {
   const { galleryElements, isLoading } = useSelector((state) => state.gallery)
