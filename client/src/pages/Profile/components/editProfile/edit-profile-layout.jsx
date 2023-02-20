@@ -3,7 +3,7 @@ import Axios from 'axios'
 
 // Redux 
 import { useDispatch, useSelector } from 'react-redux'
-import { getUserDetails } from "../../../../state/Profile/profileSlice"
+import { getUserDetails } from "../../../../state/profile/profileSlice"
 
 // Components 
 import ModalDialog from "./modal-dialog"

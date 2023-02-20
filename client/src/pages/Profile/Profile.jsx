@@ -3,8 +3,8 @@ import { useEffect } from "react"
 
 // Redux 
 import { useDispatch } from 'react-redux'
-import { getUserDetails } from "../../state/Profile/profileSlice";
-import { getProfilePicture } from "../../state/Profile/profilePictureSlice";
+import { getUserDetails } from "../../state/profile/profileSlice";
+import { getProfilePicture } from "../../state/profile/profilePictureSlice";
 
 // Components 
 import EditProfileLayout from "./components/editProfile/edit-profile-layout";

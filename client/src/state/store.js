@@ -1,8 +1,8 @@
 import { configureStore } from '@reduxjs/toolkit'
-import authenticationReducer from './Authentication/authenticationSlice'
-import profileReducer from './Profile/profileSlice'
-import profilePictureReducer from './Profile/profilePictureSlice'
-import galleryReducer from './Gallery/gallerySlice'
+import authenticationReducer from './authentication/authenticationSlice'
+import profileReducer from './profile/profileSlice'
+import profilePictureReducer from './profile/profilePictureSlice'
+import galleryReducer from './gallery/gallerySlice'
 
 export default configureStore({
   reducer: {

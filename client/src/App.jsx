@@ -4,9 +4,9 @@ import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 
 // Pages 
-import Gallery from './pages/Gallery/Gallery'
-import Auth from './pages/Authentication/Auth'
-import Profile from './pages/Profile/Profile'
+import Gallery from './pages/gallery/gallery'
+import Auth from './pages/authentication/auth'
+import Profile from './pages/profile/profile'
 
 // Components 
 import PageContainer from './components/page-container';
