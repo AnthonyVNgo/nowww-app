@@ -12,6 +12,7 @@ This project was inspired by the concept of a "[Now Page](https://sive.rs/nowff)
 - Node
 - Bootstrap 5
 - Argon2
+- Redux Toolkit
 - HTML5
 - JavaScript
 - Heroku
