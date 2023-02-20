@@ -40,5 +40,4 @@ const gallerySlice = createSlice({
   },
 })
 
-// export const {  } = gallerySlice.actions
 export default gallerySlice.reducer

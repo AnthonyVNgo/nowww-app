@@ -20,8 +20,8 @@ const EditProfileLayout = () => {
   const dispatch = useDispatch()
   
   const imgSrc = profilePictureUrl === null
-  ? placeholderImg
-  : profilePictureUrl
+    ? placeholderImg
+    : profilePictureUrl
 
   const [inputValue, setInputValue] = useState({
     bio: userDetails.bio, 

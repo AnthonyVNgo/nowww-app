@@ -7,24 +7,24 @@ import NowInputForm from "./now-input-form"
 import NowEntryLI from "./now-entry-li";
 
 const NowEntryContainer = () => {
-  const [entries, setEntries] = useState([])
-  let entryCount = entries.length
-  
   const [isLoading, setIsLoading] = useState(null)
+  const [entries, setEntries] = useState([])
+
+  let entryCount = entries.length
   
   let location = useLocation().pathname
   let isMyProfile = location === '/my-profile' || location === '/edit-profile' 
     ? true
     : false
 
-  let path = isMyProfile
+  let getPath = isMyProfile
     ? '/api/my-entries'
     : `/api${location}/entries`
 
   const getEntries = async () => {
     try {
       setIsLoading(true);
-      const response = await Axios.get(path, {
+      const response = await Axios.get(getPath, {
         headers: {
           'X-Access-Token': window.localStorage.getItem('react-context-jwt'),
         },
