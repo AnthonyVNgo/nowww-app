@@ -9,7 +9,7 @@ import Auth from './pages/authentication/auth'
 import Profile from './pages/profile/profile'
 
 // Components 
-import PageContainer from './components/page-container';
+import PageContainer from './components/page-container.tsx';
 import NavBar from './components/navbar';
 
 // Lib 
