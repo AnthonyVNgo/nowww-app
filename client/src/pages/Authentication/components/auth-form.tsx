@@ -26,8 +26,8 @@ function AuthForm() {
 
   const navigate = useNavigate()
 
-  let location = useLocation().pathname
-  let alternateLink = location === '/login' 
+  let location: string = useLocation().pathname
+  let alternateLink: string = location === '/login' 
     ? '/sign-up' 
     : '/login'
 
