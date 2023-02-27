@@ -13,7 +13,7 @@ import PageContainer from './components/page-container.tsx';
 import NavBar from './components/navbar';
 
 // Lib 
-import PrivateRoutes from './lib/PrivateRoutes';
+import PrivateRoutes from './lib/private-routes';
 
 const App = () => {
   const {isAuthenticated} = useSelector((store) => store.authentication)
