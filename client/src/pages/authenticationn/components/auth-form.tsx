@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
+import React from "react";
 
 // Axios 
 import Axios from "axios";
@@ -9,11 +10,14 @@ import Axios from "axios";
 import { useSelector, useDispatch } from 'react-redux'
 import { setUsername, setPassword, acceptAuth, setAuthInvalidClass, clearAuthInvalidClass } from "../../../state/authentication/authenticationSlice";
 
+// Typescript 
+import authState from "../../../types/authState";
+
 function AuthForm() {
   const dispatch = useDispatch()
-  const { username, password, authInputClass } = useSelector((store) => store.authentication)
+  const { username, password, authInputClass } = useSelector((store: authState) => store.authentication)
 
-  const handleChange = (event) => {
+  const handleChange = (event: { target: { name: string; value: string; }; }) => {
     const { name, value } = event.target;
     name === 'password' 
       ? dispatch(setPassword(value))
@@ -22,8 +26,8 @@ function AuthForm() {
 
   const navigate = useNavigate()
 
-  let location = useLocation().pathname
-  let alternateLink = location === '/login' 
+  let location: string = useLocation().pathname
+  let alternateLink: string = location === '/login' 
     ? '/sign-up' 
     : '/login'
 
@@ -35,7 +39,7 @@ function AuthForm() {
     dispatch(clearAuthInvalidClass())
   }, [location])
 
-  const handleLogIn = (result) => {
+  const handleLogIn = (result: { token: any; }) => {
     const { token } = result;
     window.localStorage.setItem('react-context-jwt', token);
     dispatch(acceptAuth())
@@ -56,7 +60,7 @@ function AuthForm() {
     }
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = (event: { preventDefault: () => void; }) => {
     event.preventDefault();
     authenticateUser()
   }
